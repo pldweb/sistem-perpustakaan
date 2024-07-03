@@ -3,11 +3,12 @@
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Todo\TodoController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function() {
-    return view('home');
+    return view('pages.board');
 });
 
 // Route::get('/', [TodoController::class, 'index'])->name('todo');
@@ -33,3 +34,5 @@ Route::get('/daftar', function () {
     return view('pages/daftar');
 });
 
+Route::get('/list-buku', [DashboardController::class, 'ListBuku'])->name('ListBuku');
+Route::get('/dashboard', [DashboardController::class, 'Dashboard'])->name('Dashboard');
