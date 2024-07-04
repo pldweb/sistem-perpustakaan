@@ -57,20 +57,16 @@
             <h4 class="text-section">Components</h4>
         </li>
         <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#base">
+            <a href="{{ route('ListBuku') }}">
             <i class="fas fa-layer-group"></i>
-            <p>Base</p>
-            <span class="caret"></span>
+            <p>Data Master Buku</p>
             </a>
-            <div class="collapse" id="base">
-            <ul class="nav nav-collapse">
-                <li>
-                <a href="components/avatars.html">
-                    <span class="sub-item">Avatars</span>
-                </a>
-                </li>
-            </ul>
-            </div>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('ListBuku') }}">
+            <i class="fas fa-layer-group"></i>
+            <p>Peminjaman Buku</p>
+            </a>
         </li>
         
         </ul>

@@ -14,7 +14,7 @@
     />
 
     <!-- Fonts and icons -->
-    <script src="js/plugin/webfont/webfont.min.js"></script>
+    <script src="./js/plugin/webfont/webfont.min.js"></script>
     <script>
       WebFont.load({
         google: { families: ["Public Sans:300,400,500,600,700"] },

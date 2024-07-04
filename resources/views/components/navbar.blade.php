@@ -95,6 +95,7 @@
                   You have 4 new notification
                 </div>
               </li>
+
               <li>
                 <div class="notif-scroll scrollbar-outer">
                   <div class="notif-center">
@@ -152,7 +153,7 @@
             </ul>
           </li>
           
-
+            @auth
           <li class="nav-item topbar-user dropdown hidden-caret">
             <a
               class="dropdown-toggle profile-pic"
@@ -168,8 +169,10 @@
                 />
               </div>
               <span class="profile-username">
-                <span class="op-7">Hi,</span>
-                <span class="fw-bold">Hizrian</span>
+                
+                  <span class="op-7">Hi,</span>
+                  <span class="fw-bold">{{ Auth::User()->nama }}</span>
+              
               </span>
             </a>
             <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -184,8 +187,8 @@
                       />
                     </div>
                     <div class="u-text">
-                      <h4>Hizrian</h4>
-                      <p class="text-muted">hello@example.com</p>
+                      <h4>{{ Auth::User()->nama }}</h4>
+                      <p class="text-muted">{{ Auth::User()->email}} </p>
                       <a
                         href="profile.html"
                         class="btn btn-xs btn-secondary btn-sm"
@@ -202,11 +205,16 @@
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#">Account Setting</a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Logout</a>
+                  <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                  <form action="{{ route('logout') }}" method="post" id="logout-form" class="d-none">
+                    @csrf
+                  </form>
                 </li>
               </div>
             </ul>
           </li>
+          @endauth
+
         </ul>
       </div>
     </nav>
