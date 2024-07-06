@@ -11,7 +11,7 @@
               <h6 class="op-7 mb-2">List Buku Per Bulan</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-              <a href="{{ route('InputBuku') }}" class="btn btn-primary btn-round">Tambah Buku</a>
+              <a href="{{ route('PinjamBuku') }}" class="btn btn-primary btn-round">Tambah Pinjaman Buku</a>
             </div>
           </div>
          
@@ -20,7 +20,7 @@
               <div class="card card-round">
                 <div class="card-header">
                   <div class="card-head-row card-tools-still-right">
-                    <h4 class="card-title">Buku Tersedia</h4>
+                    <h4 class="card-title">Data Pinjaman Buku</h4>
                   </div>
                 </div>
                 <div class="card-body p-0">
@@ -29,40 +29,40 @@
                     <table class="table align-items-center mb-0">
                       <thead class="thead-light">
                         <tr>
-                          <th scope="col">Judul Buku</th>
-                          <th scope="col" class="text-end">Penulis</th>
-                          <th scope="col" class="text-end">Penerbit</th>
-                          <th scope="col" class="text-end">Tahun Terbit</th>
+                          <th scope="col">Nama Peminjam</th>
+                          <th scope="col" class="text-end">Buku Terpinjam</th>
+                          <th scope="col" class="text-end">Tanggal Terpinjam</th>
+                          <th scope="col" class="text-end">Tanggal Pengembalian</th>
                           <th scope="col" class="text-end">Stock Buku</th>
                           <th scope="col" class="text-end">Opsi</th>
 
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach ($data as $item)
+                        @foreach ($pinjam as $item)
                             
                         <tr>
                           <th scope="row">
-                            {{ $item->judul_buku}}
+                            {{ $item->user->nama}}
                           </th>
-                          <td class="text-end">{{ $item->penulis }}</td>
-                          <td class="text-end">{{ $item->penerbit }}</td>
-                          <td class="text-end">{{ $item->tahun_terbit }}</td>
-                          <td class="text-end">{{ $item->stock }}</td>
+                          <td class="text-end">{{ $item->book->judul_buku}}</td>
+                          <td class="text-end">{{ $item->tanggal_pinjam }}</td>
+                          <td class="text-end">{{ $item->tanggal_pengembalian}}</td>
+                          <td class="text-end">{{ $item->tanggal_pengembalian}}</td>
+
                           <td class="text-end">
 
                             <button class="btn btn-warning">
                               <span class="btn-label">
                                 <i class="fas fa-bars"></i>
                               </span>
-                              Edit
+                             
                             </button>
                             
                             <button class="btn btn-danger">
                               <span class="btn-label">
                                 <i class="fas fa-times"></i>
                               </span>
-                              Hapus Buku
                             </button>
 
                           </button></td>

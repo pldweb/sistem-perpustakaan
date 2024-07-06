@@ -29,43 +29,26 @@
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
     <div class="sidebar-content">
         <ul class="nav nav-secondary">
-        <li class="nav-item active">
+        <li class="{{Route::currentRouteNamed('Dashboard') ? 'nav-item active' : "nav-item"}}">
             <a
-            data-bs-toggle="collapse"
-            href="#dashboard"
-            class="collapsed"
-            aria-expanded="false"
+            href="{{ route('Dashboard') }}"
             >
             <i class="fas fa-home"></i>
             <p>Dashboard</p>
-            <span class="caret"></span>
             </a>
             <div class="collapse" id="dashboard">
-            <ul class="nav nav-collapse">
-                <li>
-                <a href="../demo1/index.html">
-                    <span class="sub-item">Dashboard 1</span>
-                </a>
-                </li>
-            </ul>
             </div>
         </li>
-        <li class="nav-section">
-            <span class="sidebar-mini-icon">
-            <i class="fa fa-ellipsis-h"></i>
-            </span>
-            <h4 class="text-section">Components</h4>
-        </li>
-        <li class="nav-item">
+        <li class="{{Route::currentRouteNamed('ListBuku') ? 'nav-item active' : "nav-item"}}">
             <a href="{{ route('ListBuku') }}">
             <i class="fas fa-layer-group"></i>
             <p>Data Master Buku</p>
             </a>
         </li>
-        <li class="nav-item">
-            <a href="{{ route('ListBuku') }}">
+        <li class="{{Route::currentRouteNamed('ListPinjam') ? 'nav-item active' : "nav-item"}}">
+            <a href="{{ route('ListPinjam') }}">
             <i class="fas fa-layer-group"></i>
-            <p>Peminjaman Buku</p>
+            <p>Data Peminjaman Buku</p>
             </a>
         </li>
         

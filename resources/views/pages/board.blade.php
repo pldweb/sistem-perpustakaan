@@ -29,8 +29,8 @@
                     </div>
                     <div class="col col-stats ms-3 ms-sm-0">
                       <div class="numbers">
-                        <p class="card-category">Visitors</p>
-                        <h4 class="card-title">1,294</h4>
+                        <p class="card-category">Jumlah User</p>
+                        <h4 class="card-title">{{ $totalUsers }}</h4>
                       </div>
                     </div>
                   </div>
@@ -50,8 +50,8 @@
                     </div>
                     <div class="col col-stats ms-3 ms-sm-0">
                       <div class="numbers">
-                        <p class="card-category">Subscribers</p>
-                        <h4 class="card-title">1303</h4>
+                        <p class="card-category">Total Peminjam</p>
+                        <h4 class="card-title">{{ $totalBooks }}</h4>
                       </div>
                     </div>
                   </div>
@@ -69,8 +69,8 @@
                     </div>
                     <div class="col col-stats ms-3 ms-sm-0">
                       <div class="numbers">
-                        <p class="card-category">Sales</p>
-                        <h4 class="card-title">$ 1,345</h4>
+                        <p class="card-category">Jumlah Buku</p>
+                        <h4 class="card-title">{{ $totalBooks }}</h4>
                       </div>
                     </div>
                   </div>
@@ -88,8 +88,8 @@
                     </div>
                     <div class="col col-stats ms-3 ms-sm-0">
                       <div class="numbers">
-                        <p class="card-category">Order</p>
-                        <h4 class="card-title">576</h4>
+                        <p class="card-category">Total Peminjam</p>
+                        <h4 class="card-title">{{ $totalBooks }}</h4>
                       </div>
                     </div>
                   </div>
@@ -169,7 +169,6 @@
                         <i class="fas fa-ban"></i>
                       </button>
                     </div>
-                   
                   </div>
                 </div>
               </div>
@@ -178,7 +177,7 @@
               <div class="card card-round">
                 <div class="card-header">
                   <div class="card-head-row card-tools-still-right">
-                    <div class="card-title">Transaction History</div>
+                    <div class="card-title">Data Buku Dipinjam</div>
                     <div class="card-tools">
                       <div class="dropdown">
                         <button

@@ -38,6 +38,11 @@
     <link rel="stylesheet" href="./css/plugins.min.css" />
     <link rel="stylesheet" href="./css/kaiadmin.min.css" />
 
+    {{-- Jquery --}}
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
     @stack('styles')
 
 </head>
@@ -61,6 +66,7 @@
         </div>
 
     </div>
+
 
     <!--   Core JS Files   -->
     <script src="./js/core/jquery-3.7.1.min.js"></script>
@@ -95,9 +101,6 @@
     <!-- Kaiadmin JS -->
     <script src="./js/kaiadmin.min.js"></script>
 
-    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    <script src="./js/setting-demo.js"></script>
-    <script src="./js/demo.js"></script>
     <script>
       $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
         type: "line",
