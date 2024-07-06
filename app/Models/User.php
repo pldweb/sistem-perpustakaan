@@ -11,6 +11,15 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    public function pinjam() {
+
+        return $this->hashMany(Pinjam::class);
+
+    }
+
+
+
+
     /**
      * The attributes that are mass assignable.
      *

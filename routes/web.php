@@ -8,10 +8,6 @@ use App\Http\Controllers\BukuController;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function() {
-    return view('pages.board');
-});
-
 Route::get('/daftar', [RegisterController::class, 'formRegistrasi'])->name('halamanRegistrasi');
 Route::post('/daftar', [RegisterController::class, 'registrasi'])->name('daftar');
 
@@ -20,11 +16,14 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
-Route::get('/list-buku', [BukuController::class, 'ListBuku'])->name('ListBuku');
-Route::get('/input-buku', [BukuController::class, 'InputBuku'])->name('InputBuku');
+Route::get('/list-buku', [BukuController::class, 'ListBuku'])->middleware('auth.user')->name('ListBuku');
+Route::get('/input-buku', [BukuController::class, 'InputBuku'])->middleware('auth.user')->name('InputBuku');
 
 
-Route::get('/dashboard', [DashboardController::class, 'Dashboard'])->middleware('auth')->name('Dashboard');
+Route::get('/dashboard', [DashboardController::class, 'Dashboard'])->middleware('auth.user')->name('Dashboard');
+Route::get('/', [DashboardController::class, 'Dashboard'])->middleware('auth.user')->name('Dashboard');
+
+
 
 
 
