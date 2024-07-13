@@ -30,7 +30,8 @@ Route::put('/edit-buku/{id}', [BukuController::class, 'UpdateBuku'])->middleware
 Route::get('/list-pinjam', [PinjamController::class, 'ListPinjam'])->middleware('auth.user')->name('ListPinjam');
 Route::get('/pinjam-buku', [PinjamController::class, 'PinjamBuku'])->middleware(('auth.user'))->name('PinjamBuku');
 Route::get('/list-pinjam/{tanggal_pinjam}/{id}', [PinjamController::class, 'DetailPinjam'])->middleware(('auth.user'))->name('DetailPinjam');
-Route::delete('/list-pinjam/{id}', [PinjamController::class, 'destroy'])->middleware(('auth.user'))->name('destroyPinjam');
+Route::put('/list-pinjam/{tanggal_pinjam}/{id}', [PinjamController::class, 'UpdatePinjam'])->middleware(('auth.user'))->name('UpdatePinjam');
+Route::delete('/list-pinjam/{tanggal_pinjam}/{id}', [PinjamController::class, 'destroy'])->middleware(('auth.user'))->name('destroyPinjam');
 Route::post('/simpan-pinjam-buku', [PinjamController::class, 'store'])->middleware(('auth.user'))->name('SimpanPinjamBuku');
 
 

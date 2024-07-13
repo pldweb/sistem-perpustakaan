@@ -31,53 +31,57 @@
                                 </ul>
                             </div>
                         @endif
-                        <form action="{{ route('SimpanPinjamBuku') }}" method="post">
-                            @csrf
-                
+
+                        <form action="{{ route('UpdatePinjam', ['tanggal_pinjam' => $tanggal_pinjam, 'id' => $id]) }}" method="post">
+                            @csrf   
+                            @method('put')    
+
+                            @foreach ($pinjam as $book) 
+
+
                             <div class="row">
                                 <div class="mb-3 col-6">
                                     <label for="user_id" class="form-label">Peminjam</label>
                                     <select name="user_id" class="form-select form-control" required>
-                                            <option>{{ $user->nama }}</option>
+                                            <option value="{{ $book->user->id }}" {{ $book->user->id == $book->user_id ? 'selected' : '' }}>{{ $book->user->nama }}</option>
                                     </select>
                                 </div>
                             </div>
                 
                             <div id="book-container">
 
-                                @foreach ($pinjam as $book)
                                     
                                 <div class="row mb-3 book-row">
                                     <div class="col-6">
                                         <label for="book_id" class="form-label">Buku</label>
-                                        <select name="book_id" class="form-select form-control book-select" data-index="0" required>
+                                        <select name="book_id[]" class="form-select form-control book-select" data-index="0" required>
+                                            @foreach($books as $book)
                                                 <option value="{{ $book->id }}">{{ $book->judul_buku }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-6">
                                         <label for="jumlah" class="form-label">Jumlah</label>
-                                        <input type="number" name="jumlah" class="form-control jumlah-buku" value="{{ $pinjam->jumlah }}" min="1" max="3" required>
+                                        <input type="number" name="jumlah[]" class="form-control jumlah-buku" value="{{ $book->jumlah }}" min="1" max="3" required>
                                     </div>
                                 </div>
 
-                                @endforeach
-
-
                             </div>
-                
-                
+            
                             <div class="row mt-3">
                                 <div class="mb-3 col-6">
                                     <label for="tanggal_pinjam" class="form-label">Tanggal Peminjaman</label>
-                                    <input type="date" name="tanggal_pinjam" class="form-control" value="{{ $pinjam->tanggal_pinjam }}" required>
+                                    <input type="date" name="tanggal_pinjam" class="form-control" value="{{ $book->tanggal_pinjam }}" required>
                                 </div>
                                 <div class="mb-3 col-6">
                                     <label for="tanggal_pengembalian" class="form-label">Tanggal Pengembalian</label>
-                                    <input type="date" name="tanggal_pengembalian" class="form-control" value="{{ $pinjam->tanggal_pengembalian }}" required>
+                                    <input type="date" name="tanggal_pengembalian" class="disabled form-control" value="{{ $book->tanggal_pengembalian }}" required>
                                 </div>
                             </div>
+                            @endforeach
                 
                             <button type="submit" class="btn btn-primary">Update Data Peminjaman Buku</button>
+
                         </form>
                     </div>
                 </div>

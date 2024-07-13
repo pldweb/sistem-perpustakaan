@@ -30,35 +30,74 @@ class PinjamController extends Controller
 
     public function DetailPinjam($tanggal_pinjam, $id) {
 
-        $pinjam = Pinjam::with('user', 'book')
+        $title = 'Data Peminjaman Buku';
+        $slug = 'Form Data Peminjaman Buku';
+        $subtitle = 'Detail Data Peminjaman Buku';
+        
+        $user = User::all();
+        $books = Book::where('stock', '>', 0)->get();
+
+
+        $pinjam = Pinjam::with('book', 'user')
         ->where('tanggal_pinjam', $tanggal_pinjam)
         ->where('user_id', $id)
         ->get();
 
-        return view('pages.pinjam.detail_pinjam', compact('pinjam','pinjam', 'slug', 'subtitle', 'id'));
+        return view('pages.pinjam.detail_pinjam', compact('tanggal_pinjam','pinjam', 'slug', 'subtitle', 'id','title', 'user', 'books'));
 
     }
 
-    // public function DetailPinjam($id) {
 
+    public function UpdatePinjam(Request $request, $tanggal_pinjam, $id) {
 
-    //     $users = User::all();
-    //     $books = Book::all();
-    //     $pinjam = Pinjam::findOrFail($id);
-    //     $title = 'Detail Peminjaman Buku';
-    //     $subtitle = 'Form Detail Peminjaman Buku';
-    //     $slug = 'Ini untuk slug';
-
-
-    //     return view('pages.pinjam.detail_pinjam', compact('pinjam', 'title', 'users', 'books', 'subtitle', 'slug'));
-
-    // }
-
-    public function UpdatePinjam(Request $request, $id) {
-
-
-
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'book_id.*' => 'required|exists:books,id',
+            'jumlah.*' => 'required|integer|min:1|max:3',
+            'tanggal_pinjam' => 'required|date',
+            'tanggal_pengembalian' => 'required|date|after:tanggal_pinjam',
+        ]);
+    
+        $pinjam = Pinjam::find($id);
+    
+        if(!$pinjam){
+            return redirect()->route('ListPinjam')->withErrors(['Errors', 'Data tidak ditemukan']);
+        }
+    
+        // Update peminjaman utama
+        $pinjam->user_id = $validated['user_id'];
+        $pinjam->tanggal_pinjam = $validated['tanggal_pinjam'];
+        $pinjam->tanggal_pengembalian = $validated['tanggal_pengembalian'];
+        $pinjam->save(); 
+    
+        // Update atau tambahkan buku peminjaman
+        foreach ($request->book_id as $index => $bookId) {
+            $jumlah = $request->jumlah[$index];
+    
+            // Update atau buat peminjaman buku
+            $existingPinjam = Pinjam::where('user_id', $validated['user_id'])
+                ->where('book_id', $bookId)
+                ->first();
+    
+            if ($existingPinjam) {
+                // Update jumlah buku
+                $existingPinjam->jumlah = $jumlah;
+                $existingPinjam->save();
+            } else {
+                // Buat peminjaman buku baru
+                Pinjam::create([
+                    'user_id' => $validated['user_id'],
+                    'book_id' => $bookId,
+                    'jumlah' => $jumlah,
+                    'tanggal_pinjam' => $validated['tanggal_pinjam'],
+                    'tanggal_pengembalian' => $validated['tanggal_pengembalian'],
+                ]);
+            }
+        }
+    
+        return redirect()->route('ListPinjam')->with('success', 'Data peminjaman berhasil diperbarui.');
     }
+    
 
 
     // Mengarahkan ke halaman form pinjam buku
