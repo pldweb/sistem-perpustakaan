@@ -9,11 +9,6 @@ class Book extends Model
 {
     use HasFactory;
 
-
-    public function pinjam() {
-        return $this->hasMany(Pinjam::class);
-    }
-
     protected $table = "books";
     protected $primaryKey = "id";
     protected $fillable = [
@@ -23,5 +18,16 @@ class Book extends Model
         'tahun_terbit',
         'stock',
     ];
+
+
+    public function pinjam() {
+        return $this->hasMany(Pinjam::class);
+    }
+
+    public function users() {
+        return $this->belongsToMany(User::class, 'pinjam')
+        ->withPivot('tanggal_pinjam', 'tanggal_pengembalian')
+        ->withTimestamps();
+    }   
 
 }

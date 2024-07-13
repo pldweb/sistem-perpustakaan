@@ -2,9 +2,9 @@
     <div class="main-header-logo">
       <!-- Logo Header -->
       <div class="logo-header" data-background-color="dark">
-        <a href="index.html" class="logo">
+        <a href="{{ route('Dashboard') }}" class="logo">
           <img
-            src="./img/kaiadmin/logo_light.svg"
+            src="{{ asset("img/kaiadmin/logo_light.svg") }}" 
             alt="navbar brand"
             class="navbar-brand"
             height="20"
@@ -122,7 +122,7 @@
                     <a href="#">
                       <div class="notif-img">
                         <img
-                          src="./img/profile2.jpg"
+                          src="{{ asset("img/profile2.jpg")}}"
                           alt="Img Profile"
                         />
                       </div>
@@ -163,7 +163,7 @@
             >
               <div class="avatar-sm">
                 <img
-                  src="./img/profile.jpg"
+                  src="{{ asset("img/profile.jpg")}}"
                   alt="..."
                   class="avatar-img rounded-circle"
                 />
@@ -181,7 +181,7 @@
                   <div class="user-box">
                     <div class="avatar-lg">
                       <img
-                        src="./img/profile.jpg"
+                        src="{{ asset("img/profile.jpg")}}"
                         alt="image profile"
                         class="avatar-img rounded"
                       />

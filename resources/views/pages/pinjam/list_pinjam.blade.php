@@ -33,7 +33,7 @@
                           <th scope="col" class="text-end">Buku Terpinjam</th>
                           <th scope="col" class="text-end">Tanggal Terpinjam</th>
                           <th scope="col" class="text-end">Tanggal Pengembalian</th>
-                          <th scope="col" class="text-end">Stock Buku</th>
+                          <th scope="col" class="text-end">Jumlah Buku</th>
                           <th scope="col" class="text-end">Opsi</th>
 
                         </tr>
@@ -48,22 +48,27 @@
                           <td class="text-end">{{ $item->book->judul_buku}}</td>
                           <td class="text-end">{{ $item->tanggal_pinjam }}</td>
                           <td class="text-end">{{ $item->tanggal_pengembalian}}</td>
-                          <td class="text-end">{{ $item->tanggal_pengembalian}}</td>
+                          <td class="text-end">{{ $item->jumlah}}</td>
 
                           <td class="text-end">
 
-                            <button class="btn btn-warning">
+                            <button class="btn btn-warning w500">
                               <span class="btn-label">
                                 <i class="fas fa-bars"></i>
                               </span>
                              
                             </button>
                             
-                            <button class="btn btn-danger">
-                              <span class="btn-label">
-                                <i class="fas fa-times"></i>
-                              </span>
-                            </button>
+                            <form action="{{ route('destroyPinjam', ['id' => $item->id]) }}" method="post" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                              @csrf
+                              @method('delete')
+                              <button type="submit" class="btn btn-danger w500">
+                                <span class="btn-label">
+                                  <i class="fas fa-times"></i>
+                                </span>
+                              </button>
+                            </form>
+                           
 
                           </button></td>
 

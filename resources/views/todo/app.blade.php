@@ -114,7 +114,6 @@
                                         @csrf
                                         @method('delete')
                                         <button class="btn btn-danger btn-sm delete-btn">✕</button>
-
                                     </form>
                                     
                                     <button class="btn btn-primary btn-sm edit-btn" data-bs-toggle="collapse"

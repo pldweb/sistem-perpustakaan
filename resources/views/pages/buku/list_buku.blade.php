@@ -29,6 +29,7 @@
                     <table class="table align-items-center mb-0">
                       <thead class="thead-light">
                         <tr>
+                          <th scope="col" class="text-end">No</th>
                           <th scope="col">Judul Buku</th>
                           <th scope="col" class="text-end">Penulis</th>
                           <th scope="col" class="text-end">Penerbit</th>
@@ -42,6 +43,7 @@
                         @foreach ($data as $item)
                             
                         <tr>
+                          <td scope="text-end">{{ $loop->iteration }}</td>
                           <th scope="row">
                             {{ $item->judul_buku}}
                           </th>
@@ -51,28 +53,40 @@
                           <td class="text-end">{{ $item->stock }}</td>
                           <td class="text-end">
 
-                            <button class="btn btn-warning">
+                          <a href="{{ route('EditBuku', $item->id) }}">
+
+                            <button class="btn btn-warning w500">
                               <span class="btn-label">
                                 <i class="fas fa-bars"></i>
                               </span>
-                              Edit
-                            </button>
-                            
-                            <button class="btn btn-danger">
-                              <span class="btn-label">
-                                <i class="fas fa-times"></i>
-                              </span>
-                              Hapus Buku
                             </button>
 
-                          </button></td>
+                          </a>
+
+                            <form action="{{ route('destroyBuku', $item->id) }}" method="post" onsubmit="return confirm('yakin?')">
+                              @csrf
+                              @method('delete')
+                              <button type="submit" class="btn btn-danger w500">
+                                <span class="btn-label">
+                                  <i class="fas fa-times"></i>
+                                </span> 
+                              </button>
+                            </form>
+                             
+                            </td>
 
                         
                         @endforeach
                         
                       </tbody>
+
                     </table>
-                  </div>
+                    <div class="py-2 px-3">
+                  
+                      {{ $data->links() }}
+
+                    </div>
+                  </div>      
                 </div>
               </div>
             </div>

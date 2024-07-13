@@ -1,0 +1,11 @@
+.btn.w500 {
+
+    width: 50px !important;
+    height: 50px;
+    padding: 0 10px !important;
+}
+
+.text-end:last-child {
+   display: flex;
+   column-gap: 5px;
+}

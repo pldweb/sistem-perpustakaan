@@ -14,6 +14,7 @@ class Pinjam extends Model
     protected $fillable = [
         'user_id',
         'book_id',
+        'jumlah',
         'tanggal_pinjam',
         'tanggal_pengembalian',
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\User;
 use App\Models\Pinjam;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class PinjamController extends Controller
@@ -25,26 +26,50 @@ class PinjamController extends Controller
     }
 
     public function store(Request $request) {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'tanggal_pinjam' => 'required|date',
-            'tanggal_pengembalian' => 'required|date',
-            'books' => 'required|array',
-            'books.*.book_id' => 'required|exists:books,id',
-            'books.*.jumlah' => 'required|integer|min:1|max:3',
-        ]);
 
-        $pinjam = new Pinjam();
-        $pinjam->user_id = $request->user_id;
-        $pinjam->book_id = $request->book_id;
-        $pinjam->tanggal_pinjam = $request->tanggal_pinjam;
-        $pinjam->tanggal_pengembalian = $request->tanggal_pengembalian;
-        $pinjam->save();
+        // dd($request->all());
 
-        $book = Book::find($request->book_id);
-        $book->stock -= 1;
+    // Validasi input
+    $validated = $request->validate([
+        'user_id' => 'required|exists:users,id',
+        'book_id' => 'required|exists:books,id',
+        'jumlah' => 'required|integer|max:3',
+        'tanggal_pinjam' => 'required|date',
+        'tanggal_pengembalian' => 'required|date',
+    ]);
+
+    // Periksa ketersediaan stok buku
+    $book = Book::find($validated['book_id']);
+    if ($book->stock < $validated['jumlah']) {
+        return redirect()->back()->withErrors(['jumlah' => 'Stock tidak cukup']);
+    }
+
+    // Kurangi stok buku
+    $book->stock -= $validated['jumlah'];
+    $book->save();
+
+    // Simpan data peminjaman
+    Pinjam::create($validated);
+
+    return redirect()->route('ListPinjam');
+
+    }
+
+
+    public function destroy($id) {
+
+        $pinjam = Pinjam::findOrFail($id);
+
+        $book = $pinjam->book;
+        $book->stock += $pinjam->jumlah;
         $book->save();
 
-        return redirect()->route('ListPinjam')->with('success', 'Berhasil pinjam buku');
+        $pinjam->delete();
+
+        return redirect()->route('ListPinjam');
+
     }
+
+
+
 }

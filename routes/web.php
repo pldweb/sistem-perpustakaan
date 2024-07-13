@@ -19,13 +19,20 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Data Master Buku
 Route::get('/list-buku', [BukuController::class, 'ListBuku'])->middleware('auth.user')->name('ListBuku');
+Route::delete('/list-buku/{id}', [BukuController::class, 'destroyBuku'])->middleware('auth.user')->name('destroyBuku');
 Route::get('/input-buku', [BukuController::class, 'InputBuku'])->middleware('auth.user')->name('InputBuku');
 Route::post('/simpan-buku', [BukuController::class, 'SimpanBuku'])->middleware('auth.user')->name('SimpanBuku');
+Route::get('/edit-buku/{id}/edit', [BukuController::class, 'EditBuku'])->middleware('auth.user')->name('EditBuku');
+Route::put('/edit-buku/{id}', [BukuController::class, 'UpdateBuku'])->middleware('auth.user')->name('UpdateBuku');
+
+
 
 // Data Buku yang dipinjam
 Route::get('/list-pinjam', [PinjamController::class, 'ListPinjam'])->middleware('auth.user')->name('ListPinjam');
 Route::get('/pinjam-buku', [PinjamController::class, 'PinjamBuku'])->middleware(('auth.user'))->name('PinjamBuku');
+Route::delete('/list-pinjam/{id}', [PinjamController::class, 'destroy'])->middleware(('auth.user'))->name('destroyPinjam');
 Route::post('/simpan-pinjam-buku', [PinjamController::class, 'store'])->middleware(('auth.user'))->name('SimpanPinjamBuku');
+
 
 // Data Master User
 Route::get('/list-user', [UserController::class, 'ListUser'])->middleware(('auth.user'))->name('ListUser');

@@ -10,13 +10,6 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-
-    public function pinjam() {
-
-        return $this->hashMany(Pinjam::class);
-
-    }
-
     
     /**
      * The attributes that are mass assignable.
@@ -55,4 +48,18 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function pinjam() {
+
+        return $this->hashMany(Pinjam::class);
+
+    }
+
+    public function book() {
+        return $this->belongsToMany(Book::class, 'pinjam')
+            ->withPivot('tanggal_pinjam', 'tanggal_pembelian')
+            ->withTimestamps();
+    }
+
+
 }
