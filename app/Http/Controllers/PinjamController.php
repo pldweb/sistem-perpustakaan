@@ -10,24 +10,73 @@ use Illuminate\Http\Request;
 
 class PinjamController extends Controller
 {
+    // Menampilkan halaman seluruh data peminjaman
     public function ListPinjam() {
+
+        $pinjam = Pinjam::with('book', 'user')
+        ->select(DB::raw('user_id, tanggal_pinjam, MAX(tanggal_pengembalian) as tanggal_pengembalian, SUM(jumlah) as total_buku'))
+        ->groupBy('user_id', 'tanggal_pinjam')
+        ->orderBy('tanggal_pinjam', 'desc')
+        ->get();
+
+
+        $user = User::all();
         $title = 'Data Peminjam';
-        $pinjam = Pinjam::with('book', 'user')->get();
+        $subtitle = 'Form Detail Peminjaman Buku';
+        $slug = 'Ini untuk slug';
         
-        return view('pages.pinjam.list_pinjam', compact('title', 'pinjam'));
+        return view('pages.pinjam.list_pinjam', compact('title', 'pinjam', 'slug', 'subtitle', 'user'));
     }
 
+    public function DetailPinjam($tanggal_pinjam, $id) {
+
+        $pinjam = Pinjam::with('user', 'book')
+        ->where('tanggal_pinjam', $tanggal_pinjam)
+        ->where('user_id', $id)
+        ->get();
+
+        return view('pages.pinjam.detail_pinjam', compact('pinjam','pinjam', 'slug', 'subtitle', 'id'));
+
+    }
+
+    // public function DetailPinjam($id) {
+
+
+    //     $users = User::all();
+    //     $books = Book::all();
+    //     $pinjam = Pinjam::findOrFail($id);
+    //     $title = 'Detail Peminjaman Buku';
+    //     $subtitle = 'Form Detail Peminjaman Buku';
+    //     $slug = 'Ini untuk slug';
+
+
+    //     return view('pages.pinjam.detail_pinjam', compact('pinjam', 'title', 'users', 'books', 'subtitle', 'slug'));
+
+    // }
+
+    public function UpdatePinjam(Request $request, $id) {
+
+
+
+    }
+
+
+    // Mengarahkan ke halaman form pinjam buku
     public function PinjamBuku() {
         $books = Book::where('stock', '>', 0)->get();
         $users = User::all();
-        $title = 'Input Data Pinjaman';
+        $title = 'Input Data Peminjaman';
+        $subtitle = 'Form Peminjaman Buku';
+        $slug = 'Ini untuk slug';
 
-        return view('pages.pinjam.input_pinjam', compact('books', 'users', 'title'));
+        return view('pages.pinjam.input_pinjam', compact('books', 'users', 'title', 'slug', 'subtitle'));
     }
 
+    // Controller menangani request input data peminjaman buku
     public function store(Request $request) {
-        // Validasi input
-        $validated = $request->validate([
+
+        // Ini proses Validasi input
+        $request->validate([
             'user_id' => 'required|exists:users,id',
             'books.*.book_id' => 'required|exists:books,id',
             'books.*.jumlah' => 'required|integer|max:3',
@@ -43,13 +92,13 @@ class PinjamController extends Controller
             }
         }
     
-        // Kurangi stok buku dan simpan data peminjaman
+        // Jika masih ada stock, kurangi stok buku dan simpan data peminjaman
         foreach ($request->books as $bookData) {
             $book = Book::find($bookData['book_id']);
             $book->stock -= $bookData['jumlah'];
             $book->save();
     
-            // Simpan data peminjaman
+        // Lakukan simpan data peminjaman
             Pinjam::create([
                 'user_id' => $request->user_id,
                 'book_id' => $bookData['book_id'],
@@ -58,14 +107,12 @@ class PinjamController extends Controller
                 'tanggal_pengembalian' => $request->tanggal_pengembalian,
             ]);
         }
-    
+        
         return redirect()->route('ListPinjam');
     }
-    
-    
 
-
-    public function destroy($id) {
+     // Hapus data peminjaman berdasarkan Id
+     public function destroy($id) {
 
         $pinjam = Pinjam::findOrFail($id);
 
@@ -79,34 +126,6 @@ class PinjamController extends Controller
 
     }
 
-
-    // public function detailPeminjaman() {
-
-    //     // Validasi input
-    // $validated = $request->validate([
-    //     'user_id' => 'required|exists:users,id',
-    //     'book_id' => 'required|exists:books,id',
-    //     'jumlah' => 'required|integer|max:3',
-    //     'tanggal_pinjam' => 'required|date',
-    //     'tanggal_pengembalian' => 'required|date',
-    // ]);
-
-    // // Periksa ketersediaan stok buku
-    // $book = Book::find($validated['book_id']);
-    // if ($book->stock < $validated['jumlah']) {
-    //     return redirect()->back()->withErrors(['jumlah' => 'Stock tidak cukup']);
-    // }
-
-    // // Kurangi stok buku
-    // $book->stock -= $validated['jumlah'];
-    // $book->save();
-
-    // // Simpan data peminjaman
-    // Pinjam::create($validated);
-
-    // return redirect()->route('ListPinjam');
-
-    // }
 
 
 

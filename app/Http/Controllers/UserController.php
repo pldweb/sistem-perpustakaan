@@ -10,9 +10,11 @@ class UserController extends Controller
 {
     public function ListUser() {
 
-        $title = 'List User';
+        $title = 'List Data User';
         $users = User::all();
+        $subtitle = 'Data Seluruh User';
+        $slug = 'Ini untuk slug';
 
-        return view('pages.user.list_user', compact('title', 'users'));
+        return view('pages.user.list_user', compact('title', 'users', 'subtitle', 'slug'));
     }
 }

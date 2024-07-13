@@ -18,8 +18,6 @@ class DashboardController extends Controller
         $user = User::all();
         $totalUsers = $user->count();
 
-      
-
         $book = Book::all();
         $totalBooks = $book->count();
 
@@ -29,9 +27,11 @@ class DashboardController extends Controller
         
         $totalStock = Book::sum('stock');
 
-
         $title = 'Dashboard';
-        return view('/pages/board', compact('title', 'totalUsers', 'totalBooks', 'bookPinjam', 'totalStock', 'totalPeminjam'));
+        $subtitle = 'Form Detail Peminjaman Buku';
+        $slug = 'Ini untuk slug';
+
+        return view('/pages/board', compact('title', 'totalUsers', 'totalBooks', 'bookPinjam', 'totalStock', 'totalPeminjam', 'subtitle', 'slug'));
     }
 
 }
