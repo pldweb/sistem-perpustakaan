@@ -46,18 +46,26 @@
                             </div>
                 
                             <div id="book-container">
-                                <div class="row mb-3 book-row">
+                                <div class="row mb-3 book-row d-flex flex-wrap">
                                     <div class="col-6">
-                                        <label for="book_id" class="form-label">Buku</label>
-                                        <select name="book_id" class="form-select form-control book-select" data-index="0" required>
+                                        <label for="books[0][book_id]" class="form-label">Buku</label>
+                                        <select name="books[0][book_id]" class="form-select form-control book-select" data-index="0" required>
                                             @foreach ($books as $book)
                                                 <option value="{{ $book->id }}">{{ $book->judul_buku }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="col-6">
-                                        <label for="jumlah" class="form-label">Jumlah</label>
-                                        <input type="number" name="jumlah" class="form-control jumlah-buku" min="1" max="3" required>
+                                        <label for="books[0][jumlah]" class="form-label">Jumlah</label>
+                                        <input type="number" name="books[0][jumlah]" class="form-control jumlah-buku" min="1" max="3" required>
+                                        
+                                    </div>
+                                    <div class="book">
+
+                                    </div>
+                                    <div class="col-6">
+                                    <button type="button" class="btn add-book btn-success mt-4">Tambah Buku</button>
+
                                     </div>
                                 </div>
                             </div>
@@ -78,6 +86,90 @@
                         </form>
                     </div>
                 </div>
+                <script>
+                $(document).ready(function() {
+                            let bookIndex = 0;
+                            let books = @json($books);
+
+                            function updateBookOptions() {
+                                $('select[name^="books"][name$="[book_id]"]').each(function() {
+                                    let selectedBooks = [];
+                                    $('select[name^="books"][name$="[book_id]"]').each(function() {
+                                        if ($(this).val()) {
+                                            selectedBooks.push($(this).val());
+                                        }
+                                    });
+
+                                    $(this).find('option').each(function() {
+                                        if ($(this).val() && selectedBooks.includes($(this).val()) && $(this).parent().val() !== $(this).val()) {
+                                            $(this).attr('disabled', true);
+                                        } else {
+                                            $(this).attr('disabled', false);
+                                        }
+                                    });
+                                });
+                            }
+
+                            function updateBookIndices() {
+                                $('.book-row').each(function(index) {
+                                    $(this).find('select[name^="books"]').attr('name', `books[${index}][book_id]`);
+                                    $(this).find('input[name^="books"]').attr('name', `books[${index}][jumlah]`);
+                                });
+                            }
+
+                            $(document).on('change', 'select[name^="books"][name$="[book_id]"]', function() {
+                                updateBookOptions();
+                            });
+
+                            $('.add-book').click(function() {
+                                bookIndex++;
+                                let newBookRow = `  
+                                <div class="row mb-3 book-row mt-3">
+                                    <div class="col-6">
+                                        <label for="books[${bookIndex}][book_id]" class="form-label">Buku</label>
+                                        <select name="books[${bookIndex}][book_id]" class="form-select form-control book-select" required>
+                                            <option value="">Pilih buku</option>
+                                            ${books.map(book => `<option value="${book.id}">${book.judul_buku}</option>`).join('')}
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="books[${bookIndex}][jumlah]" class="form-label">Jumlah</label>
+                                        <div class="d-flex">
+                                            <input type="number" name="books[${bookIndex}][jumlah]" class="form-control jumlah-buku" min="1" max="3" required>
+                                            <button type="button" class="ml-3 btn-danger btn remove-book">X</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                `;
+                                $('.book').append(newBookRow);
+                                updateBookOptions();
+                            });
+
+                            $(document).on('click', '.remove-book', function() {
+                                $(this).closest('.book-row').remove();
+                                updateBookIndices();
+                                updateBookOptions();
+                            });
+
+                            $('form').on('submit', function(e) {
+                                let isValid = true;
+                                $(this).find('select[name^="books"][name$="[book_id]"]').each(function() {
+                                    if (!$(this).val()) {
+                                        isValid = false;
+                                        return false;
+                                    }
+                                });
+                                if (!isValid) {
+                                    e.preventDefault();
+                                    alert('Harap pilih buku untuk semua field.');
+                                }
+                            });
+
+                            // Inisialisasi
+                            updateBookOptions();
+                        });
+   
+                </script>
                 
                 
                 
