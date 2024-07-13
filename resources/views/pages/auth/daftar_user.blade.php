@@ -63,8 +63,3 @@
 @push('scripts')
 
 @endpush
-
-
-
-
-   

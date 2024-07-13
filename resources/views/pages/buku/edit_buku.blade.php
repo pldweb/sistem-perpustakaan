@@ -82,7 +82,7 @@
                                         </div>
                                       </div> 
                                    
-                                      <button type="submit" class="btn btn-primary w-25%" onsubmit="return apakah data yang dimasukkan sudah sesuai?">Update Data Buku</button>
+                                      <button type="submit" class="btn btn-primary w-25%" onclick="return confirm('apakah data yang dimasukkan sudah sesuai?')">Update Data Buku</button>
                                   </form>
                               </div>
                              

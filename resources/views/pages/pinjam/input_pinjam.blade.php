@@ -82,7 +82,7 @@
                                 </div>
                             </div>
                 
-                            <button type="submit" class="btn btn-primary">Simpan Data Buku</button>
+                            <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah data sudah benar?')">Simpan Data Buku</button>
                         </form>
                     </div>
                 </div>

@@ -80,7 +80,7 @@
                             </div>
                             @endforeach
                 
-                            <button type="submit" class="btn btn-primary">Update Data Peminjaman Buku</button>
+                            <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah data sudah benar?')">Update Data Peminjaman Buku</button>
 
                         </form>
                     </div>

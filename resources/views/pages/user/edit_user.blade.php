@@ -38,38 +38,48 @@
                     </table>
                   </div>
                   <div class="card-body">
-                    <form action="{{ route('SimpanUser') }}" method="post">
+                    <form action="{{ route('UpdateUser', $id) }}" method="post">
                         @csrf
+                        @method('put')
 
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama</label>
-                            <input type="text" class="form-control" id="nama" name="nama" required value="{{ old('nama') }}">
+                            <input type="text" class="form-control" id="nama" name="nama" required value="{{ old('nama', $user->nama) }}">
                             @error('nama')
                                 <span>{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="mb-3">
                             <label for="kelas" class="form-label">Kelas</label>
-                            <input type="text" class="form-control" id="kelas" name="kelas" required value="{{ old('kelas') }}" >
+                            <input type="text" class="form-control" id="kelas" name="kelas" required value="{{ old('kelas', $user->kelas) }}" >
                             @error('kelas')
                                 <span>{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="email" name="email" required value="{{ old('email') }}">
+                            <input type="email" class="form-control" id="email" name="email" required value="{{ old('email', $user->email) }}">
                             @error('email')
                                 <span>{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required value="{{ old('password') }}">
-                            @error('name')
+                            <input type="password" class="form-control" id="password" name="password" required value="{{ old('password', $user->password) }}">
+                            @error('password')
                                 <span>{{ $message }}</span>
                             @enderror
                         </div>
-                        <button type="submit" class="btn btn-primary w-100" onclick="return confirm('Apakah data yang dimasukkan sudah benar?')">Register</button>
+                        <div class="mb-3">
+                          <label for="role" class="form-label">Role</label>
+                          <select name="role" class="form-select form-control" data-index="0" required>
+                            @error('role')
+                              <span>{{ $message }}</span>
+                            @enderror
+                              <option value="{{ $user->role }}">{{ $user->role }}</option>
+                        </select> 
+                      </div>
+                        <button type="submit" class="btn btn-primary w-100" onclick="return confirm('Apakah data yang dimasukkan sudah benar?')">Update Data User</button>
                     </form>
                 </div>
                 </div>

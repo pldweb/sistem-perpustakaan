@@ -38,7 +38,10 @@ Route::post('/simpan-pinjam-buku', [PinjamController::class, 'store'])->middlewa
 // Data Master User
 Route::get('/list-user', [UserController::class, 'ListUser'])->middleware(('auth.user'))->name('ListUser');
 Route::get('/input-user', [UserController::class, 'InputUser'])->middleware(('auth.user'))->name('InputUser');
+Route::get('/list-user/{id}/edit', [UserController::class, 'EditUser'])->middleware(('auth.user'))->name('EditUser');
+Route::put('/list-user/{id}', [UserController::class, 'UpdateUser'])->middleware(('auth.user'))->name('UpdateUser');
 Route::post('/simpan-user', [UserController::class, 'SimpanUser'])->middleware(('auth.user'))->name('SimpanUser');
+Route::delete('/list-user/{id}', [UserController::class, 'DestroyUser'])->middleware(('auth.user'))->name('DestroyUser');
 
 
 // Index website

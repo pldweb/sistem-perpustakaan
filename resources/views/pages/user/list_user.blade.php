@@ -11,10 +11,9 @@
               <h6 class="op-7 mb-2">{{ $slug }}</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-              <a href="{{ route('InputBuku') }}" class="btn btn-primary btn-round">Tambah User Baru</a>
+              <a href="{{ route('InputUser') }}" class="btn btn-primary btn-round">Tambah User Baru</a>
             </div>
           </div>
-         
           <div class="row">
             <div class="col-md-12">
               <div class="card card-round">
@@ -29,7 +28,8 @@
                     <table class="table align-items-center mb-0">
                       <thead class="thead-light">
                         <tr>
-                          <th scope="col">Nama User</th>
+                          <th scope="col" class="text-end">No</th>
+                          <th scope="col" class="text-end">Nama User</th>
                           <th scope="col" class="text-end">Email</th>
                           <th scope="col" class="text-end">Kelas</th>
                           <th scope="col" class="text-end">Role</th>
@@ -41,29 +41,38 @@
                         @foreach ($users as $detail)
                             
                         <tr>
-                          <th scope="row">
+                          <td class="text-end">{{ $loop->iteration }}</td>
+                          <td class="text-end">
                             {{ $detail->nama}}
-                          </th>
+                          </td>
                           <td class="text-end">{{ $detail->email }}</td>
                           <td class="text-end">{{ $detail->kelas }}</td>
                           <td class="text-end" style="text-transform: uppercase">{{ $detail->role }}</td>
                           <td class="text-end">
 
+                          <a href="{{ route('EditUser', $detail->id) }}">
+                            
                             <button class="btn btn-warning">
                               <span class="btn-label">
                                 <i class="fas fa-bars"></i>
                               </span>
                               Edit
                             </button>
+
+                          </a>
                             
-                            <button class="btn btn-danger">
+                            <form action="{{ route('DestroyUser', $detail->id)}}" method="post" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                              @csrf
+                              @method('delete')
+                            <button type="submit" class="btn btn-danger">
                               <span class="btn-label">
                                 <i class="fas fa-times"></i>
                               </span>
                               Hapus User
                             </button>
+                            </form>
 
-                          </button></td>
+                        </td>
 
                         
                         @endforeach
@@ -75,14 +84,7 @@
               </div>
             </div>
           </div>
-      
         </div>
-      </div>
-
-    </div>
-
-
-  </div>
 
 @endsection
 

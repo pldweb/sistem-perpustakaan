@@ -31,7 +31,7 @@ class DashboardController extends Controller
         $subtitle = 'Form Detail Peminjaman Buku';
         $slug = 'Ini untuk slug';
 
-        return view('/pages/board', compact('title', 'totalUsers', 'totalBooks', 'bookPinjam', 'totalStock', 'totalPeminjam', 'subtitle', 'slug'));
+        return view('pages.board', compact('title', 'totalUsers', 'totalBooks', 'bookPinjam', 'totalStock', 'totalPeminjam', 'subtitle', 'slug'));
     }
 
 }

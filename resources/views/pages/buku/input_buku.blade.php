@@ -81,8 +81,7 @@
                                         </div>
                                       </div> 
                                    
-                                      <div class="mb-3">Jika sudah punya akun bisa <a href="{{ route('halamanLogin')}}" rel="noopener noreferrer">Login</a></div>
-                                      <button type="submit" class="btn btn-primary w-25%">Simpan Data Buku</button>
+                                      <button type="submit" class="btn btn-primary w-25%" onclick="return confirm('Apakah data sudah benar?')">Simpan Data Buku</button>
                                   </form>
                               </div>
                              
