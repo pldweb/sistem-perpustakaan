@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Book;
-use App\Models\Pinjam;
+use App\Models\PeminjamanBuku;
+use App\Models\Peminjaman;
 use App\Http\Controllers\Controller;
 
 
 class DashboardController extends Controller
 {
-   
+
 
     public function Dashboard() {
 
@@ -21,9 +22,9 @@ class DashboardController extends Controller
         $book = Book::all();
         $totalBooks = $book->count();
 
-        $totalPeminjam = Pinjam::distinct('user_id')->count('user_id');
+        $totalPeminjam = Peminjaman::distinct('user_id')->count('user_id');
 
-        $bookPinjam = Pinjam::sum('jumlah');
+        $bookPinjam = PeminjamanBuku::sum('jumlah');
         
         $totalStock = Book::sum('stock');
 

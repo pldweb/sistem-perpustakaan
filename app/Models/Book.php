@@ -17,17 +17,21 @@ class Book extends Model
         'penerbit',
         'tahun_terbit',
         'stock',
+        'stock_tersedia'
     ];
 
 
-    public function pinjam() {
-        return $this->hasMany(Pinjam::class);
+    public function PeminjamanBuku() {
+
+        return $this->hasMany(PeminjamanBuku::class, 'book_id', 'id');
+
     }
 
-    public function users() {
-        return $this->belongsToMany(User::class, 'pinjam')
-        ->withPivot('tanggal_pinjam', 'tanggal_pengembalian')
-        ->withTimestamps();
-    }   
+    public function DetailPengembalian() {
+
+        return $this->hasMany(DetailPengembalian::class, 'buku_id', 'id');
+
+    }
+
 
 }

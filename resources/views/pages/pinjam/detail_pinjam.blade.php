@@ -50,7 +50,6 @@
                 
                             <div id="book-container">
 
-                                    
                                 <div class="row mb-3 book-row">
                                     <div class="col-6">
                                         <label for="book_id" class="form-label">Buku</label>

@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class EnsureUserIsAuthenticated
+
+class RedirectIfAuthenticated
 {
     /**
      * Handle an incoming request.
@@ -16,14 +17,9 @@ class EnsureUserIsAuthenticated
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check()) {
-            
-            return redirect()->route('halamanLogin');  
-        }   
-        
-        return $next($request); 
-        
-
-        
+        if(Auth::check()){
+            return redirect()->route('Dashboard');
+        }
+        return $next($request);
     }
 }

@@ -17,15 +17,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
-    protected $table = 'users';
-    protected $primaryKey = 'id';
-    protected $fillable = [
-        'nama',
-        'kelas',
-        'email',    
-        'password',
-    ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -49,17 +40,25 @@ class User extends Authenticatable
         ];
     }
 
-    public function pinjam() {
+    
+    protected $table = 'users';
 
-        return $this->hashMany(Pinjam::class);
+
+    protected $fillable = [
+
+        'nama',
+        'email',
+        'password',
+        'kelas'
+
+    ];
+
+    public function Peminjaman() {
+
+        return $this->hasMany(Peminjaman::class, 'user_id', 'id');
 
     }
 
-    public function book() {
-        return $this->belongsToMany(Book::class, 'pinjam')
-            ->withPivot('tanggal_pinjam', 'tanggal_pembelian')
-            ->withTimestamps();
-    }
 
 
 }

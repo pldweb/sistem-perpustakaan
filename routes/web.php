@@ -7,15 +7,25 @@ use App\Http\Controllers\BukuController;
 use App\Http\Controllers\PinjamController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\EnsureUserIsAuthenticated;
+use App\Http\Middleware\RedirectIfAuthenticated;
 
-// Autentikasi Daftar
-Route::get('/daftar', [RegisterController::class, 'formRegistrasi'])->name('halamanRegistrasi');
-Route::post('/daftar', [RegisterController::class, 'registrasi'])->name('daftar');
+Route::middleware([RedirectIfAuthenticated::class])->group(function () {
 
-// Autentikasi Login
-Route::get('/login', [LoginController::class, 'formLogin'])->name('halamanLogin');
-Route::post('/login', [LoginController::class, 'login'])->name('login');
+    // Autentikasi Daftar
+    Route::get('/daftar', [RegisterController::class, 'formRegistrasi'])->name('halamanRegistrasi');
+    Route::post('/daftar', [RegisterController::class, 'registrasi'])->name('daftar');
+
+    // Autentikasi Login
+    Route::get('/login', [LoginController::class, 'formLogin'])->name('halamanLogin');
+    Route::post('/login', [LoginController::class, 'login'])->name('login');
+
+});
+
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+
+Route::middleware([EnsureUserIsAuthenticated::class])->group(function () {
 
 // Data Master Buku
 Route::get('/list-buku', [BukuController::class, 'ListBuku'])->middleware('auth.user')->name('ListBuku');
@@ -48,7 +58,7 @@ Route::delete('/list-user/{id}', [UserController::class, 'DestroyUser'])->middle
 Route::get('/dashboard', [DashboardController::class, 'Dashboard'])->middleware('auth.user')->name('Dashboard');
 Route::get('/', [DashboardController::class, 'Dashboard'])->middleware('auth.user')->name('Dashboard');
 
-
+});
 
 
 

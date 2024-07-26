@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\User;
-use App\Models\Pinjam;
+use App\Models\Peminjaman;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -13,12 +13,7 @@ class PinjamController extends Controller
     // Menampilkan halaman seluruh data peminjaman
     public function ListPinjam() {
 
-        $pinjam = Pinjam::with('book', 'user')
-        ->select(DB::raw('user_id, tanggal_pinjam, MAX(tanggal_pengembalian) as tanggal_pengembalian, SUM(jumlah) as total_buku'))
-        ->groupBy('user_id', 'tanggal_pinjam')
-        ->orderBy('tanggal_pinjam', 'desc')
-        ->get();
-
+        $pinjam = Peminjaman::with('user', 'peminjaman_buku.jumlah')->get();
 
         $user = User::all();
         $title = 'Data Peminjam';
@@ -38,7 +33,7 @@ class PinjamController extends Controller
         $books = Book::where('stock', '>', 0)->get();
 
 
-        $pinjam = Pinjam::with('book', 'user')
+        $pinjam = Peminjaman::with('book', 'user')
         ->where('tanggal_pinjam', $tanggal_pinjam)
         ->where('user_id', $id)
         ->get();
@@ -58,7 +53,7 @@ class PinjamController extends Controller
             'tanggal_pengembalian' => 'required|date|after:tanggal_pinjam',
         ]);
     
-        $pinjam = Pinjam::find($id);
+        $pinjam = Peminjaman::find($id);
     
         if(!$pinjam){
             return redirect()->route('ListPinjam')->withErrors(['Errors', 'Data tidak ditemukan']);
@@ -75,7 +70,7 @@ class PinjamController extends Controller
             $jumlah = $request->jumlah[$index];
     
             // Update atau buat peminjaman buku
-            $existingPinjam = Pinjam::where('user_id', $validated['user_id'])
+            $existingPinjam = Peminjaman::where('user_id', $validated['user_id'])
                 ->where('book_id', $bookId)
                 ->first();
     
@@ -85,7 +80,7 @@ class PinjamController extends Controller
                 $existingPinjam->save();
             } else {
                 // Buat peminjaman buku baru
-                Pinjam::create([
+                Peminjaman::create([
                     'user_id' => $validated['user_id'],
                     'book_id' => $bookId,
                     'jumlah' => $jumlah,
@@ -121,6 +116,7 @@ class PinjamController extends Controller
             'books.*.jumlah' => 'required|integer|max:3',
             'tanggal_pinjam' => 'required|date',
             'tanggal_pengembalian' => 'required|date|after:tanggal_pinjam',
+            'catatan' => '',
         ]);
     
         // Periksa ketersediaan stok buku
@@ -138,7 +134,7 @@ class PinjamController extends Controller
             $book->save();
     
         // Lakukan simpan data peminjaman
-            Pinjam::create([
+            Peminjaman::create([
                 'user_id' => $request->user_id,
                 'book_id' => $bookData['book_id'],
                 'jumlah' => $bookData['jumlah'],
@@ -153,7 +149,7 @@ class PinjamController extends Controller
      // Hapus data peminjaman berdasarkan Id
      public function destroy($id) {
 
-        $pinjam = Pinjam::findOrFail($id);
+        $pinjam = Peminjaman::findOrFail($id);
 
         $book = $pinjam->book;
         $book->stock += $pinjam->jumlah;

@@ -20,7 +20,12 @@
         <!-- Navigation links -->
     </nav>
 
-    <div class="container">
+    <div class="container" style="background-image : url({{ asset("img/bg-login.jpg")}});
+    max-width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center">
         @yield('content')
     </div>
 
