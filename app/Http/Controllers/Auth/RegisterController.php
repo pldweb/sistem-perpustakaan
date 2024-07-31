@@ -12,7 +12,7 @@ class RegisterController extends Controller
 {
     public function formRegistrasi() {
 
-        return view('.pages/auth.daftar_user');
+        return view('pages.auth.daftar_user');
 
     }
 
@@ -32,7 +32,6 @@ class RegisterController extends Controller
 
         return validator::make($data, [
             'nama' => ['required', 'string', 'max:100'],
-            'kelas' => ['required', 'string', 'max:10'],
             'email' => ['required', 'string', 'email', 'max:255','unique:users'],
             'password' => ['required', 'string', 'min:5']
         ]);
@@ -42,7 +41,6 @@ class RegisterController extends Controller
 
         return User::create([
             'nama' => $data['nama'],
-            'kelas' => $data['kelas'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role' => 'user',
@@ -50,7 +48,6 @@ class RegisterController extends Controller
     }
 
 
-   
 
 
 }

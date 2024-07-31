@@ -37,7 +37,7 @@
                                 </span>
                             @enderror
                         </div>
-                        <div class="mb-3">Jika belum punya akun bisa <a href="{{ route('halamanRegistrasi')}}" target="_blank" rel="noopener noreferrer">Daftar</a></div>
+                        <div class="mb-3">Jika belum punya akun bisa <a href="{{ route('halamanRegistrasi')}}" rel="noopener noreferrer">Daftar</a></div>
                         <button type="submit" class="btn btn-primary w-100">Login</button>
                     </form>
                 </div>

@@ -36,24 +36,21 @@ class UserController extends Controller
 
         $request->validate([
             'nama' => ['required', 'string', 'max:100'],
-            'kelas' => ['required', 'string', 'max:10'],
             'email' => ['required', 'string', 'email', 'max:255','unique:users'],
             'password' => ['required', 'string', 'min:5']
         ]);
 
         $data = [
             'nama' => $request->nama,
-            'kelas' => $request->kelas,
             'email' => $request->email,
             'password' => $request->password,
         ];
 
         User::create([
             'nama' => $data['nama'],
-            'kelas' => $data['kelas'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'role' => 'user',
+            'role' => 'siswa',
         ]);
 
         return redirect()->route('ListUser');
@@ -76,21 +73,18 @@ class UserController extends Controller
 
         $request->validate([
             'nama' => ['required', 'string', 'max:100'],
-            'kelas' => ['required', 'string', 'max:10'],
             'email' => ['required', 'string', 'email', 'max:255','unique:users'],
             'password' => ['required', 'string', 'min:5']
         ]);
 
         $data = [
             'nama' => $request->nama,
-            'kelas' => $request->kelas,
             'email' => $request->email,
             'password' => $request->password,
         ];
 
         $updateData = [
             'nama' => $data['nama'],
-            'kelas' => $data['kelas'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ];

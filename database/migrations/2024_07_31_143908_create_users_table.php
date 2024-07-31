@@ -15,11 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nama')->nullable(false);
             $table->string('email')->nullable(false);
-            $table->string('kelas')->nullable(false);
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable(false);
             $table->string('role')->default('user');
-            $table->rememberToken();
           
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+       
     }
 };

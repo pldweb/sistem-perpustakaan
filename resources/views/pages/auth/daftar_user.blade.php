@@ -27,13 +27,7 @@
                                 <span>{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="mb-3">
-                            <label for="kelas" class="form-label">Kelas</label>
-                            <input type="text" class="form-control" id="kelas" name="kelas" required value="{{ old('kelas') }}" >
-                            @error('kelas')
-                                <span>{{ $message }}</span>
-                            @enderror
-                        </div>
+                       
                         <div class="mb-3">
                             <label for="email" class="form-label">Email address</label>
                             <input type="email" class="form-control" id="email" name="email" required value="{{ old('email') }}">

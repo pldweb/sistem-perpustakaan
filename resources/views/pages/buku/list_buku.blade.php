@@ -11,7 +11,7 @@
               <h6 class="op-7 mb-2">{{ $slug }}</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-              <a href="{{ route('InputBuku') }}" class="btn btn-primary btn-round">Tambah Buku</a>
+              <a href="{{ route('InputBuku') }}" class="btn btn-primary btn-round">Tambah Data Buku</a>
             </div>
           </div>
          
@@ -29,13 +29,13 @@
                     <table class="table align-items-center mb-0">
                       <thead class="thead-light">
                         <tr>
-                          <th scope="col" class="text-end">No</th>
+                          <th scope="col" class="text-start">No</th>
                           <th scope="col">Judul Buku</th>
-                          <th scope="col" class="text-end">Penulis</th>
-                          <th scope="col" class="text-end">Penerbit</th>
-                          <th scope="col" class="text-end">Tahun Terbit</th>
-                          <th scope="col" class="text-end">Stock Buku</th>
-                          <th scope="col" class="text-end">Opsi</th>
+                          <th scope="col" class="text-start">Penulis</th>
+                          <th scope="col" class="text-start">Penerbit</th>
+                          <th scope="col" class="text-start">Tahun Terbit</th>
+                          <th scope="col" class="text-start">Stock Buku</th>
+                          <th scope="col" class="text-start">Opsi</th>
 
                         </tr>
                       </thead>
@@ -43,15 +43,15 @@
                         @foreach ($data as $item)
                             
                         <tr>
-                          <td scope="text-end">{{ $loop->iteration }}</td>
+                          <td scope="text-start">{{ $loop->iteration }}</td>
                           <th scope="row">
                             {{ $item->judul_buku}}
                           </th>
-                          <td class="text-end">{{ $item->penulis }}</td>
-                          <td class="text-end">{{ $item->penerbit }}</td>
-                          <td class="text-end">{{ $item->tahun_terbit }}</td>
-                          <td class="text-end">{{ $item->stock }}</td>
-                          <td class="text-end">
+                          <td class="text-start">{{ $item->penulis }}</td>
+                          <td class="text-start">{{ $item->penerbit }}</td>
+                          <td class="text-start">{{ $item->tahun_terbit }}</td>
+                          <td class="text-start">{{ $item->stock }}</td>
+                          <td class="text-start d-flex column-gap-1">
 
                           <a href="{{ route('EditBuku', $item->id) }}">
 

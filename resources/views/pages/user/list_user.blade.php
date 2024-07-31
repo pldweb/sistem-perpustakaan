@@ -11,7 +11,7 @@
               <h6 class="op-7 mb-2">{{ $slug }}</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-              <a href="{{ route('InputUser') }}" class="btn btn-primary btn-round">Tambah User Baru</a>
+              <a href="{{ route('InputUser') }}" class="btn btn-primary btn-round">Tambah Data User</a>
             </div>
           </div>
           <div class="row">
@@ -28,12 +28,12 @@
                     <table class="table align-items-center mb-0">
                       <thead class="thead-light">
                         <tr>
-                          <th scope="col" class="text-end">No</th>
-                          <th scope="col" class="text-end">Nama User</th>
-                          <th scope="col" class="text-end">Email</th>
-                          <th scope="col" class="text-end">Kelas</th>
-                          <th scope="col" class="text-end">Role</th>
-                          <th scope="col" class="text-end">Opsi</th>
+                          <th scope="col" class="text-start">No</th>
+                          <th scope="col" class="text-start">Nama User</th>
+                          <th scope="col" class="text-start">Email</th>
+                          <th scope="col" class="text-start">Kelas</th>
+                          <th scope="col" class="text-start">Role</th>
+                          <th scope="col" class="text-start">Opsi</th>
 
                         </tr>
                       </thead>
@@ -41,14 +41,14 @@
                         @foreach ($users as $detail)
                             
                         <tr>
-                          <td class="text-end">{{ $loop->iteration }}</td>
-                          <td class="text-end">
+                          <td class="text-start">{{ $loop->iteration }}</td>
+                          <td class="text-start">
                             {{ $detail->nama}}
                           </td>
-                          <td class="text-end">{{ $detail->email }}</td>
-                          <td class="text-end">{{ $detail->kelas }}</td>
-                          <td class="text-end" style="text-transform: uppercase">{{ $detail->role }}</td>
-                          <td class="text-end">
+                          <td class="text-start">{{ $detail->email }}</td>
+                          <td class="text-start">{{ $detail->kelas }}</td>
+                          <td class="text-start" style="text-transform: uppercase">{{ $detail->role }}</td>
+                          <td class="text-start d-flex column-gap-1">
 
                           <a href="{{ route('EditUser', $detail->id) }}">
                             
@@ -56,7 +56,7 @@
                               <span class="btn-label">
                                 <i class="fas fa-bars"></i>
                               </span>
-                              Edit
+                              
                             </button>
 
                           </a>
@@ -68,7 +68,7 @@
                               <span class="btn-label">
                                 <i class="fas fa-times"></i>
                               </span>
-                              Hapus User
+                            
                             </button>
                             </form>
 
