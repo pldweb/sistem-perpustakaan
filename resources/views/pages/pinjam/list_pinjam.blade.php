@@ -29,26 +29,33 @@
                     <table class="table align-items-center mb-0">
                       <thead class="thead-light">
                         <tr>
+                          <th scope="col">No</th>
                           <th scope="col">Nama Peminjam</th>
-                          <th scope="col" class="text-end">Tanggal Peminjaman</th>
-                          <th scope="col" class="text-end">Tanggal Pengembalian</th>
-                          <th scope="col" class="text-end">Total Buku</th>
-                          <th scope="col" class="text-end">Opsi</th>
+                          <th scope="col" class="text-start">Tanggal Peminjaman</th>
+                          <th scope="col" class="text-start">Tanggal Pengembalian</th>
+                          <th scope="col" class="text-start">Total Buku</th>
+                          <th scope="col" class="text-start">Opsi</th>
 
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach ($pinjam as $item)
+                        @foreach ($pinjam as $index => $item)
                             
                         <tr>
+                          <th scope="row">{{ $pinjam->firstItem() + $index }}</th>
                           <th scope="row">
                             {{ $item->user->nama}}
                           </th>
-                          <td class="text-end">{{ $item->tanggal_pinjam }}</td>
-                          <td class="text-end">{{ $item->tanggal_pengembalian}}</td>
-                          <td class="text-end">{{ $item->total_buku}}</td>
+                          <td class="text-start">{{ $item->tanggal_pinjam }}</td>
+                          <td class="text-start">{{ $item->tanggal_pengembalian}}</td>
 
-                          <td class="text-end">
+                         
+                         <td class="text-start">
+                        {{ $item->peminjamanBuku->sum('jumlah')}}
+                    </td>
+                         
+
+                          <td class="text-start d-flex column-gap-1">
 
                             <a href="{{ route('DetailPinjam', ['tanggal_pinjam' => $item->tanggal_pinjam, 'id' => $item->user_id]) }}">
                             <button class="btn btn-warning w500">
@@ -58,7 +65,7 @@
                             </button>
                             </a>
                             
-                            <form action="{{ route('destroyPinjam', ['tanggal_pinjam' => $item->tanggal_pinjam, 'id' => $item->user_id]) }}" method="post" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                            <form action="{{ route('destroyPinjam', ['tanggal_pinjam' => $item->tanggal_pinjam, 'id' => $item->id]) }}" method="post" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
                               @csrf
                               @method('delete')
                               <button type="submit" class="btn btn-danger w500">
@@ -69,7 +76,7 @@
                             </form>
                            
 
-                          </button>
+                         
                         </td>
                         </tr>
                         
@@ -77,6 +84,11 @@
                         
                       </tbody>
                     </table>
+                    <div class="py-2 px-3">
+              
+                      {{ $pinjam->links() }}
+        
+                    </div>
                   </div>
                 </div>
               </div>

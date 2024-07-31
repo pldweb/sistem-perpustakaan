@@ -80,6 +80,10 @@
                                     <label for="tanggal_pengembalian" class="form-label">Tanggal Pengembalian</label>
                                     <input type="date" name="tanggal_pengembalian" class="form-control" required>
                                 </div>
+                                <div class="mb-3 col-12">
+                                    <label for="catatan" class="">Catatan</label>
+                                    <textarea class="form-control" id="comment" name="catatan" cols="3" rows="5"></textarea>
+                                </div>
                             </div>
                 
                             <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah data sudah benar?')">Simpan Data Buku</button>

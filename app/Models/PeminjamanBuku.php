@@ -12,6 +12,8 @@ class PeminjamanBuku extends Model
 
     protected $table = 'peminjaman_buku';
 
+    public $timestamps = false;
+
     protected $fillable = [
 
         'peminjaman_id',

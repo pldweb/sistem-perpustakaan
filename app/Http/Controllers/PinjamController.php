@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\User;
 use App\Models\Peminjaman;
+use App\Models\PeminjamanBuku;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -13,16 +15,16 @@ class PinjamController extends Controller
     // Menampilkan halaman seluruh data peminjaman
     public function ListPinjam() {
 
-        $pinjam = Peminjaman::with('user', 'peminjaman_buku.jumlah')->get();
+        $pinjam = Peminjaman::with(['user', 'peminjamanBuku'])->paginate(10);
 
-        $user = User::all();
         $title = 'Data Peminjam';
-        $subtitle = 'Form Detail Peminjaman Buku';
+        $subtitle = 'List Data Peminjaman Buku';
         $slug = 'Ini untuk slug';
         
-        return view('pages.pinjam.list_pinjam', compact('title', 'pinjam', 'slug', 'subtitle', 'user'));
+        return view('pages.pinjam.list_pinjam', compact('title', 'slug', 'subtitle', 'pinjam'));
     }
 
+    // 
     public function DetailPinjam($tanggal_pinjam, $id) {
 
         $title = 'Data Peminjaman Buku';
@@ -106,6 +108,7 @@ class PinjamController extends Controller
         return view('pages.pinjam.input_pinjam', compact('books', 'users', 'title', 'slug', 'subtitle'));
     }
 
+
     // Controller menangani request input data peminjaman buku
     public function store(Request $request) {
 
@@ -127,35 +130,57 @@ class PinjamController extends Controller
             }
         }
     
-        // Jika masih ada stock, kurangi stok buku dan simpan data peminjaman
-        foreach ($request->books as $bookData) {
-            $book = Book::find($bookData['book_id']);
-            $book->stock -= $bookData['jumlah'];
-            $book->save();
-    
-        // Lakukan simpan data peminjaman
-            Peminjaman::create([
-                'user_id' => $request->user_id,
-                'book_id' => $bookData['book_id'],
-                'jumlah' => $bookData['jumlah'],
-                'tanggal_pinjam' => $request->tanggal_pinjam,
-                'tanggal_pengembalian' => $request->tanggal_pengembalian,
-            ]);
+       // Periksa ketersediaan stok buku
+     foreach ($request->books as $bookData) {
+        $book = Book::find($bookData['book_id']);
+        if ($book->stock < $bookData['jumlah']) {
+            return redirect()->back()->withErrors(['books' => 'Stock tidak cukup untuk buku ' . $book->judul_buku]);
         }
-        
-        return redirect()->route('ListPinjam');
+    }
+    
+       // Buat data peminjaman terlebih dahulu
+    $peminjaman = Peminjaman::create([
+        'user_id' => $request->user_id,
+        'tanggal_pinjam' => $request->tanggal_pinjam,
+        'tanggal_pengembalian' => $request->tanggal_pengembalian,
+        'catatan' => $request->catatan,
+    ]);
+
+    // Jika masih ada stock, kurangi stok buku dan simpan data peminjaman buku
+    foreach ($request->books as $bookData) {
+        $book = Book::find($bookData['book_id']);
+        $book->stock -= $bookData['jumlah'];
+        $book->save();
+
+        // Simpan data peminjaman buku
+        PeminjamanBuku::create([
+            'peminjaman_id' => $peminjaman->id, // Menggunakan ID dari peminjaman yang baru dibuat
+            'buku_id' => $bookData['book_id'],
+            'jumlah' => $bookData['jumlah'],
+        ]);
+    }
+
+    return redirect()->route('ListPinjam');
+
     }
 
      // Hapus data peminjaman berdasarkan Id
-     public function destroy($id) {
+     public function destroy($tanggal_pinjam, $id) {
 
-        $pinjam = Peminjaman::findOrFail($id);
+        $pinjam = Peminjaman::where('id', $id)->where('tanggal_pinjam', $tanggal_pinjam)->firstOrFail();
 
-        $book = $pinjam->book;
-        $book->stock += $pinjam->jumlah;
+    // Mengembalikan stok buku yang dipinjam
+    foreach ($pinjam->peminjamanBuku as $peminjamanBuku) {
+        $book = $peminjamanBuku->buku;
+        $book->stock += $peminjamanBuku->jumlah;
         $book->save();
+    }
 
-        $pinjam->delete();
+    // Hapus data peminjaman buku terkait
+    $pinjam->peminjamanBuku()->delete();
+
+    // Hapus data peminjaman
+    $pinjam->delete();
 
         return redirect()->route('ListPinjam');
 

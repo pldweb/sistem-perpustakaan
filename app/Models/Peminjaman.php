@@ -12,6 +12,8 @@ class Peminjaman extends Model
 
     protected $table = 'peminjaman';
 
+    public $timestamps = false;
+
     protected $fillable = [
 
         'user_id',

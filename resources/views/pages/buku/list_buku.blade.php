@@ -40,10 +40,10 @@
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach ($data as $item)
+                        @foreach ($data as $index => $item)
                             
                         <tr>
-                          <td scope="text-start">{{ $loop->iteration }}</td>
+                          <td scope="text-start">{{ $data->firstItem() + $index }}</td>
                           <th scope="row">
                             {{ $item->judul_buku}}
                           </th>

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->date('tanggal_pinjam');
             $table->date('tanggal_pengembalian');
-            $table->text('catatan');
+            $table->text('catatan')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users');
             

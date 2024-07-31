@@ -31,7 +31,6 @@
                           <th scope="col" class="text-start">No</th>
                           <th scope="col" class="text-start">Nama User</th>
                           <th scope="col" class="text-start">Email</th>
-                          <th scope="col" class="text-start">Kelas</th>
                           <th scope="col" class="text-start">Role</th>
                           <th scope="col" class="text-start">Opsi</th>
 
@@ -46,7 +45,6 @@
                             {{ $detail->nama}}
                           </td>
                           <td class="text-start">{{ $detail->email }}</td>
-                          <td class="text-start">{{ $detail->kelas }}</td>
                           <td class="text-start" style="text-transform: uppercase">{{ $detail->role }}</td>
                           <td class="text-start d-flex column-gap-1">
 

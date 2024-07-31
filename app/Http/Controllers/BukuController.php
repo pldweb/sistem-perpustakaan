@@ -51,6 +51,7 @@ class BukuController extends Controller
             'penerbit' => $request->penerbit,
             'tahun_terbit' => $request->tahun_terbit,
             'stock' => $request->stock,
+            'stock_tersedia' => 0,
         ];
 
         Book::create($data);
