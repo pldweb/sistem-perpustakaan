@@ -31,16 +31,11 @@ class PinjamController extends Controller
         $slug = 'Form Data Peminjaman Buku';
         $subtitle = 'Detail Data Peminjaman Buku';
         
-        $user = User::all();
-        $books = Book::where('stock', '>', 0)->get();
+       // Ambil data peminjaman berdasarkan ID, beserta relasi peminjaman buku dan buku
+       $peminjaman = Peminjaman::with('peminjamanBuku.buku')->findOrFail($id);
 
 
-        $pinjam = Peminjaman::with('book', 'user')
-        ->where('tanggal_pinjam', $tanggal_pinjam)
-        ->where('user_id', $id)
-        ->get();
-
-        return view('pages.pinjam.detail_pinjam', compact('tanggal_pinjam','pinjam', 'slug', 'subtitle', 'id','title', 'user', 'books'));
+        return view('pages.pinjam.detail_pinjam', compact('tanggal_pinjam','peminjaman', 'slug', 'subtitle', 'id','title', ));
 
     }
 

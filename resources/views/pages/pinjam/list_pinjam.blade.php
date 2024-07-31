@@ -57,7 +57,7 @@
 
                           <td class="text-start d-flex column-gap-1">
 
-                            <a href="{{ route('DetailPinjam', ['tanggal_pinjam' => $item->tanggal_pinjam, 'id' => $item->user_id]) }}">
+                            <a href="{{ route('DetailPinjam', ['tanggal_pinjam' => $item->tanggal_pinjam, 'id' => $item->id]) }}">
                             <button class="btn btn-warning w500">
                               <span class="btn-label">
                                 <i class="fas fa-bars"></i>
@@ -98,10 +98,6 @@
         </div>
       </div>
 
-    </div>
-
-
-  </div>
 
 @endsection
 
