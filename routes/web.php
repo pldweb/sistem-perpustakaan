@@ -38,7 +38,8 @@ Route::middleware([EnsureUserIsAuthenticated::class])->group(function () {
 
 
     // Data Buku yang dipinjam
-    Route::get('/list-pinjam', [PinjamController::class, 'ListPinjam'])->middleware('auth.user')->name('ListPinjam');
+    Route::get('/search/result', [PinjamController::class, 'searchResult'])->name('searchPage');
+    Route::get('/list-pinjam', [PinjamController::class, 'ListPinjam'])->name('ListPinjam');
     Route::get('/pinjam-buku', [PinjamController::class, 'PinjamBuku'])->middleware(('auth.user'))->name('PinjamBuku');
     Route::get('/list-pinjam/{tanggal_pinjam}/{id}', [PinjamController::class, 'DetailPinjam'])->middleware(('auth.user'))->name('DetailPinjam');
     Route::put('/list-pinjam/{tanggal_pinjam}/{id}', [PinjamController::class, 'UpdatePinjam'])->middleware(('auth.user'))->name('UpdatePinjam');

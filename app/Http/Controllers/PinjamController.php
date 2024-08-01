@@ -15,7 +15,7 @@ class PinjamController extends Controller
     // Menampilkan halaman seluruh data peminjaman
     public function ListPinjam() {
 
-        $pinjam = Peminjaman::with(['user', 'peminjamanBuku'])->paginate(10);
+        $pinjam = Peminjaman::with(['user', 'PeminjamanBuku'])->paginate(10);
 
         $title = 'Data Peminjam';
         $subtitle = 'List Data Peminjaman Buku';
@@ -32,7 +32,7 @@ class PinjamController extends Controller
         $subtitle = 'Detail Data Peminjaman Buku';
         
        // Ambil data peminjaman berdasarkan ID, beserta relasi peminjaman buku dan buku
-       $peminjaman = Peminjaman::with('peminjamanBuku.buku')->findOrFail($id);
+       $peminjaman = Peminjaman::with('PeminjamanBuku.buku')->findOrFail($id);
 
 
         return view('pages.pinjam.detail_pinjam', compact('tanggal_pinjam','peminjaman', 'slug', 'subtitle', 'id','title', ));
@@ -181,6 +181,23 @@ class PinjamController extends Controller
 
     }
 
+
+    public function searchResult(Request $request){
+
+        $request->validate([
+            'tanggal' => 'required|date'
+        ]);
+
+        $tanggal = $request->input('tanggal');
+
+        $peminjaman = Peminjaman::with('PeminjamanBuku.Buku')
+        ->whereDate('tanggal_pinjam', $tanggal)
+        ->orWhereDate('tanggal_pengembalian', $tanggal)
+        ->get();
+
+        return redirect('searchPage', compact('peminjaman', 'tanggal'));
+
+    } 
 
 
 

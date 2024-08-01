@@ -5,6 +5,7 @@
 @section('content')
 
         <div class="page-inner">
+          
           <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
               <h3 class="fw-bold mb-3">{{ $title }}</h3>
@@ -25,6 +26,7 @@
                 </div>
                 <div class="card-body p-0">
                   <div class="table-responsive">
+                    
                     <!-- Projects table -->
                     <table class="table align-items-center mb-0">
                       <thead class="thead-light">
@@ -46,13 +48,13 @@
                           <th scope="row">
                             {{ $item->user->nama}}
                           </th>
-                          <td class="text-start">{{ $item->tanggal_pinjam }}</td>
-                          <td class="text-start">{{ $item->tanggal_pengembalian}}</td>
+                          <td class="text-start"><span class="badge badge-primary">{{ $item->tanggal_pengembalian }}</span></td>
+                          <td class="text-start"><span class="badge badge-danger">{{ $item->tanggal_pengembalian }}</span></td>
 
                          
                          <td class="text-start">
-                        {{ $item->peminjamanBuku->sum('jumlah')}}
-                    </td>
+                              {{ $item->peminjamanBuku->sum('jumlah')}}
+                         </td>
                          
 
                           <td class="text-start d-flex column-gap-1">
@@ -74,9 +76,7 @@
                                 </span>
                               </button>
                             </form>
-                           
-
-                         
+                
                         </td>
                         </tr>
                         
@@ -96,7 +96,6 @@
           </div>
       
         </div>
-      </div>
 
 
 @endsection
