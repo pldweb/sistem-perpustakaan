@@ -2,47 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Book;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 class BukuController extends Controller
 {
 
     // Menampilkan halaman list buku yang ada di perpustakaan
-    public function ListBuku() {
+    public function ListBuku()
+    {
 
         // Paginasi mencapai 10 data buku saja yang tampil
-        $data = Book::Paginate(10);
-        $title = "List Data Master Buku";
-        $subtitle = "Seluruh data master buku";
-        $slug = 'ini slug';
-
-        return view('/pages/buku/list_buku', compact('data', 'title', 'subtitle', 'slug'));
+        $params = [
+            'data' => Book::Paginate(10),
+            'title' => "List Data Master Buku",
+            'subtitle' => "Seluruh data master buku",
+            'slug' => 'ini slug',
+        ];
+        return view('/pages/buku/list_buku', $params);
 
     }
 
     // Mengarahkan ke halaman input data buku baru
-    public function InputBuku() {
+    public function InputBuku()
+    {
 
-        $title = "Edit Data Master Buku";
-        $subtitle = "Form edit data buku";
-        $slug = 'ini slug';
+        $params = [
+            'title' => "Edit Data Master Buku",
+            'subtitle' => "Form edit data buku",
+            'slug' => 'ini slug'
+        ];
 
-        return view('/pages/buku/input_buku', compact('title', 'subtitle', 'slug'));
+        return view('/pages/buku/input_buku', $params);
     }
 
     // Controller untuk menangani request data buku yang baru ditambah
-    public function SimpanBuku(Request $request) {
+    public function SimpanBuku(Request $request)
+    {
 
         $request->validate([
             'judul_buku' => ['required', 'string', 'max:100'],
             'penulis' => ['required', 'string', 'max:100'],
             'penerbit' => ['required', 'string', 'max:255',],
             'tahun_terbit' => ['required', 'integer', 'min:1900', 'max:2024'],
-            'stock' => ['required','integer']
-            
+            'stock' => ['required', 'integer']
+
         ]);
 
         $data = [
@@ -57,43 +61,47 @@ class BukuController extends Controller
         Book::create($data);
 
         return redirect()->route('ListBuku')->with('success', 'Buku berhasil ditambahkan');
-        
+
     }
 
     // Mengarahkan ke halaman edit buku dengan membawa data buku berdasarkan Id
-    public function EditBuku($id){
+    public function EditBuku($id)
+    {
 
-        $book = Book::findOrFail($id);
-        $title = 'Edit Buku';
-        $subtitle = 'Dashboard';
-        $slug = 'ini slug';
+        $params = [
+            'book' => Book::findOrFail($id),
+            'title' => 'Edit Buku',
+            'subtitle' => 'Dashboard',
+            'slug' => 'ini slug',
+        ];
 
-
-        return view('/pages/buku/edit_buku', compact('book', 'title', 'subtitle', 'slug'));
+        return view('/pages/buku/edit_buku', $params);
 
     }
 
     // Controller untuk menangani proses update data buku
-    public function UpdateBuku(Request $request, $id){
+    public function UpdateBuku(Request $request, $id)
+    {
 
-            $request->validate([
-                'judul_buku' => ['required', 'string', 'max:100'],
-                'penulis' => ['required', 'string', 'max:100'],
-                'penerbit' => ['required', 'string', 'max:255',],
-                'tahun_terbit' => ['required', 'integer', 'min:1900', 'max:2024'],
-                'stock' => ['required','integer']
-                
-            ]);
+        $request->validate([
+            'judul_buku' => ['required', 'string', 'max:100'],
+            'penulis' => ['required', 'string', 'max:100'],
+            'penerbit' => ['required', 'string', 'max:255',],
+            'tahun_terbit' => ['required', 'integer', 'min:1900', 'max:2024'],
+            'stock' => ['required', 'integer']
 
-            $book = Book::findOrFail($id);
-            $book->update($request->all());
-    
-            return redirect()->route('ListBuku')->with('success', 'Buku berhasil diupdate');
+        ]);
 
-    }   
+        $book = Book::findOrFail($id);
+        $book->update($request->all());
 
-    // Controller untuk menghapus data buku berdasarkan Id 
-    public function destroyBuku($id) {
+        return redirect()->route('ListBuku')->with('success', 'Buku berhasil diupdate');
+
+    }
+
+    // Controller untuk menghapus data buku berdasarkan Id
+    public function destroyBuku($id)
+    {
 
         $book = Book::findOrFail($id);
         $book->delete();
@@ -102,6 +110,15 @@ class BukuController extends Controller
 
     }
 
+
+    public function history($id)
+    {
+
+        $bookHistory = Book::with(['PeminjamanBuku.Peminjaman.user'])->findOrFail($id);
+
+        return view('/pages/buku/history_buku', compact('bookHistory'));
+
+    }
 
 
 }

@@ -6,7 +6,7 @@
     <div class="logo-header" data-background-color="dark">
         <a href="{{ route('Dashboard') }}" class="logo">
         <img
-            src="{{ asset('img/kaiadmin/logo_light.svg') }}"
+            src="{{ asset('img/Logo_book.png') }}"
             alt="navbar brand"
             class="navbar-brand"
             height="20"

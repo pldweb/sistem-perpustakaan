@@ -33,15 +33,16 @@
           class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
         >
         <div class="input-group-prepend d-flex">
-          <div class="input-group">
+
+          {{-- <div class="input-group">
             <form action="{{ route('searchPage') }}" method="GET" class="d-flex flex-direction-column">
               <label for="tanggal">Tanggal:</label>
               <div>
                 <input type="date" id="tanggal" name="tanggal" required class="form-control">
-              <button type="submit">Cari</button>
+                <button type="submit">Cari</button>
               </div>
             </form>
-          </div>
+          </div> --}}
           
         </div>
          
@@ -106,20 +107,13 @@
                     <div class="u-text">
                       <h4>{{ Auth::User()->nama }}</h4>
                       <p class="text-muted">{{ Auth::User()->email}} </p>
-                      <a
-                        href="profile.html"
-                        class="btn btn-xs btn-secondary btn-sm"
-                        >View Profile</a
-                      >
+                      
                     </div>
                   </div>
                 </li>
                 <li>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#">My Profile</a>
-                  <a class="dropdown-item" href="#">My Balance</a>
-                  <a class="dropdown-item" href="#">Inbox</a>
-                  <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#">Account Setting</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>

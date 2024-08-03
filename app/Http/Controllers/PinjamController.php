@@ -6,8 +6,6 @@ use App\Models\Book;
 use App\Models\User;
 use App\Models\Peminjaman;
 use App\Models\PeminjamanBuku;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class PinjamController extends Controller
@@ -24,22 +22,21 @@ class PinjamController extends Controller
         return view('pages.pinjam.list_pinjam', compact('title', 'slug', 'subtitle', 'pinjam'));
     }
 
-    // 
+    // Menampilkan halaman Detail Peminjaman Buku
     public function DetailPinjam($tanggal_pinjam, $id) {
 
         $title = 'Data Peminjaman Buku';
         $slug = 'Form Data Peminjaman Buku';
         $subtitle = 'Detail Data Peminjaman Buku';
         
-       // Ambil data peminjaman berdasarkan ID, beserta relasi peminjaman buku dan buku
-       $peminjaman = Peminjaman::with('PeminjamanBuku.buku')->findOrFail($id);
-
+        // Ambil data peminjaman berdasarkan ID, beserta relasi peminjaman buku dan buku
+        $peminjaman = Peminjaman::with('PeminjamanBuku.buku')->findOrFail($id);
 
         return view('pages.pinjam.detail_pinjam', compact('tanggal_pinjam','peminjaman', 'slug', 'subtitle', 'id','title', ));
 
     }
 
-
+    // Update Detail Peminjaman Buku
     public function UpdatePinjam(Request $request, $tanggal_pinjam, $id) {
 
         $validated = $request->validate([
@@ -92,7 +89,7 @@ class PinjamController extends Controller
     
 
 
-    // Mengarahkan ke halaman form pinjam buku
+    // Mengarahkan ke halaman form Pinjam Buku
     public function PinjamBuku() {
         $books = Book::where('stock', '>', 0)->get();
         $users = User::all();
@@ -125,20 +122,12 @@ class PinjamController extends Controller
             }
         }
     
-       // Periksa ketersediaan stok buku
-     foreach ($request->books as $bookData) {
-        $book = Book::find($bookData['book_id']);
-        if ($book->stock < $bookData['jumlah']) {
-            return redirect()->back()->withErrors(['books' => 'Stock tidak cukup untuk buku ' . $book->judul_buku]);
-        }
-    }
-    
        // Buat data peminjaman terlebih dahulu
-    $peminjaman = Peminjaman::create([
-        'user_id' => $request->user_id,
-        'tanggal_pinjam' => $request->tanggal_pinjam,
-        'tanggal_pengembalian' => $request->tanggal_pengembalian,
-        'catatan' => $request->catatan,
+        $peminjaman = Peminjaman::create([
+            'user_id' => $request->user_id,
+            'tanggal_pinjam' => $request->tanggal_pinjam,
+            'tanggal_pengembalian' => $request->tanggal_pengembalian,
+            'catatan' => $request->catatan,
     ]);
 
     // Jika masih ada stock, kurangi stok buku dan simpan data peminjaman buku
@@ -159,8 +148,8 @@ class PinjamController extends Controller
 
     }
 
-     // Hapus data peminjaman berdasarkan Id
-     public function destroy($tanggal_pinjam, $id) {
+     // Hapus data peminjaman berdasarkan tanggal pinjam dan Id
+    public function destroy($tanggal_pinjam, $id) {
 
         $pinjam = Peminjaman::where('id', $id)->where('tanggal_pinjam', $tanggal_pinjam)->firstOrFail();
 
@@ -182,6 +171,7 @@ class PinjamController extends Controller
     }
 
 
+    // Untuk search belum jadi
     public function searchResult(Request $request){
 
         $request->validate([
