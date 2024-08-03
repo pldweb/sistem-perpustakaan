@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers\Scrapping;
 
+use App\Exports\ContactExport;
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
-use App\Exports\ContactExport;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\DomCrawler\Crawler;
 
 class ScrapeController extends Controller
 {
-    
-    public function scrape() {
+
+    public function scrape()
+    {
 
 
         try {
@@ -23,11 +22,11 @@ class ScrapeController extends Controller
 
             $client = new Client();
             // $response = $client->request('GET', 'https://simpu.kemenag.go.id/home/travel');
-            $response= $client->request('GET', 'https://dppamphuri.com/memlist');
+            $response = $client->request('GET', 'https://dppamphuri.com/memlist');
             // $response = $client->request('GET', 'https://simpu.kemenag.go.id/home/travel/index/14');
             Log::info('HTTP request successful');
 
-            $html = (string) $response->getBody();
+            $html = (string)$response->getBody();
             $crawler = new Crawler($html);
             Log::info('HTML content loaded into Crawler');
 
@@ -38,12 +37,11 @@ class ScrapeController extends Controller
 
                     $nama = $namaElement->count() > 0 ? $namaElement->text() : 'N/A';
                     $telepon = $teleponElement->count() > 0 ? $teleponElement->text() : 'N/A';
-                    
-                    
+
+
                     // if (strpos($telepon, '08') !== false || strpos($telepon, '82') !== false)
 
-                    if (strpos($telepon, '08') === 0)
-                    {
+                    if (strpos($telepon, '08') === 0) {
 
                         Contact::create([
                             'nama' => $nama,
@@ -57,7 +55,7 @@ class ScrapeController extends Controller
                         Log::info("Data saved: $nama, $telepon");
 
                     }
-                    
+
                 } catch (\Exception $e) {
 
                     Log::error('Error processing a row: ' . $e->getMessage());
@@ -75,7 +73,8 @@ class ScrapeController extends Controller
 
     }
 
-    public function index(){
+    public function index()
+    {
 
         $data = Contact::paginate(10);
         $title = 'Scrape Data Travel';
@@ -85,7 +84,8 @@ class ScrapeController extends Controller
 
     }
 
-    public function delete(){
+    public function delete()
+    {
 
         Contact::truncate();
         return redirect()->route('scraping');
@@ -93,11 +93,12 @@ class ScrapeController extends Controller
     }
 
 
-    public function export() {
+    public function export()
+    {
 
         return Excel::download(new ContactExport, 'Data Travel.xlsx');
 
     }
 
-    
+
 }

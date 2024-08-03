@@ -22,13 +22,15 @@ class PeminjamanBuku extends Model
 
     ];
 
-    public function Peminjaman(){
+    public function Peminjaman()
+    {
 
         return $this->hasOne(Peminjaman::class, 'id', 'peminjaman_id');
 
     }
 
-    public function Buku() {
+    public function Buku()
+    {
 
         return $this->hasOne(Book::class, 'id', 'buku_id');
 

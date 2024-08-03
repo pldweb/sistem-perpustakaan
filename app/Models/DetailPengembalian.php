@@ -22,13 +22,15 @@ class DetailPengembalian extends Model
     ];
 
 
-    public function Buku() {
+    public function Buku()
+    {
 
         return $this->hasOne(Book::class, 'id', 'buku_id');
 
     }
 
-    public function Pengembalian() {
+    public function Pengembalian()
+    {
 
         return $this->hasOne(Pengembalian::class, 'id', 'pengembalian_id');
 

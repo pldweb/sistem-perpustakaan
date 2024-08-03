@@ -25,13 +25,15 @@ class Book extends Model
     ];
 
 
-    public function PeminjamanBuku() {
+    public function PeminjamanBuku()
+    {
 
         return $this->hasMany(PeminjamanBuku::class, 'book_id', 'id');
 
     }
 
-    public function DetailPengembalian() {
+    public function DetailPengembalian()
+    {
 
         return $this->hasMany(DetailPengembalian::class, 'buku_id', 'id');
 

@@ -19,18 +19,19 @@ class Pengembalian extends Model
 
     ];
 
-    public function DetailPengembalian() {
+    public function DetailPengembalian()
+    {
 
         return $this->hasMany(DetailPengembalian::class, 'pengembalian_id', 'id');
 
     }
 
-    public function Peminjaman() {
+    public function Peminjaman()
+    {
 
         return $this->hasOne(Peminjaman::class, 'id', 'peminjaman_id');
 
     }
 
-    
 
 }

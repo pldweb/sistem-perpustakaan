@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 
 class PostController extends Controller
@@ -57,22 +57,22 @@ class PostController extends Controller
 
     public function update(Request $request, $id)
     {
-         // Validasi data request
-         $validate = Validator::make($request->all(), [
+        // Validasi data request
+        $validate = Validator::make($request->all(), [
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'title' => 'required',
             'content' => 'required',
         ]);
 
         // check if validation fails
-        if($validate->fails()){
+        if ($validate->fails()) {
             return response()->json($validate->errors(), 422);
         }
 
         $post = Post::find($id);
 
-        if($request->hasFile('image')) {
-            
+        if ($request->hasFile('image')) {
+
             // Upload image
             $image = $request->file('image');
             $image->storeAs('public/posts', $image->hashName());
@@ -86,8 +86,8 @@ class PostController extends Controller
                 'title' => $request->title,
                 'content' => $request->content,
             ]);
-            
-        }  else {
+
+        } else {
 
             // Update post without image
             $post->update([
@@ -103,16 +103,16 @@ class PostController extends Controller
 
     public function destroy($post)
     {
-         //find post by ID
-         $post = Post::findOrFail($post);
+        //find post by ID
+        $post = Post::findOrFail($post);
 
-         //delete image
-         Storage::delete('public/posts/'.basename($post->image));
- 
-         //delete post
-         $post->delete();
- 
-         //return response
+        //delete image
+        Storage::delete('public/posts/' . basename($post->image));
+
+        //delete post
+        $post->delete();
+
+        //return response
         return response()->customJson('success', 'Post deleted successfully', null, 204);
     }
 

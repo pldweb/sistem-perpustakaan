@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\Book;
-use App\Models\PeminjamanBuku;
 use App\Models\Peminjaman;
-use App\Http\Controllers\Controller;
+use App\Models\PeminjamanBuku;
+use App\Models\User;
 
 
 class DashboardController extends Controller
 {
 
 
-    public function Dashboard() {
+    public function Dashboard()
+    {
 
         $user = User::all();
         $totalUsers = $user->count();
@@ -25,7 +24,7 @@ class DashboardController extends Controller
         $totalPeminjam = Peminjaman::distinct('user_id')->count('user_id');
 
         $bookPinjam = PeminjamanBuku::sum('jumlah');
-        
+
         $totalStock = Book::sum('stock');
 
         $title = 'Dashboard';

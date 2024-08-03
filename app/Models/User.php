@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -40,7 +40,7 @@ class User extends Authenticatable
         ];
     }
 
-    
+
     protected $table = 'users';
 
     public $timestamps = false;
@@ -54,12 +54,12 @@ class User extends Authenticatable
 
     ];
 
-    public function Peminjaman() {
+    public function Peminjaman()
+    {
 
         return $this->hasMany(Peminjaman::class, 'user_id', 'id');
 
     }
-
 
 
 }
