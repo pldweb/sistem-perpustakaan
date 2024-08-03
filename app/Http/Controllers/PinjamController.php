@@ -108,6 +108,19 @@ class PinjamController extends Controller
     // Controller menangani request input data peminjaman buku
     public function store(Request $request)
     {
+        $tanggalPinjam = $request->input('tanggal_pinjam');
+        if (strlen(strval($tanggalPinjam)) == 0) {
+            return 'tanggal pinjam tidak valid';
+        }
+
+        $tanggalPengembalian = $request->input('tanggal_pengembalian');
+        if (strlen(strval($tanggalPengembalian)) == 0) {
+            return 'tanggal pengembalian tidak valid';
+        }
+
+        if (strtotime($tanggalPinjam) > strtotime($tanggalPengembalian)) {
+            return 'tanggal pinjam harus lebih awal daripada tanggal kembali';
+        }
 
         // Ini proses Validasi input
         $request->validate([
@@ -132,8 +145,8 @@ class PinjamController extends Controller
             // Buat data peminjaman terlebih dahulu
             $peminjaman = Peminjaman::create([
                 'user_id' => $request->user_id,
-                'tanggal_pinjam' => $request->tanggal_pinjam,
-                'tanggal_pengembalian' => $request->tanggal_pengembalian,
+                'tanggal_pinjam' => $tanggalPinjam,
+                'tanggal_pengembalian' => $tanggalPengembalian,
                 'catatan' => $request->catatan,
             ]);
 
