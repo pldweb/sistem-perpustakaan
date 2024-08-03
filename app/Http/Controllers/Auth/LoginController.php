@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\Validator;
 class LoginController extends Controller
 
 {
-    public function formLogin() {
+    public function formLogin()
+    {
         return view('/pages/auth/login_user');
     }
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
 
 
         // Validasi Input
@@ -24,15 +26,15 @@ class LoginController extends Controller
         ]);
 
         // Jika validasi gagal
-        if($loginCredential->fails()) {
+        if ($loginCredential->fails()) {
             return redirect()->back()
-            ->withErrors($loginCredential)
-            ->withInput($request->only('email'));
+                ->withErrors($loginCredential)
+                ->withInput($request->only('email'));
         }
 
         // Login user
         $loginCredential = $request->only('email', 'password');
-        if(Auth::attempt($loginCredential)){
+        if (Auth::attempt($loginCredential)) {
             // Autentikasi Berhasil
             return redirect()->route('Dashboard');
 
@@ -46,8 +48,9 @@ class LoginController extends Controller
     }
 
 
-    public function logout(Request $request) {
-        
+    public function logout(Request $request)
+    {
+
         Auth::logout();
         $request->session()->invalidate();
         return redirect()->route('halamanLogin');

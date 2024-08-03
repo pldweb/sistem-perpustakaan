@@ -11,7 +11,8 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    public function pinjam() {
+    public function pinjam()
+    {
 
         return $this->hashMany(Pinjam::class);
 

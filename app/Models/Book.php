@@ -10,7 +10,8 @@ class Book extends Model
     use HasFactory;
 
 
-    public function pinjam() {
+    public function pinjam()
+    {
         return $this->hasMany(Pinjam::class);
     }
 

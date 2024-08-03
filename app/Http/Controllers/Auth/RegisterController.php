@@ -10,13 +10,15 @@ use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
-    public function formRegistrasi() {
+    public function formRegistrasi()
+    {
 
         return view('/pages/auth/daftar_user');
 
     }
 
-    public function registrasi(Request $request) {
+    public function registrasi(Request $request)
+    {
 
         $this->validator($request->all())->validate();
 
@@ -28,17 +30,19 @@ class RegisterController extends Controller
 
     }
 
-    protected function validator(array $data) {
+    protected function validator(array $data)
+    {
 
         return validator::make($data, [
             'nama' => ['required', 'string', 'max:100'],
             'kelas' => ['required', 'string', 'max:10'],
-            'email' => ['required', 'string', 'email', 'max:255','unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:5']
         ]);
     }
 
-    protected function create(array $data) {
+    protected function create(array $data)
+    {
 
         return User::create([
             'nama' => $data['nama'],
