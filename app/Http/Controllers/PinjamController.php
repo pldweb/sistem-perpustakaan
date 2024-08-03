@@ -7,6 +7,7 @@ use App\Models\Peminjaman;
 use App\Models\PeminjamanBuku;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PinjamController extends Controller
 {
@@ -126,30 +127,36 @@ class PinjamController extends Controller
             }
         }
 
-        // Buat data peminjaman terlebih dahulu
-        $peminjaman = Peminjaman::create([
-            'user_id' => $request->user_id,
-            'tanggal_pinjam' => $request->tanggal_pinjam,
-            'tanggal_pengembalian' => $request->tanggal_pengembalian,
-            'catatan' => $request->catatan,
-        ]);
-
-        // Jika masih ada stock, kurangi stok buku dan simpan data peminjaman buku
-        foreach ($request->books as $bookData) {
-            $book = Book::find($bookData['book_id']);
-            $book->stock -= $bookData['jumlah'];
-            $book->save();
-
-            // Simpan data peminjaman buku
-            PeminjamanBuku::create([
-                'peminjaman_id' => $peminjaman->id, // Menggunakan ID dari peminjaman yang baru dibuat
-                'buku_id' => $bookData['book_id'],
-                'jumlah' => $bookData['jumlah'],
+        DB::beginTransaction();
+        try {
+            // Buat data peminjaman terlebih dahulu
+            $peminjaman = Peminjaman::create([
+                'user_id' => $request->user_id,
+                'tanggal_pinjam' => $request->tanggal_pinjam,
+                'tanggal_pengembalian' => $request->tanggal_pengembalian,
+                'catatan' => $request->catatan,
             ]);
+
+            // Jika masih ada stock, kurangi stok buku dan simpan data peminjaman buku
+            foreach ($request->books as $bookData) {
+                $book = Book::find($bookData['book_id']);
+                $book->stock -= $bookData['jumlah'];
+                $book->save();
+
+                // Simpan data peminjaman buku
+                PeminjamanBuku::create([
+                    'peminjaman_id' => $peminjaman->id, // Menggunakan ID dari peminjaman yang baru dibuat
+                    'buku_id' => $bookData['book_id'],
+                    'jumlah' => $bookData['jumlah'],
+                ]);
+            }
+
+            DB::commit();
+            return redirect()->route('ListPinjam');
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return 'data gagal disimpan';
         }
-
-        return redirect()->route('ListPinjam');
-
     }
 
     // Hapus data peminjaman berdasarkan tanggal pinjam dan Id

@@ -11,10 +11,9 @@ class BukuController extends Controller
     // Menampilkan halaman list buku yang ada di perpustakaan
     public function ListBuku()
     {
-
         // Paginasi mencapai 10 data buku saja yang tampil
         $params = [
-            'data' => Book::Paginate(10),
+            'data' => Book::paginate(10),
             'title' => "List Data Master Buku",
             'subtitle' => "Seluruh data master buku",
             'slug' => 'ini slug',
