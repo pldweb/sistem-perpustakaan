@@ -27,16 +27,20 @@ class Book extends Model
 
     public function PeminjamanBuku()
     {
-
-        return $this->hasMany(PeminjamanBuku::class, 'book_id', 'id');
-
+        return $this->hasMany(PeminjamanBuku::class, 'buku_id', 'id');
     }
 
     public function DetailPengembalian()
     {
-
         return $this->hasMany(DetailPengembalian::class, 'buku_id', 'id');
+    }
 
+    public function listPeminjamanBuku()
+    {
+        return $this->PeminjamanBuku()
+            ->join('peminjaman', 'peminjaman.id', '=', 'peminjaman_id')
+            ->orderBy('tanggal_pinjam')
+            ->get();
     }
 
 

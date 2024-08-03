@@ -26,27 +26,23 @@ class BukuController extends Controller
     // Mengarahkan ke halaman input data buku baru
     public function InputBuku()
     {
-
         $params = [
             'title' => "Edit Data Master Buku",
             'subtitle' => "Form edit data buku",
             'slug' => 'ini slug'
         ];
-
-        return view('/pages/buku/input_buku', $params);
+        return view('pages.buku.input_buku', $params);
     }
 
     // Controller untuk menangani request data buku yang baru ditambah
     public function SimpanBuku(Request $request)
     {
-
         $request->validate([
             'judul_buku' => ['required', 'string', 'max:100'],
             'penulis' => ['required', 'string', 'max:100'],
             'penerbit' => ['required', 'string', 'max:255',],
             'tahun_terbit' => ['required', 'integer', 'min:1900', 'max:2024'],
             'stock' => ['required', 'integer']
-
         ]);
 
         $data = [
@@ -67,22 +63,18 @@ class BukuController extends Controller
     // Mengarahkan ke halaman edit buku dengan membawa data buku berdasarkan Id
     public function EditBuku($id)
     {
-
         $params = [
             'book' => Book::findOrFail($id),
             'title' => 'Edit Buku',
             'subtitle' => 'Dashboard',
             'slug' => 'ini slug',
         ];
-
-        return view('/pages/buku/edit_buku', $params);
-
+        return view('pages.buku.edit_buku', $params);
     }
 
     // Controller untuk menangani proses update data buku
     public function UpdateBuku(Request $request, $id)
     {
-
         $request->validate([
             'judul_buku' => ['required', 'string', 'max:100'],
             'penulis' => ['required', 'string', 'max:100'],
@@ -102,12 +94,13 @@ class BukuController extends Controller
     // Controller untuk menghapus data buku berdasarkan Id
     public function destroyBuku($id)
     {
-
         $book = Book::findOrFail($id);
-        $book->delete();
-
-        return redirect()->route('ListBuku')->with('success', 'Buku berhasil dihapus');
-
+        try {
+            $book->delete();
+            return redirect()->route('ListBuku')->with('success', 'Buku berhasil dihapus');
+        } catch (\Exception $exception) {
+            return 'buku gagal dihapus';
+        }
     }
 
 

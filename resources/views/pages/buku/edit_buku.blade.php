@@ -14,8 +14,8 @@
               <a href="{{ route('InputBuku') }}" class="btn btn-primary btn-round">Tambah Buku</a>
             </div>
           </div>
-         
-         
+
+
           <div class="row">
             <div class="col-md-12">
               <div class="card card-round">
@@ -36,7 +36,7 @@
                         });
                     </script>
                   @endif
-                  
+
                       <div class="col-md-12">
                               <div class="card-body">
                                   <form action="{{ route('UpdateBuku', $book->id) }}" method="post">
@@ -71,21 +71,23 @@
                                               <span>{{ $message }}</span>
                                           @enderror
                                         </div>
-                                          
+
                                         <div class="mb-3 col-3">
                                           <label for="stock" class="form-label">Stock</label>
                                           <input type="number" class="form-control" id="stock" name="stock" required value="{{ old('stock', $book->stock) }}" >
-                                          
+
                                           @error('stock')
                                               <span>{{ $message }}</span>
                                           @enderror
                                         </div>
-                                      </div> 
-                                   
+                                      </div>
+
                                       <button type="submit" class="btn btn-primary w-25%" onclick="return confirm('apakah data yang dimasukkan sudah sesuai?')">Update Data Buku</button>
                                   </form>
+
+                                  @include('pages.buku.tabel-laporan')
                               </div>
-                             
+
                           </div>
                       </div>
                   </div>
@@ -93,7 +95,7 @@
               </div>
             </div>
           </div>
-      
+
         </div>
       </div>
 
@@ -124,5 +126,5 @@
       });
   });
 </script>
-    
+
 @endsection
