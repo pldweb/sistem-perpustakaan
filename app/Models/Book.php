@@ -10,10 +10,8 @@ class Book extends Model
 
     use HasFactory;
 
-
     protected $table = "books";
     public $timestamps = false;
-
     protected $primaryKey = "id";
     protected $fillable = [
         'judul_buku',
@@ -23,7 +21,6 @@ class Book extends Model
         'stock',
         'stock_tersedia'
     ];
-
 
     public function PeminjamanBuku()
     {

@@ -11,27 +11,29 @@ use App\Models\User;
 class DashboardController extends Controller
 {
 
-
-    public function Dashboard()
+    public function dashboard()
     {
 
         $user = User::all();
         $totalUsers = $user->count();
-
         $book = Book::all();
         $totalBooks = $book->count();
-
         $totalPeminjam = Peminjaman::distinct('user_id')->count('user_id');
-
         $bookPinjam = PeminjamanBuku::sum('jumlah');
-
         $totalStock = Book::sum('stock');
 
-        $title = 'Dashboard';
-        $subtitle = 'Form Detail Peminjaman Buku';
-        $slug = 'Ini untuk slug';
+        $data = [
+            'title' => 'Dashboard',
+            'subtitle' => 'Form Detail Peminjaman Buku',
+            'slug' => 'Ini untuk slug',
+            'totalUsers' => $totalUsers,
+            'totalBooks' => $totalBooks,
+            'totalPeminjam' => $totalPeminjam,
+            'totalStock' => $totalStock,
+            'bookPinjam' => $bookPinjam,
+        ];
 
-        return view('pages.board', compact('title', 'totalUsers', 'totalBooks', 'bookPinjam', 'totalStock', 'totalPeminjam', 'subtitle', 'slug'));
+        return view('pages.board', $data);
     }
 
 }

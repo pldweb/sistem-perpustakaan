@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Peminjaman;
 use App\Models\PeminjamanBuku;
+use App\Models\Pengembalian;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,36 +13,134 @@ use Illuminate\Support\Facades\DB;
 class PinjamController extends Controller
 {
     // Menampilkan halaman seluruh data peminjaman
-    public function ListPinjam()
+    public function listPinjam()
     {
 
-        $pinjam = Peminjaman::with(['user', 'PeminjamanBuku'])->paginate(10);
+        $data = DB::table('peminjaman')
+            ->join('users', 'peminjaman.user_id', '=', 'users.id')
+            ->join('peminjaman_buku', 'peminjaman.id', '=', 'peminjaman_buku.peminjaman_id')
+            ->select(
+                'peminjaman.*', // Mengambil semua kolom dari tabel peminjaman
+                'users.nama', // Mengambil nama user
+                DB::raw('SUM(peminjaman_buku.jumlah) as total_buku') // Menghitung total buku yang dipinjam
+            )
+            ->groupBy(
+                'peminjaman.id',
+                'users.nama',
+                'peminjaman.user_id',
+                'peminjaman.tanggal_pinjam',
+                'peminjaman.tanggal_pengembalian',
+                'peminjaman.catatan',
+                'peminjaman.status'
+            ) // Pastikan semua kolom dari peminjaman berada di dalam GROUP BY
+            ->paginate(10);
 
-        $title = 'Data Peminjam';
-        $subtitle = 'List Data Peminjaman Buku';
-        $slug = 'Ini untuk slug';
+        $totalBuku = $data->sum('jumlah');
 
-        return view('pages.pinjam.list_pinjam', compact('title', 'slug', 'subtitle', 'pinjam'));
+        if (!$data) {
+            return 'data tidak ditemukan';
+        }
+
+        $dataListPinjam = [
+            'pinjam' => $data,
+            'totalBuku' => $totalBuku,
+            'title' => 'Data Peminjaman Buku',
+            'subtitle' => 'List Data Peminjaman Buku',
+            'slug' => 'Ini untuk slug',
+        ];
+
+            return view('pages.pinjam.list-pinjam', $dataListPinjam);
     }
 
     // Menampilkan halaman Detail Peminjaman Buku
-    public function DetailPinjam($tanggal_pinjam, $id)
+    public function detailPinjam($tanggal_pinjam, $id)
     {
+        // Ambil data peminjaman berdasarkan ID, beserta relasinya
+      $data = DB::table('peminjaman')
+          ->join('users', 'peminjaman.user_id', '=', 'users.id')
+          ->join('peminjaman_buku', 'peminjaman.id', '=', 'peminjaman_buku.peminjaman_id')
+          ->join('books', 'peminjaman_buku.buku_id', '=', 'books.id')
+          ->select(
+              'peminjaman.id',
+              'peminjaman.tanggal_pinjam',
+              'peminjaman.tanggal_pengembalian',
+              'peminjaman.catatan',
+              'peminjaman.status',
+              'users.nama',
+              'books.judul_buku',
+              DB::raw('SUM(peminjaman_buku.jumlah) as total_buku')
+          )
+          ->where('peminjaman.id', $id)
+          ->groupBy(
+              'peminjaman.id',
+              'peminjaman.tanggal_pinjam',
+              'peminjaman.tanggal_pengembalian',
+              'peminjaman.catatan',
+              'peminjaman.status',
+              'users.nama',
+              'books.judul_buku'
+          )
+          ->first();
 
-        $title = 'Data Peminjaman Buku';
-        $slug = 'Form Data Peminjaman Buku';
-        $subtitle = 'Detail Data Peminjaman Buku';
+          if (!$data) {
+              return 'Data tidak ditemukan';
+          }
 
-        // Ambil data peminjaman berdasarkan ID, beserta relasi peminjaman buku dan buku
-        $peminjaman = Peminjaman::with('PeminjamanBuku.buku')->findOrFail($id);
+        // Ambil detail buku yang dipinjam
+        $detailBuku = DB::table('peminjaman_buku')
+            ->join('books', 'peminjaman_buku.buku_id', '=', 'books.id')
+            ->select('books.judul_buku', 'peminjaman_buku.jumlah')
+            ->where('peminjaman_buku.peminjaman_id', $id)
+            ->get(); // Dapatkan daftar buku yang dipinjam
 
-        return view('pages.pinjam.detail_pinjam', compact('tanggal_pinjam', 'peminjaman', 'slug', 'subtitle', 'id', 'title',));
+        if (!$detailBuku) {
+            return 'Data tidak ditemukan';
+        }
+
+        // Hitung total buku yang dipinjam
+        $totalBuku = $detailBuku->sum('jumlah');
+
+        // Ambil detail pengembalian buku dengan judul buku dan jumlah
+        $pengembalian = DB::table('detail_pengembalian')
+            ->join('pengembalian', 'detail_pengembalian.pengembalian_id', '=', 'pengembalian.id')
+            ->join('books', 'detail_pengembalian.buku_id', '=', 'books.id')
+            ->where('pengembalian.peminjaman_id', $id)
+            ->select('books.judul_buku', 'pengembalian.tanggal_pengembalian', 'detail_pengembalian.jumlah')
+            ->get();
+
+        $dataDetailPinjam = [
+            'dataPinjam' => $data,
+            'detailBuku' => $detailBuku,
+            'totalBuku' => $totalBuku,
+            'pengembalian' => $pengembalian,
+            'title' => 'Data Peminjaman Buku',
+            'slug' => 'Form Data Peminjaman Buku',
+            'subtitle' => 'Detail Data Peminjaman Buku',
+        ];
+
+        return view('pages.pinjam.detail-pinjam', $dataDetailPinjam);
 
     }
 
     // Update Detail Peminjaman Buku
-    public function UpdatePinjam(Request $request, $tanggal_pinjam, $id)
+    public function updatePinjam(Request $request, $tanggal_pinjam, $id)
     {
+
+        $tanggalPinjam = $request->input('tanggal_pinjam');
+        if (strlen(strval($tanggalPinjam)) == 0) {
+            return 'tanggal pinjam tidak valid';
+        }
+
+        $tanggalPengembalian = $request->input('tanggal_pengembalian');
+        if (strlen(strval($tanggalPengembalian)) == 0) {
+            return 'tanggal pengembalian tidak valid';
+        }
+
+        if (strtotime($tanggalPinjam) > strtotime($tanggalPengembalian)) {
+            return 'tanggal pinjam harus lebih awal daripada tanggal kembali';
+        }
+
+        $books = $request->input('books', []);
 
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
@@ -54,7 +153,7 @@ class PinjamController extends Controller
         $pinjam = Peminjaman::find($id);
 
         if (!$pinjam) {
-            return redirect()->route('ListPinjam')->withErrors(['Errors', 'Data tidak ditemukan']);
+            return redirect()->route('ListPinjam');
         }
 
         // Update peminjaman utama
@@ -88,20 +187,23 @@ class PinjamController extends Controller
             }
         }
 
-        return redirect()->route('ListPinjam')->with('success', 'Data peminjaman berhasil diperbarui.');
+        return redirect()->route('ListPinjam');
     }
 
 
     // Mengarahkan ke halaman form Pinjam Buku
-    public function PinjamBuku()
+    public function pinjamBuku()
     {
-        $books = Book::where('stock', '>', 0)->get();
-        $users = User::all();
-        $title = 'Input Data Peminjaman';
-        $subtitle = 'Form Peminjaman Buku';
-        $slug = 'Ini untuk slug';
 
-        return view('pages.pinjam.input_pinjam', compact('books', 'users', 'title', 'slug', 'subtitle'));
+        $data = [
+            'books' => Book::where('stock', '>', 0)->get(),
+            'users' => User::all(),
+            'title' => 'Input Data Peminjaman',
+            'subtitle' => 'Form Peminjaman Buku',
+            'slug' => 'Ini untuk slug',
+        ];
+
+        return view('pages.pinjam.input-pinjam', $data);
     }
 
 
@@ -122,21 +224,18 @@ class PinjamController extends Controller
             return 'tanggal pinjam harus lebih awal daripada tanggal kembali';
         }
 
-        // Ini proses Validasi input
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'books.*.book_id' => 'required|exists:books,id',
-            'books.*.jumlah' => 'required|integer|max:3',
-            'tanggal_pinjam' => 'required|date',
-            'tanggal_pengembalian' => 'required|date|after:tanggal_pinjam',
-            'catatan' => '',
-        ]);
+        $catatan = $request->input('catatan') ;
+        if (strlen(strval($catatan)) < 1) {
+             $catatan = '';
+        }
+
+        $books = $request->input('books', []);
 
         // Periksa ketersediaan stok buku
-        foreach ($request->books as $bookData) {
+        foreach ($books as $bookData) {
             $book = Book::find($bookData['book_id']);
             if ($book->stock < $bookData['jumlah']) {
-                return redirect()->back()->withErrors(['books' => 'Stock tidak cukup untuk buku ' . $book->judul_buku]);
+                return 'Stock buku tidak cukup';
             }
         }
 
@@ -147,11 +246,11 @@ class PinjamController extends Controller
                 'user_id' => $request->user_id,
                 'tanggal_pinjam' => $tanggalPinjam,
                 'tanggal_pengembalian' => $tanggalPengembalian,
-                'catatan' => $request->catatan,
+                'catatan' => $catatan,
             ]);
 
             // Jika masih ada stock, kurangi stok buku dan simpan data peminjaman buku
-            foreach ($request->books as $bookData) {
+            foreach ($books as $bookData) {
                 $book = Book::find($bookData['book_id']);
                 $book->stock -= $bookData['jumlah'];
                 $book->save();
@@ -176,44 +275,39 @@ class PinjamController extends Controller
     public function destroy($tanggal_pinjam, $id)
     {
 
-        $pinjam = Peminjaman::where('id', $id)->where('tanggal_pinjam', $tanggal_pinjam)->firstOrFail();
+        $pinjam = Peminjaman::where('id', $id)
+            ->where('tanggal_pinjam', $tanggal_pinjam)
+            ->firstOrFail();
 
-        // Mengembalikan stok buku yang dipinjam
-        foreach ($pinjam->peminjamanBuku as $peminjamanBuku) {
-            $book = $peminjamanBuku->buku;
-            $book->stock += $peminjamanBuku->jumlah;
-            $book->save();
+        if (!$pinjam){
+            return 'Data tidak ditemukan jadi tidak bisa dihapus';
         }
 
-        // Hapus data peminjaman buku terkait
-        $pinjam->peminjamanBuku()->delete();
+        DB::beginTransaction();
+        try {
 
-        // Hapus data peminjaman
-        $pinjam->delete();
+            // Mengembalikan stok buku yang dipinjam
+            foreach ($pinjam->peminjamanBuku as $peminjamanBuku) {
+                $book = $peminjamanBuku->buku;
+                $book->stock += $peminjamanBuku->jumlah;
+                $book->save();
+            }
 
-        return redirect()->route('ListPinjam');
+            // Hapus data peminjaman buku terkait
+            $pinjam->peminjamanBuku()->delete();
 
+            // Hapus data peminjaman
+            $pinjam->delete();
+
+            DB::commit();
+
+//            Alert::success('Success', 'Pengembalian berhasil diproses');
+
+            return redirect()->route('ListPinjam');
+
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return 'Data tidak tidak bisa dihapus';
+        }
     }
-
-
-    // Untuk search belum jadi
-    public function searchResult(Request $request)
-    {
-
-        $request->validate([
-            'tanggal' => 'required|date'
-        ]);
-
-        $tanggal = $request->input('tanggal');
-
-        $peminjaman = Peminjaman::with('PeminjamanBuku.Buku')
-            ->whereDate('tanggal_pinjam', $tanggal)
-            ->orWhereDate('tanggal_pengembalian', $tanggal)
-            ->get();
-
-        return redirect('searchPage', compact('peminjaman', 'tanggal'));
-
-    }
-
-
 }

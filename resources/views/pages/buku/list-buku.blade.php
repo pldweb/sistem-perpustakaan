@@ -51,15 +51,12 @@
                                         <td class="text-start d-flex column-gap-1">
 
                                             <a href="{{ route('EditBuku', $item->id) }}">
-
                                                 <button class="btn btn-warning w500">
-                              <span class="btn-label">
-                                <i class="fas fa-bars"></i>
-                              </span>
+                                                      <span class="btn-label">
+                                                        <i class="fas fa-bars"></i>
+                                                      </span>
                                                 </button>
-
                                             </a>
-
                                             <form action="{{ route('destroyBuku', $item->id) }}" method="post"
                                                   onsubmit="return confirm('yakin?')">
                                                 @csrf

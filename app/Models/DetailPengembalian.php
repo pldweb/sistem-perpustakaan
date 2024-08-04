@@ -9,6 +9,7 @@ class DetailPengembalian extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
     protected $table = 'detail_pengembalian';
 
     protected $fillable = [
@@ -18,7 +19,6 @@ class DetailPengembalian extends Model
         'jumlah',
         'catatan',
         'denda'
-
     ];
 
 

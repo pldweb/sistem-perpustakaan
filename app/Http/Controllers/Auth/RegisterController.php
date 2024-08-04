@@ -13,7 +13,7 @@ class RegisterController extends Controller
     public function formRegistrasi()
     {
 
-        return view('pages.auth.daftar_user');
+        return view('pages.auth.daftar-user');
 
     }
 

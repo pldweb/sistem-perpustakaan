@@ -5,108 +5,147 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function ListUser()
+    public function listUser()
     {
-
-        $title = 'List Data User';
-        $users = User::all();
-        $subtitle = 'Data Seluruh User';
-        $slug = 'Ini untuk slug';
-
-        return view('pages.user.list_user', compact('title', 'users', 'subtitle', 'slug'));
-    }
-
-    public function InputUser()
-    {
-
-        $slug = 'Ini slug';
-        $title = 'Form Data User Baru';
-        $subtitle = 'Data User Baru';
-
-        return view('.pages.user.input_user', compact('title', 'slug', 'subtitle'));
-
-    }
-
-    public function SimpanUser(Request $request)
-    {
-
-        // dd($request->all());
-
-        $request->validate([
-            'nama' => ['required', 'string', 'max:100'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:5']
-        ]);
 
         $data = [
-            'nama' => $request->nama,
-            'email' => $request->email,
-            'password' => $request->password,
+            'title' => 'List Data Master User',
+            'users' => User::all(),
+            'subtitle' => 'Data Seluruh User',
+            'slug' => 'Ini untuk slug',
         ];
 
-        User::create([
-            'nama' => $data['nama'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role' => 'siswa',
-        ]);
-
-        return redirect()->route('ListUser');
-
+        return view('pages.user.list-user', $data);
     }
 
-
-    public function EditUser($id)
+    public function inputUser()
     {
-
-        $user = User::findOrFail($id);
-        $slug = 'Ini slug';
-        $title = 'Form Data User Baru';
-        $subtitle = 'Data User Baru';
-
-        return view('pages.user.edit_user', compact('user', 'title', 'slug', 'subtitle', 'id'));
-
-    }
-
-    public function UpdateUser(Request $request, $id)
-    {
-
-        $request->validate([
-            'nama' => ['required', 'string', 'max:100'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['required', 'string', 'min:5']
-        ]);
 
         $data = [
-            'nama' => $request->nama,
-            'email' => $request->email,
-            'password' => $request->password,
+            'slug' => 'Ini slug',
+            'title' => 'Form Data User Baru',
+            'subtitle' => 'Data User Baru',
         ];
 
-        $updateData = [
-            'nama' => $data['nama'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ];
-
-        User::where('id', $id)->update($updateData);
-
-        return redirect()->route('ListUser');
+        return view('.pages.user.input_user', $data);
 
     }
 
-
-    public function DestroyUser($id)
+    public function simpanUser(Request $request)
     {
+        $namaUser = $request->input('nama');
+        if (strlen(strval($namaUser)) == 0) {
+            return 'Nama tidak valid';
+        }
 
-        $user = User::findOrFail($id);
-        $user->delete();
+        $emailUser = $request->input('email');
+        if (strlen(strval($emailUser)) == 0) {
+            return 'Email tidak valid';
+        }
 
-        return redirect()->route('ListUser');
+        $passwordUser = $request->input('password');
+        if (strlen(strval($passwordUser)) == 0) {
+            return 'Password tidak valid';
+        } elseif (strlen(strval($passwordUser)) < 5) {
+            return 'Password harus minimal 5 karakter';
+        }
+
+        DB::beginTransaction();
+        try {
+            $data = [
+                'nama' => $namaUser,
+                'email' => $emailUser,
+                'password' => Hash::make($passwordUser),
+            ];
+
+            User::create($data);
+
+            DB::commit();
+
+            return redirect()->route('ListUser');
+
+        }catch (\Exception $exception){
+
+            DB::rollBack();
+
+            return 'Error: ' . $exception->getMessage();
+        }
+    }
+
+    public function editUser($id)
+    {
+        $data = [
+            'user' => User::findOrFail($id),
+            'slug' => 'Ini slug',
+            'title' => 'Form Data User Baru',
+            'subtitle' => 'Data User Baru',
+        ];
+
+        return view('pages.user.edit-user', $data);
+    }
+
+    public function updateUser(Request $request, $id)
+    {
+        $namaUser = $request->input('nama');
+        if (strlen(strval($namaUser)) == 0) {
+            return 'Nama tidak valid';
+        }
+
+        $emailUser = $request->input('email');
+        if (strlen(strval($emailUser)) == 0) {
+            return 'Email tidak valid';
+        }
+
+        $passwordUser = $request->input('password');
+        if (strlen(strval($passwordUser)) == 0) {
+            return 'Password tidak valid';
+        } elseif (strlen(strval($passwordUser)) < 5) {
+            return 'Password harus minimal 5 karakter';
+        }
+
+        DB::beginTransaction();
+        try {
+
+            $updateData = [
+                'nama' => $namaUser,
+                'email' => $emailUser,
+                'password' => Hash::make($passwordUser),
+            ];
+
+            User::where('id', $id)->update($updateData);
+
+        DB::commit();
+
+            return redirect()->route('ListUser');
+
+        }catch (\Exception $exception){
+
+            return 'Error: ' . $exception->getMessage();
+        }
+
+    }
+
+    public function destroyUser($id)
+    {
+        DB::beginTransaction();
+        try {
+
+            $user = User::findOrFail($id);
+            $user->delete();
+
+            DB::commit();
+
+            return redirect()->route('ListUser');
+
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return 'Error: ' . $exception->getMessage();
+        }
     }
 
 }

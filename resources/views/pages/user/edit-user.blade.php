@@ -27,18 +27,18 @@
 
                     <!-- Projects table -->
                     <table class="table align-items-center mb-0">
-                        
+
                       <thead class="thead-light">
-                        
+
                       </thead>
                       <tbody>
-                        
-                    
+
+
                       </tbody>
                     </table>
                   </div>
                   <div class="card-body">
-                    <form action="{{ route('UpdateUser', $id) }}" method="post">
+                    <form action="{{ route('UpdateUser', $user->id) }}" method="post">
                         @csrf
                         @method('put')
 
@@ -49,7 +49,7 @@
                                 <span>{{ $message }}</span>
                             @enderror
                         </div>
-                       
+
                         <div class="mb-3">
                             <label for="email" class="form-label">Email address</label>
                             <input type="email" class="form-control" id="email" name="email" required value="{{ old('email', $user->email) }}">
@@ -71,7 +71,7 @@
                               <span>{{ $message }}</span>
                             @enderror
                               <option value="{{ $user->role }}">{{ $user->role }}</option>
-                        </select> 
+                        </select>
                       </div>
                         <button type="submit" class="btn btn-primary w-100" onclick="return confirm('Apakah data yang dimasukkan sudah benar?')">Update Data User</button>
                     </form>
@@ -81,9 +81,9 @@
             </div>
           </div>
         </div>
-        
+
 @endsection
 
 @section('footer')
-    
+
 @endsection
