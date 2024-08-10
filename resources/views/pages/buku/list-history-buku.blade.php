@@ -27,8 +27,7 @@
                 <h6 class="op-7 mb-2">{{ $slug }}</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="#" data-url="{{ route('inputBuku') }}" data-target="#modalContent" id="tambahBuku"
-                   class="btn btn-primary btn-round">Tambah Data Buku</a>
+
             </div>
         </div>
 
@@ -125,6 +124,8 @@
         })
 
     </script>
+
+{{-- Script History Masing-Masing Buku --}}
     <script>
         $(document).ready(function () {
             $(document).on('click', '#book-history', function () {
@@ -144,11 +145,7 @@
             });
         });
     </script>
-    <script>
-        $("#closeModal").click(function () {
-            $('#detailModal').modal('hide');
-        })
-    </script>
+
 @endsection
 
 @section('footer')

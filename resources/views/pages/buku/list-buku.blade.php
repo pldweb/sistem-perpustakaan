@@ -1,6 +1,30 @@
 @extends('layouts.dashboard')
 @section('title', 'List Buku')
 @section('content')
+
+    <div id="detailModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="justify-content: flex-end">
+                    <button type="button" class="close" id="closeModal" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Konten modal akan diisi oleh AJAX -->
+                    <div id="modalContent">
+                        <!-- Form tambah buku akan dimuat di sini -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @include('pages.modal.modal-konfirmasi')
+
+
+
+
     <div class="page-inner">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
@@ -8,7 +32,8 @@
                 <h6 class="op-7 mb-2">{{ $slug }}</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="{{ route('inputBuku') }}" class="btn btn-primary btn-round">Tambah Data Buku</a>
+                <a href="#" data-url="{{ route('inputBuku') }}" data-target="#modalContent" id="tambahBuku"
+                   class="btn btn-primary btn-round">Tambah Data Buku</a>
             </div>
         </div>
 
@@ -86,6 +111,31 @@
             </div>
         </div>
     </div>
+
+{{-- Script Modal Tambah Buku --}}
+    <script>
+        $(document).ready(function () {
+            $('#tambahBuku').click(function (e) {
+                e.preventDefault();
+
+                var urlRoute = $(this).data('url');
+
+                $.ajax({
+                    url: urlRoute,
+                    method: 'GET',
+                    success: function (responses) {
+                        $('#modalContent').html(responses);
+                        $('#detailModal').modal('show');
+                    },
+                    error: function (response) {
+                        return "Error";
+                    }
+                })
+            })
+        })
+
+    </script>
+
 @endsection
 
 @section('footer')

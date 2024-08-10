@@ -71,6 +71,13 @@
 
 
 <!--   Core JS Files   -->
+
+<script>
+    $("#closeModal").click(function () {
+        $('#detailModal').modal('hide');
+    })
+</script>
+
 <script src="{{ asset("js/core/jquery-3.7.1.min.js") }}"></script>
 <script src="{{ asset("js/core/popper.min.js") }}"></script>
 <script src="{{ asset("js/core/bootstrap.min.js") }}"></script>

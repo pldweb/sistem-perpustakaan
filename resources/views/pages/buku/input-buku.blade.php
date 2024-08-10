@@ -3,7 +3,7 @@
     <div>
         <h1>Input Buku Baru</h1>
     </div>
-    <form action="{{ route('simpanBuku') }}" method="post">
+    <form id="simpanBuku">
         @csrf
 
         <div class="mb-3">
@@ -50,3 +50,35 @@
         <button type="submit" class="btn btn-primary w-25%">Simpan Data Buku</button>
     </form>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#simpanBuku').on('submit', function (e){
+            e.preventDefault();
+
+            var dataInput = $('#simpanBuku').serialize();
+
+            $("#modalKonfirmasi").modal('show')
+
+            if ($("#modalKonfirmasi").modal('show')){
+
+                $("#detailModal").modal('hide');
+            };
+
+            $("#confirmSubmit").click(function () {
+                $.ajax({
+                    url:'{{ route('simpanBuku') }}',
+                    method: 'POST',
+                    data: dataInput,
+                    success: function (response){
+                        alert('Berhasil menambahkan buku baru');
+                        $("#modalKonfirmasi").modal('hide');
+                    },
+                    error: function (response){
+                        alert('Terjadi kesalahan');
+                    }
+                })
+            })
+            $("#modalKonfirmasi").modal('hide');
+        })
+    })
+</script>
