@@ -8,7 +8,7 @@
                 <h6 class="op-7 mb-2">{{ $slug }}</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="{{ route('InputBuku') }}" class="btn btn-primary btn-round">Tambah Data Buku</a>
+                <a href="{{ route('inputBuku') }}" class="btn btn-primary btn-round">Tambah Data Buku</a>
             </div>
         </div>
 
@@ -50,7 +50,7 @@
                                         <td class="text-start">{{ $item->stock }}</td>
                                         <td class="text-start d-flex column-gap-1">
 
-                                            <a href="{{ route('EditBuku', $item->id) }}">
+                                            <a href="{{ route('editBuku', $item->id) }}">
                                                 <button class="btn btn-warning w500">
                                                       <span class="btn-label">
                                                         <i class="fas fa-bars"></i>

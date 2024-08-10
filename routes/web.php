@@ -16,11 +16,11 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 Route::middleware([RedirectIfAuthenticated::class])->group(function () {
 
     // Autentikasi Daftar
-    Route::get('/daftar', [RegisterController::class, 'formRegistrasi'])->name('halamanRegistrasi');
-    Route::post('/daftar', [RegisterController::class, 'registrasi'])->name('daftar');
+    Route::get('/daftar', [RegisterController::class, 'formRegistrasi'])->name('formRegistrasi');
+    Route::post('/daftar', [RegisterController::class, 'registrasi'])->name('registrasi');
 
     // Autentikasi Login
-    Route::get('/login', [LoginController::class, 'formLogin'])->name('halamanLogin');
+    Route::get('/login', [LoginController::class, 'formLogin'])->name('formLogin');
     Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 });
@@ -30,45 +30,45 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::middleware([EnsureUserIsAuthenticated::class])->group(function () {
 
     // Data Master Buku
-    Route::get('/list-buku', [BukuController::class, 'listBuku'])->name('ListBuku');
+    Route::get('/list-buku', [BukuController::class, 'listBuku'])->name('listBuku');
     Route::delete('/list-buku/{id}', [BukuController::class, 'destroyBuku'])->name('destroyBuku');
-    Route::get('/input-buku', [BukuController::class, 'inputBuku'])->name('InputBuku');
-    Route::post('/simpan-buku', [BukuController::class, 'simpanBuku'])->name('SimpanBuku');
-    Route::get('/edit-buku/{id}/edit', [BukuController::class, 'editBuku'])->name('EditBuku');
-    Route::put('/edit-buku/{id}', [BukuController::class, 'updateBuku'])->name('UpdateBuku');
+    Route::get('/input-buku', [BukuController::class, 'inputBuku'])->name('inputBuku');
+    Route::post('/simpan-buku', [BukuController::class, 'simpanBuku'])->name('simpanBuku');
+    Route::get('/edit-buku/{id}/edit', [BukuController::class, 'editBuku'])->name('editBuku');
+    Route::put('/edit-buku/{id}', [BukuController::class, 'updateBuku'])->name('updateBuku');
 
 //    History Buku
     Route::get('/history-buku', [BukuController::class, 'history'])->name('history');
-    Route::get('/history-buku/{id}', [BukuController::class, 'historyBuku'])->name('HistoryBuku');
+    Route::get('/history-buku/{id}', [BukuController::class, 'historyBuku'])->name('historyBuku');
 
 
     // Data Buku yang dipinjam
     Route::get('/search/result', [PinjamController::class, 'searchResult'])->name('searchPage');
-    Route::get('/list-pinjam', [PinjamController::class, 'listPinjam'])->name('ListPinjam');
-    Route::get('/pinjam-buku', [PinjamController::class, 'pinjamBuku'])->name('PinjamBuku');
-    Route::get('/list-pinjam/{tanggal_pinjam}/{id}', [PinjamController::class, 'detailPinjam'])->name('DetailPinjam');
-    Route::put('/list-pinjam/{tanggal_pinjam}/{id}', [PinjamController::class, 'updatePinjam'])->name('UpdatePinjam');
+    Route::get('/list-pinjam', [PinjamController::class, 'listPinjam'])->name('listPinjam');
+    Route::get('/pinjam-buku', [PinjamController::class, 'pinjamBuku'])->name('pinjamBuku');
+    Route::get('/list-pinjam/{tanggal_pinjam}/{id}', [PinjamController::class, 'detailPinjam'])->name('detailPinjam');
+    Route::put('/list-pinjam/{tanggal_pinjam}/{id}', [PinjamController::class, 'updatePinjam'])->name('updatePinjam');
     Route::delete('/list-pinjam/{tanggal_pinjam}/{id}', [PinjamController::class, 'destroy'])->name('destroyPinjam');
-    Route::post('/simpan-pinjam-buku', [PinjamController::class, 'store'])->name('SimpanPinjamBuku');
+    Route::post('/simpan-pinjam-buku', [PinjamController::class, 'store'])->name('simpanPinjamBuku');
 
     // Pengembalian Buku yang telah dipinjam
     Route::get('/detail-pengembalian/{id}', [PengembalianController::class, 'detailPengembalian'])->name('showPengembalian');
     Route::post('/simpan-pengembalian/{id}', [PengembalianController::class, 'storePengembalian'])->name('storePengembalian');
-    Route::get('/list-pengembalian', [PengembalianController::class, 'listPengembalian'])->name('ListPengembalian');
+    Route::get('/list-pengembalian', [PengembalianController::class, 'listPengembalian'])->name('listPengembalian');
 
 
     // Data Master User
-    Route::get('/list-user', [UserController::class, 'listUser'])->name('ListUser');
-    Route::get('/input-user', [UserController::class, 'inputUser'])->name('InputUser');
-    Route::get('/list-user/{id}/edit', [UserController::class, 'editUser'])->name('EditUser');
-    Route::put('/list-user/{id}', [UserController::class, 'updateUser'])->name('UpdateUser');
-    Route::post('/simpan-user', [UserController::class, 'simpanUser'])->name('SimpanUser');
-    Route::delete('/list-user/{id}', [UserController::class, 'destroyUser'])->name('DestroyUser');
+    Route::get('/list-user', [UserController::class, 'listUser'])->name('listUser');
+    Route::get('/input-user', [UserController::class, 'inputUser'])->name('inputUser');
+    Route::get('/list-user/{id}/edit', [UserController::class, 'editUser'])->name('editUser');
+    Route::put('/list-user/{id}', [UserController::class, 'updateUser'])->name('updateUser');
+    Route::post('/simpan-user', [UserController::class, 'simpanUser'])->name('simpanUser');
+    Route::delete('/list-user/{id}', [UserController::class, 'destroyUser'])->name('destroyUser');
 
 
     // Index website
-    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('Dashboard');
-    Route::get('/', [DashboardController::class, 'dashboard'])->name('Dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
 
 
     // Scrapping

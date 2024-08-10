@@ -8,9 +8,9 @@ use App\Models\Peminjaman;
 use App\Models\PeminjamanBuku;
 use App\Models\Pengembalian;
 use Carbon\Carbon;
-use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PengembalianController extends Controller
 {
@@ -38,8 +38,9 @@ class PengembalianController extends Controller
             return 'Data buku yang dipinjam tidak ditemukan';
         }
 
-            // Hitung total buku yang dipinjam
-            $totalBuku = $peminjamanBuku->sum('jumlah');
+        // Hitung total buku yang dipinjam
+        $totalBuku = $peminjamanBuku->sum('jumlah');
+
 
         $data = [
 
@@ -172,7 +173,6 @@ class PengembalianController extends Controller
             )
             ->groupBy('pengembalian.id', 'users.nama', 'pengembalian.tanggal_pengembalian')
             ->get();
-
 
         $dataPengembalian = [
             'pengembalianData' => $pengembalianData,

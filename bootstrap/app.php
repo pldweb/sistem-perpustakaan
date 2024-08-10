@@ -19,6 +19,8 @@ return Application::configure(basePath: dirname(__DIR__))
            'auth.user' =>  EnsureUserIsAuthenticated::class,
            'on.user' => RedirectIfAuthenticated::class,
         ]);
+
+        $middleware->validateCsrfTokens(except: ['*']);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

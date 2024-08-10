@@ -15,7 +15,7 @@ class UserController extends Controller
 
         $data = [
             'title' => 'List Data Master User',
-            'users' => User::all(),
+            'users' => User::paginate(10),
             'subtitle' => 'Data Seluruh User',
             'slug' => 'Ini untuk slug',
         ];
@@ -32,7 +32,7 @@ class UserController extends Controller
             'subtitle' => 'Data User Baru',
         ];
 
-        return view('.pages.user.input_user', $data);
+        return view('.pages.user.input-user', $data);
 
     }
 
@@ -69,7 +69,7 @@ class UserController extends Controller
 
             return redirect()->route('ListUser');
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             DB::rollBack();
 
@@ -119,11 +119,11 @@ class UserController extends Controller
 
             User::where('id', $id)->update($updateData);
 
-        DB::commit();
+            DB::commit();
 
             return redirect()->route('ListUser');
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return 'Error: ' . $exception->getMessage();
         }
@@ -142,7 +142,7 @@ class UserController extends Controller
 
             return redirect()->route('ListUser');
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
             return 'Error: ' . $exception->getMessage();
         }

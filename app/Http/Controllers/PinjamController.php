@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Peminjaman;
 use App\Models\PeminjamanBuku;
-use App\Models\Pengembalian;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -49,42 +48,42 @@ class PinjamController extends Controller
             'slug' => 'Ini untuk slug',
         ];
 
-            return view('pages.pinjam.list-pinjam', $dataListPinjam);
+        return view('pages.pinjam.list-pinjam', $dataListPinjam);
     }
 
     // Menampilkan halaman Detail Peminjaman Buku
     public function detailPinjam($tanggal_pinjam, $id)
     {
         // Ambil data peminjaman berdasarkan ID, beserta relasinya
-      $data = DB::table('peminjaman')
-          ->join('users', 'peminjaman.user_id', '=', 'users.id')
-          ->join('peminjaman_buku', 'peminjaman.id', '=', 'peminjaman_buku.peminjaman_id')
-          ->join('books', 'peminjaman_buku.buku_id', '=', 'books.id')
-          ->select(
-              'peminjaman.id',
-              'peminjaman.tanggal_pinjam',
-              'peminjaman.tanggal_pengembalian',
-              'peminjaman.catatan',
-              'peminjaman.status',
-              'users.nama',
-              'books.judul_buku',
-              DB::raw('SUM(peminjaman_buku.jumlah) as total_buku')
-          )
-          ->where('peminjaman.id', $id)
-          ->groupBy(
-              'peminjaman.id',
-              'peminjaman.tanggal_pinjam',
-              'peminjaman.tanggal_pengembalian',
-              'peminjaman.catatan',
-              'peminjaman.status',
-              'users.nama',
-              'books.judul_buku'
-          )
-          ->first();
+        $data = DB::table('peminjaman')
+            ->join('users', 'peminjaman.user_id', '=', 'users.id')
+            ->join('peminjaman_buku', 'peminjaman.id', '=', 'peminjaman_buku.peminjaman_id')
+            ->join('books', 'peminjaman_buku.buku_id', '=', 'books.id')
+            ->select(
+                'peminjaman.id',
+                'peminjaman.tanggal_pinjam',
+                'peminjaman.tanggal_pengembalian',
+                'peminjaman.catatan',
+                'peminjaman.status',
+                'users.nama',
+                'books.judul_buku',
+                DB::raw('SUM(peminjaman_buku.jumlah) as total_buku')
+            )
+            ->where('peminjaman.id', $id)
+            ->groupBy(
+                'peminjaman.id',
+                'peminjaman.tanggal_pinjam',
+                'peminjaman.tanggal_pengembalian',
+                'peminjaman.catatan',
+                'peminjaman.status',
+                'users.nama',
+                'books.judul_buku'
+            )
+            ->first();
 
-          if (!$data) {
-              return 'Data tidak ditemukan';
-          }
+        if (!$data) {
+            return 'Data tidak ditemukan';
+        }
 
         // Ambil detail buku yang dipinjam
         $detailBuku = DB::table('peminjaman_buku')
@@ -224,9 +223,9 @@ class PinjamController extends Controller
             return 'tanggal pinjam harus lebih awal daripada tanggal kembali';
         }
 
-        $catatan = $request->input('catatan') ;
+        $catatan = $request->input('catatan');
         if (strlen(strval($catatan)) < 1) {
-             $catatan = '';
+            $catatan = '';
         }
 
         $books = $request->input('books', []);
@@ -279,7 +278,7 @@ class PinjamController extends Controller
             ->where('tanggal_pinjam', $tanggal_pinjam)
             ->firstOrFail();
 
-        if (!$pinjam){
+        if (!$pinjam) {
             return 'Data tidak ditemukan jadi tidak bisa dihapus';
         }
 
@@ -305,7 +304,7 @@ class PinjamController extends Controller
 
             return redirect()->route('ListPinjam');
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
             return 'Data tidak tidak bisa dihapus';
         }

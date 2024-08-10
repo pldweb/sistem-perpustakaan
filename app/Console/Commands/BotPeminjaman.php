@@ -60,7 +60,7 @@ class BotPeminjaman extends Command
                         'user_id' => $user->id,
                         'tanggal_pinjam' => $tanggalPinjam,
                         'tanggal_pengembalian' => $tanggalKembali,
-                        'catatan',
+                        'catatan' => '',
                     ]);
 
                     $jumlahDipinjam = 0;

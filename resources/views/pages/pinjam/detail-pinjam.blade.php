@@ -31,18 +31,20 @@
                             </div>
                             <div class="mb-3 col-12 d-flex">
                                 <label for="" class="form-label" style="width: 250px;">Tanggal Pinjam</label>
-                                <div class="data-field"><span class="badge badge-primary">{{ $dataPinjam->tanggal_pinjam }}</span></div>
+                                <div class="data-field"><span
+                                        class="badge badge-primary">{{ $dataPinjam->tanggal_pinjam }}</span></div>
                             </div>
                             <div class="mb-3 col-12 d-flex">
                                 <label for="" class="form-label" style="width: 250px;">Tanggal Pengembalian</label>
-                                <div class="data-field"><span class="badge badge-danger">{{ $dataPinjam->tanggal_pengembalian }}</span></div>
+                                <div class="data-field"><span
+                                        class="badge badge-danger">{{ $dataPinjam->tanggal_pengembalian }}</span></div>
                             </div>
                             <div class="mb-3 col-12 d-flex">
                                 <label for="" class="form-label" style="width: 250px;">Tanggal Pengembalian</label>
                                 <div class="data-field">
                                     @if($dataPinjam->status === 'selesai')
                                         <span class="badge badge-success">{{ $dataPinjam->status }}</span>
-                                        @else
+                                    @else
                                         <span class="badge badge-secondary">{{ $dataPinjam->status }}</span>
                                     @endif
                                 </div>
@@ -58,7 +60,8 @@
                             <div class="mb-3 col-12 d-flex">
                                 <label for="" class="form-label" style="width: 250px;">Buku Dipinjam</label>
                                 <div class="data-field w-75">
-                                    <table class="table table-bordered table-bordered table-head-bg-info table-bordered-bd-info mt-4">
+                                    <table
+                                        class="table table-bordered table-bordered table-head-bg-info table-bordered-bd-info mt-4">
                                         <thead>
                                         <tr>
                                             <th>No.</th>
@@ -79,11 +82,14 @@
                                 </div>
                             </div>
                             <div class="mb-3 col-12 d-flex">
-                                <a href="{{ route('showPengembalian', $dataPinjam->id) }}" class="btn btn-warning">Edit Peminjaman</a>
-                                <a href="{{ route('showPengembalian', $dataPinjam->id) }}" class="btn btn-primary" style="margin-left: 5px;">Pengembalian Buku</a>
+                                <a href="{{ route('showPengembalian', $dataPinjam->id) }}" class="btn btn-warning">Edit
+                                    Peminjaman</a>
+                                <a href="{{ route('showPengembalian', $dataPinjam->id) }}" class="btn btn-primary"
+                                   style="margin-left: 5px;">Pengembalian Buku</a>
                             </div>
                             <div class="mb-3 col-12 d-flex">
-                                <table class="table table-bordered table-bordered table-head-bg-info table-bordered-bd-info mt-4">
+                                <table
+                                    class="table table-bordered table-bordered table-head-bg-info table-bordered-bd-info mt-4">
                                     <thead>
                                     <tr>
                                         <th>No.</th>

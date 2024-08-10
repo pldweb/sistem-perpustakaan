@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 
@@ -17,34 +16,23 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-
-
-        // Validasi Input
-        $loginCredential = Validator::make($request->all(), [
-            'email.required' => 'Email harus diisi',
-            'password.required' => 'Password harus diisi'
-        ]);
-
-        // Jika validasi gagal
-        if ($loginCredential->fails()) {
-            return redirect()->back()
-                ->withErrors($loginCredential)
-                ->withInput($request->only('email'));
-        }
-
         // Login user
-        $loginCredential = $request->only('email', 'password');
-        if (Auth::attempt($loginCredential)) {
-            // Autentikasi Berhasil
-            return redirect()->route('Dashboard');
+        $email = $request->input('email');
+        $password = $request->input('password');
 
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
+            // Autentikasi Berhasil
+            $redirectURL = url('');
+            return "<div class='alert alert-success'>Login berhasil</div>
+                <script>
+                    setTimeout(function () {
+                        location.href = '$redirectURL';
+                    }, 1500);
+                </script>";
         }
 
         // Jika login gagal
-        return redirect()->back()
-            ->withErrors(['email' => 'Email password salah', 'password' => "Password salah"])
-            ->withInput($request->only('email'));
-
+        return "<div class='alert alert-danger'>Login gagal</div>";
     }
 
 

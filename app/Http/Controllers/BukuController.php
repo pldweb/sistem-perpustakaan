@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class BukuController extends Controller
@@ -27,6 +26,7 @@ class BukuController extends Controller
     public function inputBuku()
     {
         $params = [
+
             'title' => "Edit Data Master Buku",
             'subtitle' => "Form edit data buku",
             'slug' => 'ini slug'
@@ -77,7 +77,7 @@ class BukuController extends Controller
 
             DB::commit();
 
-            return redirect()->route('ListBuku');
+            return redirect()->route('listBuku');
 
         } catch (\Exception $exception) {
 
@@ -182,39 +182,10 @@ class BukuController extends Controller
         return view('pages.buku.list-history-buku', $params);
 
     }
+
     public function historyBuku($id)
     {
-        $history = DB::table('books')
-            ->join('peminjaman_buku', 'books.id', '=', 'peminjaman_buku.buku_id')
-            ->join('peminjaman', 'peminjaman_buku.peminjaman_id', '=', 'peminjaman.id')
-            ->join('users', 'peminjaman.user_id', '=', 'users.id')
-            ->leftJoin('pengembalian', 'peminjaman.id', '=', 'pengembalian.peminjaman_id')
-            ->leftJoin('detail_pengembalian', 'pengembalian.id', '=', 'detail_pengembalian.pengembalian_id')
-            ->select(
-                'books.judul_buku as judul_buku',
-                'peminjaman.tanggal_pinjam',
-                'peminjaman.tanggal_pengembalian as tanggal_pengembalian_peminjaman',
-                'peminjaman.catatan as catatan_peminjaman',
-                'peminjaman.status as status_peminjaman',
-                'users.nama as nama_peminjam',
-                'pengembalian.tanggal_pengembalian as tanggal_pengembalian_pengembalian',
-                DB::raw('COALESCE(detail_pengembalian.jumlah, 0) as jumlah_pengembalian'),
-                'detail_pengembalian.catatan as catatan_pengembalian',
-                'detail_pengembalian.denda'
-            )
-            ->where('books.id', $id)
-            ->orderBy('peminjaman.tanggal_pinjam', 'asc')
-            ->get();
-
-
-        $data = [
-            'data' => $history,
-            'title' => 'History Buku',
-            'subtitle' => 'History Buku',
-            'slug' => 'slug',
-            'judulBuku' => $history->isEmpty() ? '' : $history->first()->judul_buku,
-        ];
-
-        return view('pages.buku.history-buku', $data);
+        $data = ['book' => Book::findOrFail($id)];
+        return view('pages.buku.tabel-laporan', $data);
     }
 }
