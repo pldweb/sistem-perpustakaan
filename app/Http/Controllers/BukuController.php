@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class BukuController extends Controller
 {
-
     // Menampilkan halaman list buku yang ada di perpustakaan
     public function listBuku()
     {
@@ -142,7 +141,7 @@ class BukuController extends Controller
 
             DB::commit();
 
-            return redirect()->route('ListBuku');
+            return redirect()->route('listBuku');
 
         } catch (\Exception $exception) {
             DB::rollBack();
@@ -161,7 +160,7 @@ class BukuController extends Controller
             $book = Book::findOrFail($id);
             $book->delete();
             DB::commit();
-            return redirect()->route('ListBuku');
+            return redirect()->route('listBuku');
 
         } catch (\Exception $exception) {
             DB::rollBack();

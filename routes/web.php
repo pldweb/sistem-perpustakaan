@@ -37,10 +37,9 @@ Route::middleware([EnsureUserIsAuthenticated::class])->group(function () {
     Route::get('/edit-buku/{id}/edit', [BukuController::class, 'editBuku'])->name('editBuku');
     Route::put('/edit-buku/{id}', [BukuController::class, 'updateBuku'])->name('updateBuku');
 
-//    History Buku
+    // History Buku
     Route::get('/history-buku', [BukuController::class, 'history'])->name('history');
     Route::get('/history-buku/{id}', [BukuController::class, 'historyBuku'])->name('historyBuku');
-
 
     // Data Buku yang dipinjam
     Route::get('/search/result', [PinjamController::class, 'searchResult'])->name('searchPage');
@@ -56,7 +55,6 @@ Route::middleware([EnsureUserIsAuthenticated::class])->group(function () {
     Route::post('/simpan-pengembalian/{id}', [PengembalianController::class, 'storePengembalian'])->name('storePengembalian');
     Route::get('/list-pengembalian', [PengembalianController::class, 'listPengembalian'])->name('listPengembalian');
 
-
     // Data Master User
     Route::get('/list-user', [UserController::class, 'listUser'])->name('listUser');
     Route::get('/input-user', [UserController::class, 'inputUser'])->name('inputUser');
@@ -65,11 +63,11 @@ Route::middleware([EnsureUserIsAuthenticated::class])->group(function () {
     Route::post('/simpan-user', [UserController::class, 'simpanUser'])->name('simpanUser');
     Route::delete('/list-user/{id}', [UserController::class, 'destroyUser'])->name('destroyUser');
 
-
     // Index website
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
 
+    Route::get('/peminjaman-perbulan', [DashboardController::class, 'getPeminjamanPerbulan'])->name('peminjamanPerbulan');
 
     // Scrapping
     Route::get('/scrape', [ScrapeController::class, 'scrape'])->name('scrape');

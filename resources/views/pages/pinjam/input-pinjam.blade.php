@@ -31,7 +31,7 @@
                                     </ul>
                                 </div>
                             @endif
-                            <form action="{{ route('SimpanPinjamBuku') }}" method="post">
+                            <form action="{{ route('simpanPinjamBuku') }}" method="post">
                                 @csrf
 
                                 <div class="row">

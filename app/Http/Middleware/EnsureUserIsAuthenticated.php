@@ -18,7 +18,7 @@ class EnsureUserIsAuthenticated
     {
         if (!Auth::check()) {
 
-            return redirect()->route('halamanLogin');
+            return redirect()->route('formLogin');
         }
 
         return $next($request);

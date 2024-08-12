@@ -11,7 +11,7 @@
                 <h6 class="op-7 mb-2">{{ $slug }}</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="{{ route('InputBuku') }}" class="btn btn-primary btn-round">Tambah User Baru</a>
+                <a href="{{ route('inputUser') }}" class="btn btn-primary btn-round">Tambah User Baru</a>
             </div>
         </div>
         <div class="row">
@@ -38,7 +38,7 @@
                             </table>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('SimpanUser') }}" method="post">
+                            <form action="{{ route('simpanUser') }}" method="post">
                                 @csrf
 
                                 <div class="mb-3">
@@ -47,7 +47,7 @@
                                            value="{{ old('nama') }}">
                                     @error('nama')
                                     <span>{{ $message }}</span>
-                                    @enderror
+                                     @enderror
                                 </div>
 
                                 <div class="mb-3">

@@ -1,37 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
+
     <title>Sistem Perpustakaan - @yield('title')</title>
 
-    <link
-        rel="icon"
-        href={{ asset("img/Fav.png") }}
-      type="image/x-icon"
-    />
+    <link rel="icon" href={{ asset("img/Fav.png") }} type="image/x-icon"/>
 
     <!-- Fonts and icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script src="{{ asset('js/plugin/webfont/webfont.min.js') }}"></script>
-    <script>
-        WebFont.load({
-            google: {families: ["Public Sans:300,400,500,600,700"]},
-            custom: {
-                families: [
-                    "Font Awesome 5 Solid",
-                    "Font Awesome 5 Regular",
-                    "Font Awesome 5 Brands",
-                    "simple-line-icons",
-                ],
-            },
-            active: function () {
-                sessionStorage.fonts = true;
-            },
-        });
-    </script>
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
@@ -39,11 +28,14 @@
     <link rel="stylesheet" href="{{ asset('css/kaiadmin.min.css') }} "/>
     <link rel="stylesheet" href="{{ asset('css/style.css') }} "/>
 
-
     {{-- Jquery --}}
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+
+
 
     @stack('styles')
 
@@ -75,6 +67,7 @@
 <script>
     $("#closeModal").click(function () {
         $('#detailModal').modal('hide');
+        $('#modalKonfirmasi').modal('hide');
     })
 </script>
 

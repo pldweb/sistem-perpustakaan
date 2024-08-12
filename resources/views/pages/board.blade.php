@@ -11,8 +11,7 @@
                 <h6 class="op-7 mb-2">Sistem Perpustakaan Online</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                {{-- <a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
-                <a href="#" class="btn btn-primary btn-round">Add Customer</a> --}}
+
             </div>
         </div>
         <div class="row">
@@ -42,9 +41,7 @@
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-icon">
-                                <div
-                                    class="icon-big text-center icon-info bubble-shadow-small"
-                                >
+                                <div class="icon-big text-center icon-info bubble-shadow-small">
                                     <i class="fas fa-user-check"></i>
                                 </div>
                             </div>
@@ -97,28 +94,7 @@
                 </div>
             </div>
         </div>
-
-        {{-- <div class="row">
-          <div class="col-md-12">
-            <div class="card card-round">
-              <div class="card-header">
-                <div class="card-head-row card-tools-still-right">
-                  <h4 class="card-title">Users Geolocation</h4>
-
-                </div>
-                <p class="card-category">
-                  Map of the distribution of users around the world
-                </p>
-              </div>
-              <div class="card-body">
-                <div class="row">
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> --}}
-        {{-- <div class="row">
+        <div class="row">
           <div class="col-md-4">
             <div class="card card-round">
               <div class="card-body">
@@ -186,67 +162,108 @@
                         id="dropdownMenuButton"
                         data-bs-toggle="dropdown"
                         aria-haspopup="true"
-                        aria-expanded="false"
-                      >
+                        aria-expanded="false">
                         <i class="fas fa-ellipsis-h"></i>
                       </button>
-                      <div
-                        class="dropdown-menu"
-                        aria-labelledby="dropdownMenuButton"
-                      >
+                      <div class="dropdown-menu"
+                        aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="#">Action</a>
                         <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#"
-                          >Something else here</a
-                        >
+                        <a class="dropdown-item" href="#">Something else here</a>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="card-body p-0">
-                <div class="table-responsive">
-                  <!-- Projects table -->
-                  <table class="table align-items-center mb-0">
-                    <thead class="thead-light">
-                      <tr>
-                        <th scope="col">Payment Number</th>
-                        <th scope="col" class="text-end">Date & Time</th>
-                        <th scope="col" class="text-end">Amount</th>
-                        <th scope="col" class="text-end">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">
-                          <button
-                            class="btn btn-icon btn-round btn-success btn-sm me-2"
-                          >
-                            <i class="fa fa-check"></i>
-                          </button>
-                          Payment from #10231
-                        </th>
-                        <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                        <td class="text-end">$250.00</td>
-                        <td class="text-end">
-                          <span class="badge badge-success">Completed</span>
-                        </td>
-                      </tr>
 
-                    </tbody>
-                  </table>
-                </div>
+
+                  <div id="container" style="width:100%; height:400px;">
+
+                  </div>
+                  <script>
+                      $(document).ready(function () {
+                          $.ajax({
+                              url : '/peminjaman-perbulan',
+                              method : 'GET',
+                              dataType : 'json',
+                              success : function (dataPeminjaman) {
+
+                                  var tanggal = [];
+                                  var peminjamanBuku = [];
+                                  var pengembalianBuku = [];
+
+                                  console.log(dataPeminjaman)
+                                  if (dataPeminjaman.length > 0){
+                                      dataPeminjaman.forEach(function (data){
+                                          tanggal.push(data.tanggal);
+                                          peminjamanBuku.push(parseInt(data.total_peminjaman));  // Default ke 0 jika undefined
+                                          pengembalianBuku.push(parseInt(data.total_dikembalikan));
+
+                                          console.log('Tanggal: ', data.tanggal, 'Peminjaman: ', data.total_peminjaman, 'Pengembalian: ', data.total_dikembalikan);
+
+                                      })
+                                  }
+
+                                  // Rendering Highcharts
+                                  Highcharts.chart('container', {
+                                      chart: {
+                                          type: 'line'
+                                      },
+                                      title: {
+                                          text: 'Data peminjaman dan pengembalian buku bulan ini'
+                                      },
+                                      xAxis: {
+                                          categories: tanggal
+                                      },
+                                      yAxis: {
+                                          title: {
+                                              text: 'Jumlah Buku'
+                                          }
+                                      },
+                                      series: [
+                                          {
+                                              name: 'Peminjaman Buku',
+                                              data: peminjamanBuku
+                                          },
+                                          {
+                                              name: 'Pengembalian Buku',
+                                              data: pengembalianBuku
+                                          }
+                                      ]
+                                  });
+                              },
+                              error: function (response){
+                                  return "Grafik tidak bisa ditampilkan";
+                              }
+                          })
+                      })
+                  </script>
+
               </div>
             </div>
           </div>
-        </div> --}}
-    </div>
-    </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-round">
+                    <div class="card-header">
+                        <div class="card-head-row card-tools-still-right">
+                            <h4 class="card-title">Users Geolocation</h4>
 
-    </div>
+                        </div>
+                        <p class="card-category">
+                            Map of the distribution of users around the world
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
 
-
-    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 @endsection
 

@@ -172,9 +172,11 @@ class PengembalianController extends Controller
                 DB::raw('SUM(detail_pengembalian.jumlah) as total_buku')
             )
             ->groupBy('pengembalian.id', 'users.nama', 'pengembalian.tanggal_pengembalian')
-            ->get();
+            ->paginate(10);
+
 
         $dataPengembalian = [
+
             'pengembalianData' => $pengembalianData,
             'title' => "List Pengembalian Buku",
             'subtitle' => "Seluruh data pengembalian",

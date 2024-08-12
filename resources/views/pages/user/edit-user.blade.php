@@ -11,7 +11,7 @@
                 <h6 class="op-7 mb-2">{{ $slug }}</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="{{ route('InputBuku') }}" class="btn btn-primary btn-round">Tambah User Baru</a>
+                <a href="{{ route('inputUser') }}" class="btn btn-primary btn-round">Tambah User Baru</a>
             </div>
         </div>
         <div class="row">
@@ -38,7 +38,7 @@
                             </table>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('UpdateUser', $user->id) }}" method="post">
+                            <form action="{{ route('updateUser', $user->id) }}" method="post">
                                 @csrf
                                 @method('put')
 

@@ -22,9 +22,6 @@
 
     @include('pages.modal.modal-konfirmasi')
 
-
-
-
     <div class="page-inner">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
@@ -58,14 +55,12 @@
                                     <th scope="col" class="text-start">Tahun Terbit</th>
                                     <th scope="col" class="text-start">Stock Buku</th>
                                     <th scope="col" class="text-start">Opsi</th>
-
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach ($data as $index => $item)
-
                                     <tr>
-                                        <td scope="text-start">{{ $data->firstItem() + $index }}</td>
+                                        <td class="text-start">{{ $data->firstItem() + $index }}</td>
                                         <th scope="row">
                                             {{ $item->judul_buku}}
                                         </th>

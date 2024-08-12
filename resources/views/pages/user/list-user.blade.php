@@ -11,7 +11,7 @@
                 <h6 class="op-7 mb-2">{{ $slug }}</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="{{ route('InputUser') }}" class="btn btn-primary btn-round">Tambah Data User</a>
+                <a href="{{ route('inputUser') }}" class="btn btn-primary btn-round">Tambah Data User</a>
             </div>
         </div>
         <div class="row">
@@ -33,12 +33,10 @@
                                     <th scope="col" class="text-start">Email</th>
                                     <th scope="col" class="text-start">Role</th>
                                     <th scope="col" class="text-start">Opsi</th>
-
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach ($users as $index => $detail)
-
                                     <tr>
                                         <td class="text-start">{{ $users->firstItem() + $index }}</td>
                                         <td class="text-start">
@@ -48,40 +46,29 @@
                                         <td class="text-start"
                                             style="text-transform: uppercase">{{ $detail->role }}</td>
                                         <td class="text-start d-flex column-gap-1">
-
-                                            <a href="{{ route('EditUser', $detail->id) }}">
-
+                                            <a href="{{ route('editUser', $detail->id) }}">
                                                 <button class="btn btn-warning">
-                              <span class="btn-label">
-                                <i class="fas fa-bars"></i>
-                              </span>
-
+                                                  <span class="btn-label">
+                                                    <i class="fas fa-bars"></i>
+                                                  </span>
                                                 </button>
-
                                             </a>
-
-                                            <form action="{{ route('DestroyUser', $detail->id)}}" method="post"
+                                            <form action="{{ route('destroyUser', $detail->id)}}" method="post"
                                                   onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
                                                 @csrf
                                                 @method('delete')
                                                 <button type="submit" class="btn btn-danger">
-                              <span class="btn-label">
-                                <i class="fas fa-times"></i>
-                              </span>
-
+                                                  <span class="btn-label">
+                                                    <i class="fas fa-times"></i>
+                                                  </span>
                                                 </button>
                                             </form>
-
                                         </td>
-
                                 @endforeach
-
                                 </tbody>
                             </table>
                             <div class="py-2 px-3">
-
                                 {{ $users->links() }}
-
                             </div>
                         </div>
                     </div>

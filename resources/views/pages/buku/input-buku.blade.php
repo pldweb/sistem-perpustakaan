@@ -1,11 +1,9 @@
 <div class="modal-body">
-
     <div>
         <h1>Input Buku Baru</h1>
     </div>
     <form id="simpanBuku">
         @csrf
-
         <div class="mb-3">
             <label for="judul_buku" class="form-label">Judul Buku</label>
             <input type="text" class="form-control" id="judul_buku" name="judul_buku" required
@@ -55,30 +53,34 @@
         $('#simpanBuku').on('submit', function (e){
             e.preventDefault();
 
-            var dataInput = $('#simpanBuku').serialize();
+            var dataInput = $(this).serialize();
 
-            $("#modalKonfirmasi").modal('show')
+            $("#modalKonfirmasi").modal('show');
 
-            if ($("#modalKonfirmasi").modal('show')){
+            $("#modalKonfirmasi").on('shown.bs.modal', function () {
+                $("#detailModal").css('z-index', 1049);
+            });
 
-                $("#detailModal").modal('hide');
-            };
+            $("#cancelSubmit").click(function (){
+               $("#modalKonfirmasi").modal('hide');
+               $("#detailModal").css('z-index', 1055);
+            });
 
             $("#confirmSubmit").click(function () {
                 $.ajax({
-                    url:'{{ route('simpanBuku') }}',
+                    url: '{{ route('simpanBuku') }}',
                     method: 'POST',
                     data: dataInput,
                     success: function (response){
-                        alert('Berhasil menambahkan buku baru');
                         $("#modalKonfirmasi").modal('hide');
+                        $("#detailModal").modal('hide');
+                        alert('Berhasil menambahkan buku baru');
                     },
                     error: function (response){
                         alert('Terjadi kesalahan');
                     }
-                })
-            })
-            $("#modalKonfirmasi").modal('hide');
-        })
-    })
+                });
+            });
+        });
+    });
 </script>

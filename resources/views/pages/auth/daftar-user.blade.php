@@ -16,7 +16,7 @@
                         <h4>Registration</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('daftar') }}" method="post">
+                        <form action="{{ route('registrasi') }}" method="post">
                             @csrf
 
                             <div class="mb-3">
@@ -44,7 +44,7 @@
                                 <span>{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="mb-3">Jika sudah punya akun bisa <a href="{{ route('halamanLogin')}}"
+                            <div class="mb-3">Jika sudah punya akun bisa <a href="{{ route('formLogin')}}"
                                                                             rel="noopener noreferrer">Login</a></div>
                             <button type="submit" class="btn btn-primary w-100">Register</button>
                         </form>

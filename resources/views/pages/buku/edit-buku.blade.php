@@ -10,7 +10,7 @@
                 <h6 class="op-7 mb-2">{{ $slug }}</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="{{ route('InputBuku') }}" class="btn btn-primary btn-round">Tambah Buku</a>
+                <a href="{{ route('inputBuku') }}" class="btn btn-primary btn-round">Tambah Buku</a>
             </div>
         </div>
 
@@ -37,7 +37,7 @@
 
                     <div class="col-md-12">
                         <div class="card-body">
-                            <form action="{{ route('UpdateBuku', $book->id) }}" method="post">
+                            <form action="{{ route('updateBuku', $book->id) }}" method="post">
                                 @csrf
                                 @method('put')
                                 <div class="mb-3">
@@ -92,10 +92,7 @@
                                     Data Buku
                                 </button>
                             </form>
-
-                            @include('pages.buku.tabel-laporan')
                         </div>
-
                     </div>
                 </div>
             </div>

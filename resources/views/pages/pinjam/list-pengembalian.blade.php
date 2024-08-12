@@ -84,7 +84,7 @@
                             </table>
                             <div class="py-2 px-3">
 
-                                {{--                      {{ $pengembalianData->links() }}--}}
+                                                      {{ $pengembalianData->links() }}
 
                             </div>
                         </div>

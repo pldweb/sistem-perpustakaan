@@ -36,7 +36,7 @@ class BotPeminjaman extends Command
             shuffle($bukuIds);
         }
 
-        $tanggalAwal = 5 * 365;
+        $tanggalAwal = 10;
         $lamaPinjamPerBuku = 5;
         foreach (User::query()->get() as $user) {
             $jumlahPinjam = rand(1, 5);
@@ -45,7 +45,7 @@ class BotPeminjaman extends Command
                 $jumlahBuku = rand(1, 5);
 
                 $tanggalPinjam = Carbon::now()
-                    ->subDays(rand(30, $tanggalAwal))
+                    ->subDays(rand(1, $tanggalAwal))
                     ->format('Y-m-d');
 
                 $tanggalKembali = (new Carbon($tanggalPinjam))
