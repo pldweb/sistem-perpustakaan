@@ -25,7 +25,9 @@
     },
     "autoload": {
         "files": [
-            "app/Helpers/AjaxPaginationHelper.php"
+            "app/Helpers/AjaxPaginationHelper.php",
+            "app/Helpers/CreateModalHelper.php",
+            "app/Helpers/ShowModalHelper.php"
         ],
         "psr-4": {
             "App\\": "app/",

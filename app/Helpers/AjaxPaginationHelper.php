@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 
 class AjaxPaginationHelper {
-    public static function script($containerId = 'namaContainer') {
+    public static function script($containerId) {
         return "
        <script>
             $(document).ready(function() {

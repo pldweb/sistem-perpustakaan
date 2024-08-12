@@ -10,7 +10,7 @@
         <th scope="col" class="text-start">Opsi</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="tbody">
     @foreach ($data as $index => $item)
         <tr>
             <td class="text-start">{{ $data->firstItem() + $index }}</td>

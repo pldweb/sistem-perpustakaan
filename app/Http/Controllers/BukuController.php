@@ -11,7 +11,6 @@ class BukuController extends Controller
     // Menampilkan halaman list buku yang ada di perpustakaan
     public function listBuku()
     {
-
         // Paginasi mencapai 10 data buku saja yang tampil
         $params = [
             'data' => Book::paginate(10),
@@ -55,31 +54,31 @@ class BukuController extends Controller
     {
         $judulBuku = $request->input('judul_buku');
         if (strlen(strval($judulBuku)) == 0) {
-            return 'Judul buku tidak valid';
+            return response()->json(['success' => false, 'message' => 'Judul buku tidak valid']);
         }
 
         $penulisBuku = $request->input('penulis');
         if (strlen(strval($penulisBuku)) == 0) {
-            return 'Penulis buku tidak valid';
+            return response()->json(['success' => false, 'message' => 'Penulis buku tidak valid']);
         }
 
         $penerbitBuku = $request->input('penerbit');
         if (strlen(strval($penerbitBuku)) == 0) {
-            return 'Penerbit buku tidak valid';
+            return response()->json(['success' => false, 'message' => 'Penerbit buku tidak valid']);
         }
 
         $tahunTerbitBuku = $request->input('tahun_terbit');
         if (strlen(strval($tahunTerbitBuku)) == 0) {
-            return 'Tahun Terbit buku tidak valid';
+            return response()->json(['success' => false, 'message' => 'Tahun terbit buku tidak valid']);
         }
+
         $stockBuku = $request->input('stock');
         if (strlen(strval($stockBuku)) == 0) {
-            return 'Stock buku tidak valid';
+            return response()->json(['success' => false, 'message' => 'Stock buku tidak valid']);
         }
 
         DB::beginTransaction();
         try {
-
             $data = [
                 'judul_buku' => $judulBuku,
                 'penulis' => $penulisBuku,
@@ -89,19 +88,26 @@ class BukuController extends Controller
                 'stock_tersedia' => 0,
             ];
 
-            Book::create($data);
+            $newBook = Book::create($data);
 
             DB::commit();
 
-            return redirect()->route('listBuku');
+            // Hanya mengambil data buku yang baru saja ditambahkan atau halaman terakhir
+            $items = Book::orderBy('id', 'desc')->paginate(10); // Misalnya 10 item per halaman
+
+            $newItem = view('pages.table.table-list-buku', ['items' => $items])->render();
+
+            return response()->json([
+                'success' => true,
+                'newItem' => $newItem,
+            ]);
 
         } catch (\Exception $exception) {
-
             DB::rollBack();
-
-            return $exception->getMessage();
+            return response()->json(['success' => false, 'message' => $exception->getMessage()]);
         }
     }
+
 
     // Mengarahkan ke halaman edit buku dengan membawa data buku berdasarkan Id
     public function editBuku($id)

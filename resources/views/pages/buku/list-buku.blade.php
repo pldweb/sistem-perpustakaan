@@ -45,7 +45,7 @@
                     <div class="card-body p-0">
                         <div class="table-responsive" id="table-responsive">
                             <!-- Projects table -->
-                                @include('pages.table.table-list-buku')
+                            @include('pages.table.table-list-buku')
                         </div>
                     </div>
                 </div>
@@ -53,31 +53,9 @@
         </div>
     </div>
 
-{{-- Script Modal Tambah Buku --}}
-    <script>
-        $(document).ready(function () {
-            $('#tambahBuku').click(function (e) {
-                e.preventDefault();
+    {!! App\Helpers\ShowModalHelper::showModal('tambahBuku', 'modalContent', 'detailModal') !!}
 
-                var urlRoute = $(this).data('url');
-
-                $.ajax({
-                    url: urlRoute,
-                    method: 'GET',
-                    success: function (responses) {
-                        $('#modalContent').html(responses);
-                        $('#detailModal').modal('show');
-                    },
-                    error: function (response) {
-                        return "Error";
-                    }
-                })
-            })
-        })
-
-    </script>
-
-    {!! App\Helpers\AjaxPaginationHelper::script('table-responsive') !!}}
+    {!! App\Helpers\AjaxPaginationHelper::script('table-responsive') !!}
 
 @endsection
 

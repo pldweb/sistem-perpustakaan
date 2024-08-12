@@ -48,39 +48,5 @@
         <button type="submit" class="btn btn-primary w-25%">Simpan Data Buku</button>
     </form>
 </div>
-<script>
-    $(document).ready(function() {
-        $('#simpanBuku').on('submit', function (e){
-            e.preventDefault();
 
-            var dataInput = $(this).serialize();
-
-            $("#modalKonfirmasi").modal('show');
-
-            $("#modalKonfirmasi").on('shown.bs.modal', function () {
-                $("#detailModal").css('z-index', 1049);
-            });
-
-            $("#cancelSubmit").click(function (){
-               $("#modalKonfirmasi").modal('hide');
-               $("#detailModal").css('z-index', 1055);
-            });
-
-            $("#confirmSubmit").click(function () {
-                $.ajax({
-                    url: '{{ route('simpanBuku') }}',
-                    method: 'POST',
-                    data: dataInput,
-                    success: function (response){
-                        $("#modalKonfirmasi").modal('hide');
-                        $("#detailModal").modal('hide');
-                        alert('Berhasil menambahkan buku baru');
-                    },
-                    error: function (response){
-                        alert('Terjadi kesalahan');
-                    }
-                });
-            });
-        });
-    });
-</script>
+{!! App\Helpers\CreateModalHelper::createModalHelper('simpanBuku', 'modalKonfirmasi', 'detailModal', 'cancelSubmit', 'confirmSubmit') !!}
