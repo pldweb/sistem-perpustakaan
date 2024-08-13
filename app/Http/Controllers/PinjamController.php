@@ -191,7 +191,7 @@ class PinjamController extends Controller
         $pinjam = Peminjaman::find($id);
 
         if (!$pinjam) {
-            return redirect()->route('ListPinjam');
+            return redirect()->route('listPinjam');
         }
 
         // Update peminjaman utama
@@ -225,7 +225,7 @@ class PinjamController extends Controller
             }
         }
 
-        return redirect()->route('ListPinjam');
+        return redirect()->route('listPinjam');
     }
 
 
@@ -302,7 +302,7 @@ class PinjamController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('ListPinjam');
+            return redirect()->route('listPinjam');
         } catch (\Exception $exception) {
             DB::rollBack();
             return 'data gagal disimpan';
@@ -341,7 +341,7 @@ class PinjamController extends Controller
 
 //            Alert::success('Success', 'Pengembalian berhasil diproses');
 
-            return redirect()->route('ListPinjam');
+            return redirect()->route('listPinjam');
 
         } catch (\Exception $exception) {
             DB::rollBack();

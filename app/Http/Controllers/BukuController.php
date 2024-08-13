@@ -37,6 +37,8 @@ class BukuController extends Controller
         return view('pages.buku.list-buku', $params);
     }
 
+
+
     public function tableListHistoryBuku(request $request){
 
         $params = [
@@ -47,7 +49,7 @@ class BukuController extends Controller
         ];
 
         if($request->ajax()){
-            return view('pages.buku.table.table-list-history-buku', $params);
+            return view('pages.buku.tabel-laporan', $params);
         }
 
         return view('pages.buku.list-buku', $params);

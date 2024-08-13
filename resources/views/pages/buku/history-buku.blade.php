@@ -61,17 +61,12 @@
                                                 {{ $item->jumlah_pengembalian }} buku
                                             @endif
                                         </td>
-                                        {{--                                  <td>{{ $item->catatan_peminjaman }}</td>--}}
-                                        {{--                                  <td>{{ $item->catatan_pengembalian }}</td>--}}
-                                        {{--                                  <td>{{ $item->denda }}</td>--}}
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
                             <div class="py-2 px-3">
-
                                 {{--                      {{ $data->links() }}--}}
-
                             </div>
                         </div>
                     </div>

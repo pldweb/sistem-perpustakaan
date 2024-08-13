@@ -52,35 +52,11 @@
 
     <script>
         $(document).ready(function () {
-            $('#tambahBuku').click(function (e) {
-                e.preventDefault();
-
-                var urlRoute = $(this).data('url');
-
-                $.ajax({
-                    url: urlRoute,
-                    method: 'GET',
-                    success: function (responses) {
-                        $('#modalContent').html(responses);
-                        $('#detailModal').modal('show');
-                    },
-                    error: function (response) {
-                        return "Error";
-                    }
-                })
-            })
-        })
-
-    </script>
-
-{{-- Script History Masing-Masing Buku --}}
-    <script>
-        $(document).ready(function () {
             $(document).on('click', '#book-history', function () {
                 var idBuku = $(this).data('id');
 
                 $.ajax({
-                    url: '/history-buku/' + idBuku,
+                    url: '/table-list-history-buku/' + idBuku,
                     method: 'GET',
                     success: function (response) {
                         $('#modalContent').html(response);
