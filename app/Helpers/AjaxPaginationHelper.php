@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 
 class AjaxPaginationHelper {
-    public static function script($containerId) {
+    public static function script($containerId, $urlRoute) {
         return "
        <script>
             $(document).ready(function() {
@@ -12,12 +12,13 @@ class AjaxPaginationHelper {
                     e.preventDefault();
                     let page = $(this).attr('href').split('page=')[1];
                     fetchData(page);
+                    urlBack = '{$urlRoute}';
 
                 })
             })
             function fetchData(page) {
                 $.ajax({
-                url : '/table-list-buku?page='+page,
+                url : '{$urlRoute}'+page,
                 method: 'GET',
                 success: function(response) {
                     $('#{$containerId}').html(response);

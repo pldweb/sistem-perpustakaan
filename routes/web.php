@@ -36,7 +36,9 @@ Route::middleware([EnsureUserIsAuthenticated::class])->group(function () {
     Route::post('/simpan-buku', [BukuController::class, 'simpanBuku'])->name('simpanBuku');
     Route::get('/edit-buku/{id}/edit', [BukuController::class, 'editBuku'])->name('editBuku');
     Route::put('/edit-buku/{id}', [BukuController::class, 'updateBuku'])->name('updateBuku');
+
     Route::get('/table-list-buku', [BukuController::class, 'tableListBuku'])->name('tableListBuku');
+    Route::get('/table-list-history-buku', [BukuController::class, 'tableListHistoryBuku'])->name('tableListBuku');
 
 
 

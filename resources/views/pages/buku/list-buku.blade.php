@@ -55,7 +55,7 @@
 
     {!! App\Helpers\ShowModalHelper::showModal('tambahBuku', 'modalContent', 'detailModal') !!}
 
-    {!! App\Helpers\AjaxPaginationHelper::script('table-responsive') !!}
+    {!! App\Helpers\AjaxPaginationHelper::script('table-responsive', '/table-list-buku?page=') !!}
 
 @endsection
 

@@ -37,6 +37,22 @@ class BukuController extends Controller
         return view('pages.buku.list-buku', $params);
     }
 
+    public function tableListHistoryBuku(request $request){
+
+        $params = [
+            'data' => Book::paginate(10),
+            'title' => "List Data Master Buku",
+            'subtitle' => "Seluruh data master buku",
+            'slug' => 'ini slug',
+        ];
+
+        if($request->ajax()){
+            return view('pages.table.table-list-history-buku', $params);
+        }
+
+        return view('pages.buku.list-buku', $params);
+    }
+
     // Mengarahkan ke halaman input data buku baru
     public function inputBuku()
     {
