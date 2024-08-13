@@ -108,8 +108,7 @@
                         id="dropdownMenuButton"
                         data-bs-toggle="dropdown"
                         aria-haspopup="true"
-                        aria-expanded="false"
-                      >
+                        aria-expanded="false">
                         <i class="fas fa-ellipsis-h"></i>
                       </button>
                       <div
