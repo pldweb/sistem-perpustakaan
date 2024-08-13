@@ -45,7 +45,7 @@
                     <div class="card-body p-0">
                         <div class="table-responsive" id="table-responsive">
                             <!-- Projects table -->
-                            @include('pages.table.table-list-buku')
+                            @include('pages.buku.table.table-list-buku')
                         </div>
                     </div>
                 </div>

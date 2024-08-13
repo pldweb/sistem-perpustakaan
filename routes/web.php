@@ -41,6 +41,11 @@ Route::middleware([EnsureUserIsAuthenticated::class])->group(function () {
     Route::get('/table-list-history-buku', [BukuController::class, 'tableListHistoryBuku'])->name('tableListBuku');
 
 
+    Route::get('/table-list-pinjam', [PinjamController::class, 'tableListPinjam'])->name('tableListPinjam');
+    Route::get('/table-list-pengembalian', [PengembalianController::class, 'tableListPengembalian'])->name('tableListPengembalian');
+
+    Route::get('/table-list-user', [UserController::class, 'tableListUser'])->name('tableListUser');
+
 
     // History Buku
     Route::get('/history-buku', [BukuController::class, 'history'])->name('history');

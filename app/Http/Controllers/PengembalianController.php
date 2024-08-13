@@ -174,7 +174,6 @@ class PengembalianController extends Controller
             ->groupBy('pengembalian.id', 'users.nama', 'pengembalian.tanggal_pengembalian')
             ->paginate(10);
 
-
         $dataPengembalian = [
 
             'pengembalianData' => $pengembalianData,
@@ -184,6 +183,33 @@ class PengembalianController extends Controller
         ];
 
         return view('pages.pinjam.list-pengembalian', $dataPengembalian);
+    }
+
+
+    public function tableListPengembalian()
+    {
+        $pengembalianData = DB::table('pengembalian')
+            ->join('peminjaman', 'pengembalian.peminjaman_id', '=', 'peminjaman.id')
+            ->join('users', 'peminjaman.user_id', '=', 'users.id')
+            ->join('detail_pengembalian', 'pengembalian.id', '=', 'detail_pengembalian.pengembalian_id')
+            ->select(
+                'pengembalian.id as pengembalian_id',
+                'users.nama as nama_peminjam',
+                'pengembalian.tanggal_pengembalian',
+                DB::raw('SUM(detail_pengembalian.jumlah) as total_buku')
+            )
+            ->groupBy('pengembalian.id', 'users.nama', 'pengembalian.tanggal_pengembalian')
+            ->paginate(10);
+
+        $dataPengembalian = [
+
+            'pengembalianData' => $pengembalianData,
+            'title' => "List Pengembalian Buku",
+            'subtitle' => "Seluruh data pengembalian",
+            'slug' => 'ini slug',
+        ];
+
+        return view('pages.pinjam.table.table-list-pengembalian', $dataPengembalian);
     }
 
     public function destroyPengembalian($id)

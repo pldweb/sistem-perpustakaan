@@ -4,6 +4,26 @@
 
 @section('content')
 
+    <div id="detailModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="justify-content: flex-end">
+                    <button type="button" class="close" id="closeModal" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Konten modal akan diisi oleh AJAX -->
+                    <div id="modalContent">
+                        <!-- Form tambah buku akan dimuat di sini -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @include('pages.modal.modal-konfirmasi')
+
     <div class="page-inner">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
@@ -11,7 +31,7 @@
                 <h6 class="op-7 mb-2">{{ $slug }}</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="{{ route('inputUser') }}" class="btn btn-primary btn-round">Tambah Data User</a>
+                <a href="#" data-url="{{ route('inputUser') }}" data-target="#modalContent" id="tambahUser" class="btn btn-primary btn-round">Tambah Data User</a>
             </div>
         </div>
         <div class="row">
@@ -23,59 +43,19 @@
                         </div>
                     </div>
                     <div class="card-body p-0">
-                        <div class="table-responsive">
+                        <div class="table-responsive" id="table-responsive">
                             <!-- Projects table -->
-                            <table class="table align-items-center mb-0">
-                                <thead class="thead-light">
-                                <tr>
-                                    <th scope="col" class="text-start">No</th>
-                                    <th scope="col" class="text-start">Nama User</th>
-                                    <th scope="col" class="text-start">Email</th>
-                                    <th scope="col" class="text-start">Role</th>
-                                    <th scope="col" class="text-start">Opsi</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach ($users as $index => $detail)
-                                    <tr>
-                                        <td class="text-start">{{ $users->firstItem() + $index }}</td>
-                                        <td class="text-start">
-                                            {{ $detail->nama}}
-                                        </td>
-                                        <td class="text-start">{{ $detail->email }}</td>
-                                        <td class="text-start"
-                                            style="text-transform: uppercase">{{ $detail->role }}</td>
-                                        <td class="text-start d-flex column-gap-1">
-                                            <a href="{{ route('editUser', $detail->id) }}">
-                                                <button class="btn btn-warning">
-                                                  <span class="btn-label">
-                                                    <i class="fas fa-bars"></i>
-                                                  </span>
-                                                </button>
-                                            </a>
-                                            <form action="{{ route('destroyUser', $detail->id)}}" method="post"
-                                                  onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="submit" class="btn btn-danger">
-                                                  <span class="btn-label">
-                                                    <i class="fas fa-times"></i>
-                                                  </span>
-                                                </button>
-                                            </form>
-                                        </td>
-                                @endforeach
-                                </tbody>
-                            </table>
-                            <div class="py-2 px-3">
-                                {{ $users->links() }}
-                            </div>
+                            @include('pages.user.table.table-list-user')
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    {!! App\Helpers\ShowModalHelper::showModal('tambahUser', 'modalContent', 'detailModal') !!}
+
+    {!! App\Helpers\AjaxPaginationHelper::script('table-responsive', 'table-list-user?page=') !!}
 
 @endsection
 

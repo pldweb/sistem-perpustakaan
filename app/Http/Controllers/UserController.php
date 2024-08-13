@@ -23,6 +23,18 @@ class UserController extends Controller
         return view('pages.user.list-user', $data);
     }
 
+    public function tableListUser()
+    {
+        $data = [
+            'title' => 'List Data Master User',
+            'users' => User::paginate(10),
+            'subtitle' => 'Data Seluruh User',
+            'slug' => 'Ini untuk slug',
+        ];
+
+        return view('pages.user.table.table-list-user', $data);
+    }
+
     public function inputUser()
     {
 

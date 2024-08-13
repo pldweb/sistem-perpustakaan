@@ -51,6 +51,45 @@ class PinjamController extends Controller
         return view('pages.pinjam.list-pinjam', $dataListPinjam);
     }
 
+    public function tableListPinjam()
+    {
+        $data = DB::table('peminjaman')
+            ->join('users', 'peminjaman.user_id', '=', 'users.id')
+            ->join('peminjaman_buku', 'peminjaman.id', '=', 'peminjaman_buku.peminjaman_id')
+            ->select(
+                'peminjaman.*', // Mengambil semua kolom dari tabel peminjaman
+                'users.nama', // Mengambil nama user
+                DB::raw('SUM(peminjaman_buku.jumlah) as total_buku') // Menghitung total buku yang dipinjam
+            )
+            ->groupBy(
+                'peminjaman.id',
+                'users.nama',
+                'peminjaman.user_id',
+                'peminjaman.tanggal_pinjam',
+                'peminjaman.tanggal_pengembalian',
+                'peminjaman.catatan',
+                'peminjaman.status'
+            ) // Pastikan semua kolom dari peminjaman berada di dalam GROUP BY
+            ->paginate(10);
+
+        $totalBuku = $data->sum('jumlah');
+
+        if (!$data) {
+            return 'data tidak ditemukan';
+        }
+
+        $dataListPinjam = [
+            'pinjam' => $data,
+            'totalBuku' => $totalBuku,
+            'title' => 'Data Peminjaman Buku',
+            'subtitle' => 'List Data Peminjaman Buku',
+            'slug' => 'Ini untuk slug',
+        ];
+
+        return view('pages.pinjam.table.table-list-pinjam', $dataListPinjam);
+
+    }
+
     // Menampilkan halaman Detail Peminjaman Buku
     public function detailPinjam($tanggal_pinjam, $id)
     {

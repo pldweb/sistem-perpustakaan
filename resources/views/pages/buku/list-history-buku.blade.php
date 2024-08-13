@@ -19,7 +19,6 @@
             </div>
         </div>
     </div>
-
     <div class="page-inner">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
@@ -30,7 +29,6 @@
 
             </div>
         </div>
-
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-round">
@@ -42,7 +40,7 @@
                     <div class="card-body p-0">
                         <div class="table-responsive" id="table-responsive">
                             <!-- Projects table -->
-                            @include('pages.table.table-list-history-buku')
+                            @include('pages.buku.table.table-list-history-buku')
                         </div>
                     </div>
                 </div>

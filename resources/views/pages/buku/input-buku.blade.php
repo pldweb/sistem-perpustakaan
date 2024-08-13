@@ -49,4 +49,4 @@
     </form>
 </div>
 
-{!! App\Helpers\CreateModalHelper::createModalHelper('simpanBuku', 'modalKonfirmasi', 'detailModal', 'cancelSubmit', 'confirmSubmit') !!}
+{!! App\Helpers\CreateModalHelper::createModalHelper('simpanBuku', 'modalKonfirmasi', 'detailModal', 'cancelSubmit', 'confirmSubmit', 'simpan-buku') !!}

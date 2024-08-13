@@ -5,7 +5,7 @@ namespace App\Helpers;
 class CreateModalHelper{
 
     public static function createModalHelper(
-        $formSaveName, $confirmationModal, $detailModal, $cancelSubmit, $confirmSubmit)
+        $formSaveName, $confirmationModal, $detailModal, $cancelSubmit, $confirmSubmit, $routeUrl)
     {
         return
             "
@@ -27,9 +27,10 @@ class CreateModalHelper{
                                 $('#{$detailModal}').css('z-index',1055);
                             });
 
+
                             $('#{$confirmSubmit}').click(function (){
                                 $.ajax({
-                                    url: '/simpan-buku',
+                                    url: '/{$routeUrl}',
                                     method: 'POST',
                                     data: dataInput,
                                     success: function (response){
@@ -56,7 +57,6 @@ class CreateModalHelper{
 
                                       $('#{$confirmationModal}').modal('hide');
                                       $('#{$detailModal}').modal('hide');
-                                      alert('Berhasil menambahkan buku baru');
                                     },
                                     error: function (xhr, ajaxOptions, thrownError) {
                                         alert(xhr.responseText);

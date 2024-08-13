@@ -31,7 +31,7 @@ class BukuController extends Controller
         ];
 
         if($request->ajax()){
-            return view('pages.table.table-list-buku', $params);
+            return view('pages.buku.table.table-list-buku', $params);
         }
 
         return view('pages.buku.list-buku', $params);
@@ -47,7 +47,7 @@ class BukuController extends Controller
         ];
 
         if($request->ajax()){
-            return view('pages.table.table-list-history-buku', $params);
+            return view('pages.buku.table.table-list-history-buku', $params);
         }
 
         return view('pages.buku.list-buku', $params);
