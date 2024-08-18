@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class BukuController extends Controller
 {
-    // Menampilkan halaman list buku yang ada di perpustakaan
     public function listBuku()
     {
         // Paginasi mencapai 10 data buku saja yang tampil
@@ -21,41 +20,6 @@ class BukuController extends Controller
         return view('pages.buku.list-buku', $params);
     }
 
-    public function tableListBuku(request $request){
-
-        $params = [
-            'data' => Book::paginate(10),
-            'title' => "List Data Master Buku",
-            'subtitle' => "Seluruh data master buku",
-            'slug' => 'ini slug',
-        ];
-
-        if($request->ajax()){
-            return view('pages.buku.table.table-list-buku', $params);
-        }
-
-        return view('pages.buku.list-buku', $params);
-    }
-
-
-
-    public function tableListHistoryBuku(request $request){
-
-        $params = [
-            'data' => Book::paginate(10),
-            'title' => "List Data Master Buku",
-            'subtitle' => "Seluruh data master buku",
-            'slug' => 'ini slug',
-        ];
-
-        if($request->ajax()){
-            return view('pages.buku.tabel-laporan', $params);
-        }
-
-        return view('pages.buku.list-buku', $params);
-    }
-
-    // Mengarahkan ke halaman input data buku baru
     public function inputBuku()
     {
         $params = [
@@ -67,7 +31,6 @@ class BukuController extends Controller
         return view('pages.buku.input-buku', $params);
     }
 
-    // Controller untuk menangani request data buku yang baru ditambah
     public function simpanBuku(Request $request)
     {
         $judulBuku = $request->input('judul_buku');
@@ -126,8 +89,6 @@ class BukuController extends Controller
         }
     }
 
-
-    // Mengarahkan ke halaman edit buku dengan membawa data buku berdasarkan Id
     public function editBuku($id)
     {
 
@@ -140,7 +101,6 @@ class BukuController extends Controller
         return view('pages.buku.edit-buku', $data);
     }
 
-    // Controller untuk menangani proses update data buku
     public function updateBuku(Request $request, $id)
     {
         $judulBuku = $request->input('judul_buku');
@@ -191,7 +151,6 @@ class BukuController extends Controller
 
     }
 
-    // Controller untuk menghapus data buku berdasarkan Id
     public function destroyBuku($id)
     {
 
@@ -209,7 +168,6 @@ class BukuController extends Controller
         }
     }
 
-
     public function history()
     {
         // Paginasi mencapai 10 data buku saja yang tampil
@@ -220,12 +178,45 @@ class BukuController extends Controller
             'slug' => 'ini slug',
         ];
         return view('pages.buku.list-history-buku', $params);
-
     }
 
-    public function historyBuku($id)
+    public function tableListHistoryBuku()
     {
-        $data = ['book' => Book::findOrFail($id)];
-        return view('pages.buku.tabel-laporan', $data);
+        $params = [
+            'data' => Book::paginate(10),
+            'title' => "List History Buku",
+            'subtitle' => "Seluruh data history buku",
+            'slug' => 'ini slug',
+        ];
+
+        return view('pages.buku.table.table-list-history-buku', $params);
     }
+
+    public function showTableLaporanBuku($id, Request $request)
+    {
+//        $book = Book::findOrFail($id);
+
+        $data = DB::table('peminjaman_buku')
+            ->join('peminjaman', 'peminjaman_buku.peminjaman_id', '=', 'peminjaman.id')
+            ->join('users', 'peminjaman.user_id', '=', 'users.id')
+            ->where('peminjaman_buku.buku_id', '=', $id)
+            ->select('peminjaman_buku.jumlah', 'peminjaman.tanggal_pinjam', 'users.nama')
+            ->orderBy('peminjaman.tanggal_pinjam', 'desc')
+            ->get();
+
+        $params = [
+//            'book' => $book,
+            'data' => $data,
+            'title' => 'List History Buku',
+            'slug' => 'ini slug',
+            'subtitle' => 'Ini sub title'
+        ];
+
+        if ($request->ajax()) {
+            return view('pages.buku.table.table-laporan', $params);
+        }
+
+        return 'errur';
+    }
+
 }

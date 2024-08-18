@@ -37,20 +37,23 @@ Route::middleware([EnsureUserIsAuthenticated::class])->group(function () {
     Route::get('/edit-buku/{id}/edit', [BukuController::class, 'editBuku'])->name('editBuku');
     Route::put('/edit-buku/{id}', [BukuController::class, 'updateBuku'])->name('updateBuku');
 
-    Route::get('/table-list-buku', [BukuController::class, 'tableListBuku'])->name('tableListBuku');
-    Route::get('/table-list-history-buku', [BukuController::class, 'tableListHistoryBuku'])->name('tableListBuku');
-    Route::get('/table-laporan', [BukuController::class, 'tableLaporanBuku'])->name('tableLaporanBuku');
+
+
+
+
+    Route::get('/table-list-buku', [BukuController::class, 'tableListBuku']);
+    Route::get('/table-list-history-buku', [BukuController::class, 'tableListHistoryBuku']);
+    Route::get('/show-table-laporan-buku/{id}', [BukuController::class, 'showTableLaporanBuku']);
+    Route::get('/history-buku', [BukuController::class, 'history'])->name('history');
+
+
+
 
 
     Route::get('/table-list-pinjam', [PinjamController::class, 'tableListPinjam'])->name('tableListPinjam');
     Route::get('/table-list-pengembalian', [PengembalianController::class, 'tableListPengembalian'])->name('tableListPengembalian');
 
     Route::get('/table-list-user', [UserController::class, 'tableListUser'])->name('tableListUser');
-
-
-    // History Buku
-    Route::get('/history-buku', [BukuController::class, 'history'])->name('history');
-    Route::get('/history-buku/{id}', [BukuController::class, 'historyBuku'])->name('historyBuku');
 
     // Data Buku yang dipinjam
     Route::get('/search/result', [PinjamController::class, 'searchResult'])->name('searchPage');

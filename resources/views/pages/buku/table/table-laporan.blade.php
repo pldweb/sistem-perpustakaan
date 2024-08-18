@@ -13,15 +13,16 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($book->listPeminjamanBuku() as $num => $item)
+        @foreach($data as $num => $item)
             <tr>
                 <td class="text-center">{{$num+1}}</td>
-                <td>{{$item->Peminjaman->User->nama}}</td>
-                <td class="text-center">{{$item->Peminjaman->display_tanggal_pinjam}}</td>
+                <td>{{$item->nama}}</td>
+                <td class="text-center">{{$item->tanggal_pinjam}}</td>
                 <td class="text-center">{{$item->jumlah}}</td>
             </tr>
         @endforeach
         </tbody>
     </table>
+
 </div>
 

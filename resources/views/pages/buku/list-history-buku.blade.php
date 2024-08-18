@@ -39,7 +39,6 @@
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive" id="table-responsive">
-                            <!-- Projects table -->
                             @include('pages.buku.table.table-list-history-buku')
                         </div>
                     </div>
@@ -49,26 +48,6 @@
     </div>
 
     {!! App\Helpers\AjaxPaginationHelper::script('table-responsive', '/table-list-history-buku?page=') !!}
-
-    <script>
-        $(document).ready(function () {
-            $(document).on('click', '#book-history', function () {
-                var idBuku = $(this).data('id');
-
-                $.ajax({
-                    url: '/table-list-history-buku/' + idBuku,
-                    method: 'GET',
-                    success: function (response) {
-                        $('#modalContent').html(response);
-                        $('#detailModal').modal('show');
-                    },
-                    error: function (response) {
-                        return "Error";
-                    }
-                });
-            });
-        });
-    </script>
 
 @endsection
 
