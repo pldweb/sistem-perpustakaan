@@ -20,9 +20,7 @@
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-icon">
-                                <div
-                                    class="icon-big text-center icon-primary bubble-shadow-small"
-                                >
+                                <div class="icon-big text-center icon-primary bubble-shadow-small">
                                     <i class="fas fa-users"></i>
                                 </div>
                             </div>
@@ -99,43 +97,17 @@
             <div class="card card-round">
               <div class="card-body">
                 <div class="card-head-row card-tools-still-right">
-                  <div class="card-title">New Customers</div>
-                  <div class="card-tools">
-                    <div class="dropdown">
-                      <button
-                        class="btn btn-icon btn-clean me-0"
-                        type="button"
-                        id="dropdownMenuButton"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false">
-                        <i class="fas fa-ellipsis-h"></i>
-                      </button>
-                      <div
-                        class="dropdown-menu"
-                        aria-labelledby="dropdownMenuButton"
-                      >
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#"
-                          >Something else here</a
-                        >
-                      </div>
-                    </div>
-                  </div>
+                  <div class="card-title">Peminjam terbaru</div>
+
                 </div>
                 <div class="card-list py-4">
                   <div class="item-list">
                     <div class="avatar">
-                      <img
-                        src="./img/jm_denis.jpg"
-                        alt="..."
-                        class="avatar-img rounded-circle"
-                      />
+                        <img src="{{ asset('img/jm_denis.jpg') }}" alt="..." class="avatar-img rounded-circle"/>
                     </div>
                     <div class="info-user ms-3">
-                      <div class="username">Jimmy Denis</div>
-                      <div class="status">Graphic Designer</div>
+                      <div class="username">{{ Auth::User()->nama }}</div>
+                      <div class="status">30 Agustus 2024</div>
                     </div>
                     <button class="btn btn-icon btn-link op-8 me-1">
                       <i class="far fa-envelope"></i>
