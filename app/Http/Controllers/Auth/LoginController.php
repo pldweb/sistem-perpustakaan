@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\LatihanJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,6 +12,7 @@ class LoginController extends Controller
 {
     public function formLogin()
     {
+        dispatch(new LatihanJob());
         return view('pages.auth.login-user');
     }
 

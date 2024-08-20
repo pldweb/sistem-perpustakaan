@@ -228,7 +228,6 @@ class PinjamController extends Controller
         return redirect()->route('listPinjam');
     }
 
-
     // Mengarahkan ke halaman form Pinjam Buku
     public function pinjamBuku()
     {
@@ -243,7 +242,6 @@ class PinjamController extends Controller
 
         return view('pages.pinjam.input-pinjam', $data);
     }
-
 
     // Controller menangani request input data peminjaman buku
     public function store(Request $request)
