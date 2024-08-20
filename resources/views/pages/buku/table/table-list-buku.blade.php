@@ -7,6 +7,7 @@
         <th scope="col" class="text-start">Penerbit</th>
         <th scope="col" class="text-start">Tahun Terbit</th>
         <th scope="col" class="text-start">Stock Buku</th>
+        <th scope="col" class="text-start">Photo</th>
         <th scope="col" class="text-start">Opsi</th>
     </tr>
     </thead>
@@ -21,8 +22,14 @@
             <td class="text-start">{{ $item->penerbit }}</td>
             <td class="text-start">{{ $item->tahun_terbit }}</td>
             <td class="text-start">{{ $item->stock }}</td>
+            <td class="">
+                @if(!empty($item->photo))
+                    <a href="{{ url('img/' . $item->photo) }}" target="_blank" style="white-space: nowrap; text-decoration: underline;">Lihat Gambar</a>
+                @else
+                    <span style="color: black;">Tidak ada gambar</span>
+                @endif
+            </td>
             <td class="text-start d-flex column-gap-1">
-
                 <a href="{{ route('editBuku', $item->id) }}">
                     <button class="btn btn-warning w500">
                         <span class="btn-label">

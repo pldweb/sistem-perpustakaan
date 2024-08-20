@@ -19,7 +19,8 @@ class Book extends Model
         'penerbit',
         'tahun_terbit',
         'stock',
-        'stock_tersedia'
+        'stock_tersedia',
+        'photo'
     ];
 
     public function PeminjamanBuku()

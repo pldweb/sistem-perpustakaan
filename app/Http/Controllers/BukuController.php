@@ -20,6 +20,18 @@ class BukuController extends Controller
         return view('pages.buku.list-buku', $params);
     }
 
+    public function tableListBuku()
+    {
+        // Paginasi mencapai 10 data buku saja yang tampil
+        $params = [
+            'data' => Book::paginate(10),
+            'title' => "List Data Master Buku",
+            'subtitle' => "Seluruh data master buku",
+            'slug' => 'ini slug',
+        ];
+        return view('pages.buku.table.table-list-buku', $params);
+    }
+
     public function inputBuku()
     {
         $params = [
@@ -58,6 +70,24 @@ class BukuController extends Controller
             return response()->json(['success' => false, 'message' => 'Stock buku tidak valid']);
         }
 
+
+        if ($request->hasFile('photo')){
+
+            if ($request->hasFile('photo')) {
+                // Ambil file dari request
+                $photo = $request->file('photo');
+
+                // Buat nama file unik
+                $filename = time() . '.' . $photo->getClientOriginalExtension();
+
+                // Simpan file ke folder public/image
+                $photo->move(public_path('img'), $filename);
+
+                // Tambahkan nama file ke data
+                $data['photo'] = $filename;
+            }
+        }
+
         DB::beginTransaction();
         try {
             $data = [
@@ -67,9 +97,10 @@ class BukuController extends Controller
                 'tahun_terbit' => $tahunTerbitBuku,
                 'stock' => $stockBuku,
                 'stock_tersedia' => 0,
+                'photo' => $filename,
             ];
 
-            $newBook = Book::create($data);
+            Book::create($data);
 
             DB::commit();
 

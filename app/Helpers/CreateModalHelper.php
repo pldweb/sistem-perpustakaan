@@ -14,7 +14,7 @@ class CreateModalHelper{
                         $('#{$formSaveName}').on('submit', function(e){
                             e.preventDefault();
 
-                            var dataInput = $(this).serialize();
+                            var dataInput = new FormData(this);
 
                             $('#{$confirmationModal}').modal('show');
 
@@ -33,6 +33,8 @@ class CreateModalHelper{
                                     url: '/{$routeUrl}',
                                     method: 'POST',
                                     data: dataInput,
+                                    contentType: false, // Jangan kirim contentType
+                                    processData: false, // Jangan proses data
                                     success: function (response){
 
                                         // Menghitung jumlah .page-item kecuali yang disable
