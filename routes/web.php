@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\Mail\MailController;
 use App\Http\Controllers\PinjamController;
 use App\Http\Controllers\PengembalianController;
 use App\Http\Controllers\UserController;
@@ -38,15 +39,13 @@ Route::middleware([EnsureUserIsAuthenticated::class])->group(function () {
     Route::put('/edit-buku/{id}', [BukuController::class, 'updateBuku'])->name('updateBuku');
 
 
-
-
-
     Route::get('/table-list-buku', [BukuController::class, 'tableListBuku']);
     Route::get('/table-list-history-buku', [BukuController::class, 'tableListHistoryBuku']);
     Route::get('/show-table-laporan-buku/{id}', [BukuController::class, 'showTableLaporanBuku']);
     Route::get('/history-buku', [BukuController::class, 'history'])->name('history');
 
 
+    Route::get('/mail/send', [MailController::class, 'sendMail'])->name('sendMail');
 
 
 

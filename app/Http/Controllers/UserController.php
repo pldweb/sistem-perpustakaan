@@ -157,7 +157,7 @@ class UserController extends Controller
 
             DB::commit();
 
-            return redirect()->route('ListUser');
+            return redirect()->route('listUser');
 
         } catch (\Exception $exception) {
 

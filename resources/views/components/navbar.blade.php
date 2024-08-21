@@ -60,7 +60,6 @@
                                 @else
                                     <img src="{{ asset('/img/profile.jpg')}}" alt="..." class="avatar-img rounded-circle"/>
                                 @endif
-
                             </div>
                             <span class="profile-username">
                                 <span class="op-7">Hi,</span>
