@@ -29,6 +29,13 @@
                 <span>{{ $message }}</span>
                 @enderror
             </div>
+            <div class="mb-3 col-3">
+                <label for="foto">Foto Profile:</label>
+                <input type="file" name="photo" accept="image/*">
+                @error('photo')
+                    <span>{{ $message }}</span>
+                @enderror
+            </div>
             <button type="submit" class="btn btn-primary w-100">Register</button>
         </form>
     </div>

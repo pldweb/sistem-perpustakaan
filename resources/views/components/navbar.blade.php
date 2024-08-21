@@ -55,9 +55,12 @@
                             href="#"
                             aria-expanded="false">
                             <div class="avatar-sm">
-                                <img src="{{ asset("img/profile.jpg")}}"
-                                    alt="..."
-                                    class="avatar-img rounded-circle"/>
+                                @if(!empty(Auth::user()->photo))
+                                    <img src="{{ Auth::User()->photo}}" alt="..." class="avatar-img rounded-circle"/>
+                                @else
+                                    <img src="{{ asset('/img/profile.jpg')}}" alt="..." class="avatar-img rounded-circle"/>
+                                @endif
+
                             </div>
                             <span class="profile-username">
                                 <span class="op-7">Hi,</span>
@@ -69,9 +72,12 @@
                                 <li>
                                     <div class="user-box">
                                         <div class="avatar-lg">
-                                            <img src="{{ asset("img/profile.jpg")}}"
-                                                alt="image profile"
-                                                class="avatar-img rounded"/>
+                                            @if(!empty(Auth::User()->photo))
+                                                <img src="{{ Auth::User()->photo}}" alt="image profile" class="avatar-img rounded"/>
+                                            @else
+                                                <img src="{{ asset('/img/profile.jpg') }}" alt="image profile" class="avatar-img rounded"/>
+                                            @endif
+
                                         </div>
                                         <div class="u-text">
                                             <h4>{{ Auth::User()->nama }}</h4>

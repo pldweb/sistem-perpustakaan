@@ -69,9 +69,33 @@ class UserController extends Controller
 
         DB::beginTransaction();
         try {
+
+            $photoPath = 'public/img/profile.jpg';
+
+            if ($request->hasFile('photo')) {
+                $photoUser = $request->file('photo');
+
+                $extension = $photoUser->getClientOriginalExtension();
+
+                $originalNamePhoto = pathinfo($photoUser->getClientOriginalName(), PATHINFO_FILENAME);
+
+                $hashNamePhoto = md5($originalNamePhoto . time());
+
+                $fileName = $hashNamePhoto . '.' . $extension;
+
+                $photoUser->move(public_path('img/profile/'), $fileName);
+
+                $photoPath = 'img/profile/' . $fileName;
+
+            } else {
+
+                $photoPath = 'public/img/profile.jpg';
+            }
+
             $data = [
                 'nama' => $namaUser,
                 'email' => $emailUser,
+                'photo' => $photoPath,
                 'password' => Hash::make($passwordUser),
             ];
 
@@ -79,7 +103,7 @@ class UserController extends Controller
 
             DB::commit();
 
-            return redirect()->route('ListUser');
+            return redirect()->route('listUser');
 
         } catch (\Exception $exception) {
 
@@ -152,7 +176,7 @@ class UserController extends Controller
 
             DB::commit();
 
-            return redirect()->route('ListUser');
+            return redirect()->route('listUser');
 
         } catch (\Exception $exception) {
             DB::rollBack();

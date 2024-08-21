@@ -41,12 +41,15 @@
                 <label for="stock" class="form-label">Stock</label>
                 <input type="number" class="form-control" id="stock" name="stock" required value="{{ old('stock') }}">
                 @error('stock')
-                <span>{{ $message }}</span>
+                    <span>{{ $message }}</span>
                 @enderror
             </div>
             <div class="mb-3 col-3">
                 <label for="foto">Foto Buku:</label>
-                <input type="file" name="photo" accept="image/*" required>
+                <input type="file" name="photo" accept="image/*">
+                @error('photo')
+                    <span>{{ $message }}</span>
+                @enderror
             </div>
         </div>
         <button type="submit" class="btn btn-primary w-25%">Simpan Data Buku</button>

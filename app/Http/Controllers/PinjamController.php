@@ -69,7 +69,8 @@ class PinjamController extends Controller
                 'peminjaman.tanggal_pengembalian',
                 'peminjaman.catatan',
                 'peminjaman.status'
-            ) // Pastikan semua kolom dari peminjaman berada di dalam GROUP BY
+            )
+            ->orderBy('peminjaman.id', 'DESC')
             ->paginate(10);
 
         $totalBuku = $data->sum('jumlah');
