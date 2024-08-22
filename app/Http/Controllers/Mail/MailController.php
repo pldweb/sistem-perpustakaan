@@ -11,15 +11,15 @@ class MailController extends Controller
     public function sendMail()
     {
         $data = [
-            'subject' => 'testing kirim email',
-            'title' => 'testing kirim email',
+            'subject' => 'Ini subject emailnya',
+            'title' => 'Ini judul email',
             'body' => 'testing kirim email'
         ];
 
         $email = 'muhammadrivaldifnni01@gmail.com';
         $emailInka = 'inka.aidi29@gmail.com';
 
-        Mail::to($emailInka)->send(new SendEmail($data));
+        Mail::to($email)->send(new SendEmail($data));
 
         return 'Email berhasil dikirim';
     }
