@@ -11,9 +11,9 @@ class MailController extends Controller
     public function sendMail()
     {
         $data = [
-            'subject' => 'Ini subject emailnya',
-            'title' => 'Ini judul email',
-            'body' => 'testing kirim email'
+            'subject' => '🚨🚨NINU NINU🚨🚨',
+            'title' => 'Halo Salam Kenal',
+            'body' => 'Bagaimana kabarmu hari ini?'
         ];
 
         $email = 'muhammadrivaldifnni01@gmail.com';
