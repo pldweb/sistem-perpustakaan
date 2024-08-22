@@ -4,20 +4,20 @@ namespace App\Console\Commands;
 
 use App\Mail\BookReminder;
 use App\Services\HunterService;
-use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
-class SendBookReminder extends Command
+class SendBookReminderH3 extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:send-book-reminder-h1';
+    protected $signature = 'app:send-book-reminder-h3';
 
     /**
      * The console command description.
@@ -26,11 +26,11 @@ class SendBookReminder extends Command
      */
     protected $description = 'Command description';
 
-    protected $hunterService;
-
     /**
      * Execute the console command.
      */
+
+    protected  $hunterService;
 
     public function __construct(HunterService $hunterService)
     {
@@ -40,7 +40,7 @@ class SendBookReminder extends Command
 
     public function handle()
     {
-        $targetHari = Carbon::now()->addDay()->toDateString(); // untuk reminder H-1
+        $targetHari = Carbon::now()->addDays(3)->toDateString();
 
         $peminjaman = DB::table('peminjaman')
             ->join('users', 'users.id', '=', 'peminjaman.user_id')
@@ -50,18 +50,20 @@ class SendBookReminder extends Command
 
         foreach ($peminjaman as $peminjam) {
             try {
+
                 $verificationResult = $this->hunterService->verifyEmail($peminjam->email);
 
                 if ($verificationResult['data']['status'] === 'valid') {
 
                     Mail::to($peminjam->email)->queue(new BookReminder($peminjam));
-                    $this->info('Reminder email berhasil dikirim: ' . $peminjam->email);
+                    $this->info('Reminder berhasil terkirim : ' . $peminjam->email);
 
                 } else {
                     $this->warn('Email tidak valid: ' . $peminjam->email);
                 }
+
             } catch (\Exception $e) {
-                Log::error('Error in sending email: ' . $e->getMessage());
+                Log::error('Error kirim email ' . $e->getMessage());
             }
         }
     }

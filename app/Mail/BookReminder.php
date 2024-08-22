@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -26,7 +27,7 @@ class BookReminder extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Reminder Pengembalian Buku',
+            subject: '🚨🚨Reminder Pengembalian Buku 🚨🚨',
         );
     }
 
@@ -35,11 +36,13 @@ class BookReminder extends Mailable
      */
     public function content(): Content
     {
+        $formatTanggal = Carbon::parse($this->peminjaman->tanggal_pengembalian)->format('d M Y');
+
         return new Content(
             view: 'emails.book_return_reminder',
             with: [
                 'peminjaman_nama' => $this->peminjaman->nama,
-                'tanggal_pengembalian' => $this->peminjaman->tanggal_pengembalian,
+                'tanggal_pengembalian' => $formatTanggal,
             ],
         );
 
