@@ -89,7 +89,7 @@ class UserController extends Controller
 
             } else {
 
-                $photoPath = 'public/img/profile.jpg';
+                $photoPath = '';
             }
 
             $data = [

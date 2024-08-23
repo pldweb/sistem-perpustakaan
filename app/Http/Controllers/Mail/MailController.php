@@ -21,6 +21,12 @@ class MailController extends Controller
 
         Mail::to($email)->send(new SendEmail($data));
 
-        return 'Email berhasil dikirim';
+        $pesan = "Kirim Email berhasil";
+        $pesanType = "success";
+
+        return redirect()->back()->with([
+            'pesan' => $pesan,
+            'pesanType' => $pesanType
+        ]) ;
     }
 }

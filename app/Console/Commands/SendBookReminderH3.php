@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\SendReminderH3;
 use App\Mail\BookReminder;
 use App\Services\HunterService;
 use Carbon\Carbon;
@@ -30,7 +31,7 @@ class SendBookReminderH3 extends Command
      * Execute the console command.
      */
 
-    protected  $hunterService;
+    protected $hunterService;
 
     public function __construct(HunterService $hunterService)
     {
@@ -40,31 +41,7 @@ class SendBookReminderH3 extends Command
 
     public function handle()
     {
-        $targetHari = Carbon::now()->addDays(3)->toDateString();
-
-        $peminjaman = DB::table('peminjaman')
-            ->join('users', 'users.id', '=', 'peminjaman.user_id')
-            ->select('peminjaman.*', 'users.email', 'users.nama')
-            ->whereDate('peminjaman.tanggal_pengembalian', '=', $targetHari)
-            ->get();
-
-        foreach ($peminjaman as $peminjam) {
-            try {
-
-                $verificationResult = $this->hunterService->verifyEmail($peminjam->email);
-
-                if ($verificationResult['data']['status'] === 'valid') {
-
-                    Mail::to($peminjam->email)->queue(new BookReminder($peminjam));
-                    $this->info('Reminder berhasil terkirim : ' . $peminjam->email);
-
-                } else {
-                    $this->warn('Email tidak valid: ' . $peminjam->email);
-                }
-
-            } catch (\Exception $e) {
-                Log::error('Error kirim email ' . $e->getMessage());
-            }
-        }
+        SendReminderH3::dispatch($this->hunterService);
+        Log::info('Job SendReminder H3 dispatched');
     }
 }

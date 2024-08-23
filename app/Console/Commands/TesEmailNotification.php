@@ -7,6 +7,7 @@ use App\Jobs\TestQueueJob;
 use App\Mail\TesMail;
 use App\Models\Peminjaman;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class TesEmailNotification extends Command
@@ -37,7 +38,7 @@ class TesEmailNotification extends Command
     public function handle()
     {
         SendMailPersonal::dispatch();
-        $this->info('Queue SendMailPersonal dispatched');
+        Log::info('Queue SendMailPersonal dispatched');
     }
 
 }

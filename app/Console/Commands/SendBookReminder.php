@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\SendReminderH1;
 use App\Mail\BookReminder;
 use App\Services\HunterService;
 use Illuminate\Support\Facades\DB;
@@ -26,43 +27,23 @@ class SendBookReminder extends Command
      */
     protected $description = 'Command description';
 
-    protected $hunterService;
+//    protected $hunterService;
+
+//    protected $hunterService;
+
+    public function __construct()
+    {
+        parent::__construct();
+//        $this->hunterService = $hunterService;
+    }
 
     /**
      * Execute the console command.
      */
 
-    public function __construct(HunterService $hunterService)
-    {
-        parent::__construct();
-        $this->hunterService = $hunterService;
-    }
-
     public function handle()
     {
-        $targetHari = Carbon::now()->addDay()->toDateString(); // untuk reminder H-1
-
-        $peminjaman = DB::table('peminjaman')
-            ->join('users', 'users.id', '=', 'peminjaman.user_id')
-            ->select('peminjaman.*', 'users.email', 'users.nama')
-            ->whereDate('peminjaman.tanggal_pengembalian', '=', $targetHari)
-            ->get();
-
-        foreach ($peminjaman as $peminjam) {
-            try {
-                $verificationResult = $this->hunterService->verifyEmail($peminjam->email);
-
-                if ($verificationResult['data']['status'] === 'valid') {
-
-                    Mail::to($peminjam->email)->queue(new BookReminder($peminjam));
-                    $this->info('Reminder email berhasil dikirim: ' . $peminjam->email);
-
-                } else {
-                    $this->warn('Email tidak valid: ' . $peminjam->email);
-                }
-            } catch (\Exception $e) {
-                Log::error('Error in sending email: ' . $e->getMessage());
-            }
-        }
+        SendReminderH1::dispatch();
+        Log::info('Job SendReminder H1 dispatched');
     }
 }

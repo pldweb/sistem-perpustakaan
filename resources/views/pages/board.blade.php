@@ -4,6 +4,12 @@
 
 @section('content')
 
+    @if(session('pesan'))
+        <div class="alert alert-{{ session('pesanType') }}">
+            {{ session('pesan') }}
+        </div>
+    @endif
+
     <div class="page-inner">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
@@ -11,7 +17,7 @@
                 <h6 class="op-7 mb-2">Sistem Perpustakaan Online</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-
+                <a href="{{ route('sendMail')  }}" class="btn btn-info">Tes kirim email</a>
             </div>
         </div>
         <div class="row">

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\SendReminderH7;
 use App\Mail\BookReminder;
 use App\Services\HunterService;
 use Carbon\Carbon;
@@ -40,31 +41,7 @@ class SendBookReminderH7 extends Command
 
     public function handle()
     {
-        $targetHari = Carbon::now()->addDays(7)->toDateString();
-
-        $peminjaman = DB::table('peminjaman')
-            ->join('users', 'users.id', '=', 'peminjaman.user_id')
-            ->select('peminjaman.*', 'users.email', 'users.nama')
-            ->whereDate('peminjaman.tanggal_pengembalian', '=', $targetHari)
-            ->get();
-
-        foreach ($peminjaman as $peminjam) {
-            try {
-
-                $verificationResult = $this->hunterService->verifyEmail($peminjam->email);
-
-                if ($verificationResult['data']['status'] === 'valid') {
-
-                    Mail::to($peminjam->email)->queue(new BookReminder($peminjam));
-                    $this->info('Reminder berhasil terkirim : ' . $peminjam->email);
-
-                } else {
-                    $this->warn('Email tidak valid: ' . $peminjam->email);
-                }
-
-            } catch (\Exception $e) {
-                Log::error('Error kirim email ' . $e->getMessage());
-            }
-        }
+        SendReminderH7::dispatch();
+        Log::info('Queue SendeRimnderH7 Dispathed');
     }
 }
