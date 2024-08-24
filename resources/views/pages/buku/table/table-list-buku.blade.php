@@ -24,7 +24,7 @@
             <td class="text-start">{{ $item->stock }}</td>
             <td class="">
                 @if(!empty($item->photo))
-                    <a href="{{ url('img/' . $item->photo) }}" target="_blank" style="white-space: nowrap; text-decoration: underline;">Lihat Gambar</a>
+                    <a href="{{ $item->photo }}" target="_blank" style="white-space: nowrap; text-decoration: underline;">Lihat Gambar</a>
                 @else
                     <span style="color: black;">Tidak ada gambar</span>
                 @endif

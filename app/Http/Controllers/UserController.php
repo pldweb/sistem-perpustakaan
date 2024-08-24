@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -67,36 +68,39 @@ class UserController extends Controller
             return 'Password harus minimal 5 karakter';
         }
 
+        if ($request->hasFile('photo')) {
+
+            $photoUser = $request->file('photo');
+
+            $originalNamePhoto = $photoUser->getClientOriginalName();
+
+            $hashNamePhoto = md5($originalNamePhoto . time());
+
+            $fileName = $hashNamePhoto . '.' . $originalNamePhoto;
+
+            $filePath = $photoUser->storeAs('uploads/user/images', $fileName, [
+                'disk' => 's3',
+                'visibility' => 'public'
+            ]);
+
+            Storage::disk('s3')->url($filePath);
+
+            $data['photo'] = $filePath;
+
+        } else {
+
+            $photoPath = null;
+        }
+
+
         DB::beginTransaction();
         try {
-
-            $photoPath = 'public/img/profile.jpg';
-
-            if ($request->hasFile('photo')) {
-                $photoUser = $request->file('photo');
-
-                $extension = $photoUser->getClientOriginalExtension();
-
-                $originalNamePhoto = pathinfo($photoUser->getClientOriginalName(), PATHINFO_FILENAME);
-
-                $hashNamePhoto = md5($originalNamePhoto . time());
-
-                $fileName = $hashNamePhoto . '.' . $extension;
-
-                $photoUser->move(public_path('img/profile/'), $fileName);
-
-                $photoPath = 'img/profile/' . $fileName;
-
-            } else {
-
-                $photoPath = '';
-            }
 
             $data = [
                 'nama' => $namaUser,
                 'email' => $emailUser,
-                'photo' => $photoPath,
                 'password' => Hash::make($passwordUser),
+                'photo' => $photoPath,
             ];
 
             User::create($data);

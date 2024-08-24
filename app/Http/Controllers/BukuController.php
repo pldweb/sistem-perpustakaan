@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class BukuController extends Controller
 {
@@ -25,9 +26,6 @@ class BukuController extends Controller
         // Paginasi mencapai 10 data buku saja yang tampil
         $params = [
             'data' => Book::paginate(10),
-            'title' => "List Data Master Buku",
-            'subtitle' => "Seluruh data master buku",
-            'slug' => 'ini slug',
         ];
         return view('pages.buku.table.table-list-buku', $params);
     }
@@ -70,26 +68,33 @@ class BukuController extends Controller
             return response()->json(['success' => false, 'message' => 'Stock buku tidak valid']);
         }
 
+        if ($request->hasFile('photo')) {
 
-        if ($request->hasFile('photo')){
+            $filePhoto = $request->file('photo');
 
-            if ($request->hasFile('photo')) {
-                // Ambil file dari request
-                $photo = $request->file('photo');
+            $originalName = $filePhoto->getClientOriginalName();
 
-                // Buat nama file unik
-                $filename = time() . '.' . $photo->getClientOriginalExtension();
+            $filename = time() . '-' . $originalName;
 
-                // Simpan file ke folder public/image
-                $photo->move(public_path('img'), $filename);
+            $filePath = $filePhoto->storeAs('uploads/buku/images', $filename, [
+                'disk' => 's3',
+                'visibility' => 'public'
+            ]);
 
-                // Tambahkan nama file ke data
-                $data['photo'] = $filename;
-            }
+            $urlPhoto = Storage::disk('s3')->url($filePath);
+
+            $data['photo'] = $urlPhoto;
+
+        } else {
+
+            $data['photo'] = null;
+
         }
+
 
         DB::beginTransaction();
         try {
+
             $data = [
                 'judul_buku' => $judulBuku,
                 'penulis' => $penulisBuku,
@@ -97,7 +102,7 @@ class BukuController extends Controller
                 'tahun_terbit' => $tahunTerbitBuku,
                 'stock' => $stockBuku,
                 'stock_tersedia' => 0,
-                'photo' => $filename,
+                'photo' => $urlPhoto,
             ];
 
             Book::create($data);
