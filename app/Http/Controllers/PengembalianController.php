@@ -150,14 +150,13 @@ class PengembalianController extends Controller
 
             DB::commit();
 
-            return redirect()->route('ListPinjam');
+            return redirect()->route('listPinjam');
 
         } catch (\Exception $exception) {
             DB::rollBack();
             return 'Ini Error: ' . $exception->getMessage();
         }
     }
-
 
     public function listPengembalian()
     {

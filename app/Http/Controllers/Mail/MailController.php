@@ -12,14 +12,15 @@ class MailController extends Controller
     {
         $data = [
             'subject' => '🚨🚨NINU NINU🚨🚨',
-            'title' => 'Halo Salam Kenal',
-            'body' => 'Bagaimana kabarmu hari ini?'
+            'title' => 'Semangat Pagi Sayangku',
+            'body' => 'I LOVE YOU',
+            'love' => '❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️'
         ];
 
         $email = 'muhammadrivaldifnni01@gmail.com';
         $emailInka = 'inka.aidi29@gmail.com';
 
-        Mail::to($email)->send(new SendEmail($data));
+        Mail::to($emailInka)->send(new SendEmail($data));
 
         $pesan = "Kirim Email berhasil";
         $pesanType = "success";

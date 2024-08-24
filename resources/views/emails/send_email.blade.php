@@ -7,10 +7,11 @@
 </head>
 <body>
 
-<h2>{{ $data['title']  }}</h2>
-<div>
+<h3>{{ $data['title']  }}</h3>
+<h2>
     {{ $data['body'] }}
-</div>
+</h2>
+<marquee behavior="" direction="">{{ $data['love']  }}</marquee>
 
 
 </body>

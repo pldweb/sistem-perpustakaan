@@ -112,7 +112,7 @@
                                 @if(!empty($peminjaman->photo))
                                     <img src="{{ $peminjaman->photo }}" alt="..." class="avatar-img rounded-circle"/>
                                 @else
-                                    <img src="{{ url('/img/profile.jpg') }}" alt="..." class="avatar-img rounded-circle"/>
+                                    <img src="{{ Storage::disk('s3')->url('uploads/img/profile.jpg') }}" alt="..." class="avatar-img rounded-circle"/>
                                 @endif
                             </div>
                             <div class="info-user ms-3">

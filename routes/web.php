@@ -7,11 +7,17 @@ use App\Http\Controllers\BukuController;
 use App\Http\Controllers\Mail\MailController;
 use App\Http\Controllers\PinjamController;
 use App\Http\Controllers\PengembalianController;
+use App\Http\Controllers\StorageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Scrapping\ScrapeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\EnsureUserIsAuthenticated;
 use App\Http\Middleware\RedirectIfAuthenticated;
+
+Route::get('/list-file', [StorageController::class, 'listFile'])->name('list-file');
+Route::post('/upload-file', [StorageController::class, 'uploadFile'])->name('uploadFile');
+Route::get('/download-file/{id}', [StorageController::class, 'downloadFile'])->name('downloadFile');
+Route::post('/delete-file', [StorageController::class, 'deleteFile'])->name('deleteFile');
 
 
 Route::middleware([RedirectIfAuthenticated::class])->group(function () {

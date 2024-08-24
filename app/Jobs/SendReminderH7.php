@@ -30,7 +30,6 @@ class SendReminderH7 implements ShouldQueue
      */
     public function handle(): void
     {
-        //        $hunterService = app(HunterService::class);
 
         $targetHari = Carbon::now()->addDays(7)->toDateString();
 
@@ -41,9 +40,6 @@ class SendReminderH7 implements ShouldQueue
             ->get();
 
         foreach ($peminjaman as $peminjam) {
-
-//            $verificationResult = $hunterService->verifyEmail($peminjam->email);
-//            Log::info('Verification result: ' . print_r($verificationResult, true));
             try {
 
                 if (!empty($peminjam->email)) {
