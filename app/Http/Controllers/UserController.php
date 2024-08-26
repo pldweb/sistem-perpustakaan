@@ -188,7 +188,43 @@ class UserController extends Controller
         }
     }
 
+    public function historyUser()
+    {
+        $data = [
+            'title' => 'List Data Master User',
+            'users' => User::paginate(10),
+            'subtitle' => 'Data Seluruh User',
+            'slug' => 'Ini untuk slug',
+        ];
 
+        return view('pages.user.list-history-user', $data);
+    }
+
+    public function showTableLaporanUser($id, Request $request)
+    {
+
+        $data = DB::table('peminjaman_buku')
+            ->join('peminjaman', 'peminjaman_buku.peminjaman_id', '=', 'peminjaman.id')
+            ->join('books', 'peminjaman_buku.buku_id', '=', 'books.id')
+            ->join('users', 'peminjaman.user_id', '=', 'users.id')
+            ->where('peminjaman.user_id', '=', $id)
+            ->select('peminjaman_buku.jumlah', 'peminjaman.tanggal_pinjam', 'books.judul_buku')
+            ->orderBy('peminjaman.tanggal_pinjam', 'desc')
+            ->get();
+
+        $params = [
+            'data' => $data,
+            'title' => 'List History User',
+            'slug' => 'ini slug',
+            'subtitle' => 'Ini sub title'
+        ];
+
+        if ($request->ajax()) {
+            return view('pages.user.table.table-laporan', $params);
+        }
+
+        return 'error';
+    }
 
 }
 

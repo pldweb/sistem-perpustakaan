@@ -45,31 +45,32 @@ Route::middleware([EnsureUserIsAuthenticated::class])->group(function () {
 
 
     // Data Master Buku
-    Route::get('/list-buku', [BukuController::class, 'listBuku'])->name('listBuku');
-    Route::delete('/list-buku/{id}', [BukuController::class, 'destroyBuku'])->name('destroyBuku');
+    Route::get('/list-data-buku', [BukuController::class, 'listBuku'])->name('listBuku');
+    Route::get('/table-list-buku', [BukuController::class, 'tableListBuku']);
     Route::get('/input-buku', [BukuController::class, 'inputBuku'])->name('inputBuku');
     Route::post('/simpan-buku', [BukuController::class, 'simpanBuku'])->name('simpanBuku');
     Route::get('/edit-buku/{id}/edit', [BukuController::class, 'editBuku'])->name('editBuku');
-    Route::put('/edit-buku/{id}', [BukuController::class, 'updateBuku'])->name('updateBuku');
+    Route::put('/simpan-buku/{id}', [BukuController::class, 'updateBuku'])->name('updateBuku');
+    Route::delete('/list-buku/{id}', [BukuController::class, 'destroyBuku'])->name('destroyBuku');
 
-    Route::get('/table-list-buku', [BukuController::class, 'tableListBuku']);
+    Route::get('/laporan-history-buku', [BukuController::class, 'historyBuku'])->name('historyBuku');
     Route::get('/table-list-history-buku', [BukuController::class, 'tableListHistoryBuku']);
     Route::get('/show-table-laporan-buku/{id}', [BukuController::class, 'showTableLaporanBuku']);
-    Route::get('/history-buku', [BukuController::class, 'history'])->name('history');
 
 
     // Data Master User
+    Route::get('/list-data-user', [UserController::class, 'listUser'])->name('listUser');
     Route::get('/table-list-user', [UserController::class, 'tableListUser'])->name('tableListUser');
-    Route::get('/list-user', [UserController::class, 'listUser'])->name('listUser');
     Route::get('/input-user', [UserController::class, 'inputUser'])->name('inputUser');
+    Route::post('/simpan-user', [UserController::class, 'simpanUser'])->name('simpanUser');
     Route::get('/list-user/{id}/edit', [UserController::class, 'editUser'])->name('editUser');
     Route::put('/list-user/{id}', [UserController::class, 'updateUser'])->name('updateUser');
-    Route::post('/simpan-user', [UserController::class, 'simpanUser'])->name('simpanUser');
     Route::delete('/list-user/{id}', [UserController::class, 'destroyUser'])->name('destroyUser');
 
-    Route::get('/table-list-history-user', [UserController::class, 'tableListHistoryUser'])->name('tableListHistoryUser');
-    Route::get('/history-user', [UserController::class, 'history'])->name('history');
 
+    Route::get('/laporan-history-user', [UserController::class, 'historyUser'])->name('historyUser');
+    Route::get('/table-list-history-user', [UserController::class, 'tableListHistoryUser'])->name('tableListHistoryUser');
+    Route::get('/show-table-laporan-user/{id}', [UserController::class, 'showTableLaporanUser']);
 
 
     // Data Buku yang dipinjam

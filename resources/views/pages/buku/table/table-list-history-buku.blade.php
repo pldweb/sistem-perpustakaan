@@ -22,7 +22,6 @@
             <td class="text-start">{{ $item->tahun_terbit }}</td>
             <td class="text-start">{{ $item->stock }}</td>
             <td class="text-start d-flex column-gap-1">
-
                 <button class="btn btn-info w500" id="book-history"
                         data-id="{{ $item->id }}" data-target="#modalContent">
                     <span class="btn-label">
@@ -57,5 +56,4 @@
             });
         });
     });
-
 </script>

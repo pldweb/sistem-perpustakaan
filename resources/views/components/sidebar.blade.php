@@ -44,8 +44,8 @@
                         <p class="sub-item">Data Master Buku</p>
                     </a>
                 </li>
-                <li class="{{Route::currentRouteNamed('history') ? 'nav-item active' : "nav-item"}}">
-                    <a href="{{ route('history') }}">
+                <li class="{{Route::currentRouteNamed('historyBuku') ? 'nav-item active' : "nav-item"}}">
+                    <a href="{{ route('historyBuku') }}">
                         <i class="fas fa-book-open"></i>
                         <p class="sub-item">Laporan History Buku</p>
                     </a>
@@ -62,8 +62,8 @@
                         <p class="sub-item">Data Master User</p>
                     </a>
                 </li>
-                <li class="{{Route::currentRouteNamed('listUser') ? 'nav-item active' : "nav-item"}}">
-                    <a href="{{ route('listUser') }}">
+                <li class="{{Route::currentRouteNamed('historyUser') ? 'nav-item active' : "nav-item"}}">
+                    <a href="{{ route('historyUser') }}">
                         <i class="fas fa-history"></i>
                         <p class="sub-item">Laporan History User</p>
                     </a>

@@ -203,7 +203,7 @@ class BukuController extends Controller
         }
     }
 
-    public function history()
+    public function historyBuku()
     {
         // Paginasi mencapai 10 data buku saja yang tampil
         $params = [
@@ -251,7 +251,7 @@ class BukuController extends Controller
             return view('pages.buku.table.table-laporan', $params);
         }
 
-        return 'errur';
+        return 'error';
     }
 
 }
