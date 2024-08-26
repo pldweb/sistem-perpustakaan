@@ -1,8 +1,8 @@
 <!-- Sidebar -->
-<div class="sidebar" data-background-color="dark">
+<div class="sidebar" data-background-color="light">
     <div class="sidebar-logo">
         <!-- Logo Header -->
-        <div class="logo-header" data-background-color="dark">
+        <div class="logo-header" data-background-color="light">
             <a href="{{ route('dashboard') }}" class="logo">
                 <img src="{{ Storage::disk('s3')->url('uploads/img/Logo_book.png') }}"
                     alt="navbar brand"
@@ -24,76 +24,70 @@
         <!-- End Logo Header -->
     </div>
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
-        <div class="sidebar-content">
+        <div class="sidebar-content" style="padding: 0 10px;">
             <ul class="nav nav-secondary">
                 <li class="{{Route::currentRouteNamed('dashboard') ? 'nav-item active' : "nav-item"}}">
                     <a href="{{ route('dashboard') }}">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
                     </a>
-                    <div class="collapse" id="dashboard">
-                    </div>
+                </li>
+                <li class="nav-section">
+                <span class="sidebar-mini-icon">
+                  <i class="fa fa-ellipsis-h"></i>
+                </span>
+                    <h4 class="text-section">Manajemen Buku</h4>
                 </li>
                 <li class="{{Route::currentRouteNamed('listBuku') ? 'nav-item active' : "nav-item"}}">
-                    <a data-bs-toggle="collapse" href="#sidebarLayouts" class="" aria-expanded="true">
-                        <i class="fas fa-layer-group"></i>
-                        <p>Manajemen Buku</p>
+                    <a href="{{ route('listBuku') }}">
+                        <i class="fas fa-book"></i>
+                        <p class="sub-item">Data Master Buku</p>
                     </a>
-                    <div class="collapse show" id="sidebarLayouts" style="">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="{{ route('listBuku') }}">
-                                    <span class="sub-item">Data Master Buku</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('history') }}">
-                                    <span class="sub-item">Laporan History Buku</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                </li>
+                <li class="{{Route::currentRouteNamed('history') ? 'nav-item active' : "nav-item"}}">
+                    <a href="{{ route('history') }}">
+                        <i class="fas fa-book-open"></i>
+                        <p class="sub-item">Laporan History Buku</p>
+                    </a>
+                </li>
+                <li class="nav-section">
+                <span class="sidebar-mini-icon">
+                  <i class="fa fa-ellipsis-h"></i>
+                </span>
+                    <h4 class="text-section">Manajemen User</h4>
                 </li>
                 <li class="{{Route::currentRouteNamed('listUser') ? 'nav-item active' : "nav-item"}}">
-                    <a data-bs-toggle="collapse" href="#sidebarUserLayouts" class="" aria-expanded="true">
-                        <i class="fas fa-layer-group"></i>
-                        <p>Manajemen User</p>
+                    <a href="{{ route('listUser') }}">
+                        <i class="fas fa-user"></i>
+                        <p class="sub-item">Data Master User</p>
                     </a>
-                    <div class="collapse show" id="sidebarUserLayouts" style="">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="{{ route('listUser') }}">
-                                    <span class="sub-item">Data Master User</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('listUser') }}">
-                                    <span class="sub-item">Laporan History User</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                </li>
+                <li class="{{Route::currentRouteNamed('listUser') ? 'nav-item active' : "nav-item"}}">
+                    <a href="{{ route('listUser') }}">
+                        <i class="fas fa-history"></i>
+                        <p class="sub-item">Laporan History User</p>
+                    </a>
+                </li>
+                <li class="nav-section">
+                <span class="sidebar-mini-icon">
+                  <i class="fa fa-ellipsis-h"></i>
+                </span>
+                    <h4 class="text-section">Manajemen Peminjaman</h4>
                 </li>
                 <li class="{{Route::currentRouteNamed('listPinjam') ? 'nav-item active' : "nav-item"}}">
-                    <a data-bs-toggle="collapse" href="#sidebarPinjamLayouts" class="" aria-expanded="true">
-                        <i class="fas fa-layer-group"></i>
-                        <p>Data Peminjaman</p>
+                    <a href="{{ route('listPinjam') }}">
+                        <i class="fas fa-id-badge"></i>
+                        <p class="sub-item">Laporan Peminjaman</p>
                     </a>
-                    <div class="collapse show" id="sidebarPinjamLayouts" style="">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="{{ route('listPinjam') }}">
-                                    <span class="sub-item">Data Peminjaman Buku</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('listPengembalian') }}">
-                                    <span class="sub-item">Data Pengembalian Buku</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </li>
+                <li class="{{Route::currentRouteNamed('listPengembalian') ? 'nav-item active' : "nav-item"}}">
+                    <a href="{{ route('listPengembalian') }}">
+                        <i class="fas fa-book-reader"></i>
+                        <p class="sub-item">Laporan Pengembalian</p>
+                    </a>
+                </li>
+
+
             </ul>
         </div>
     </div>

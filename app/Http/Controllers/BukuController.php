@@ -91,7 +91,6 @@ class BukuController extends Controller
 
         }
 
-
         DB::beginTransaction();
         try {
 

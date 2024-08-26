@@ -1,5 +1,66 @@
-.btn.w500 {
+:root {
+    --primary-color: #1D42B2;
+    --primary-color-hover: #254dcc;
+}
 
+.sidebar .nav>.nav-item.active>a, .sidebar[data-background-color=white] .nav>.nav-item.active>a {
+    background: var(--primary-color);
+    color: #fff !important;
+    border-radius: 10px;
+}
+
+.sidebar .nav.nav-secondary>.nav-item.active a i, .sidebar[data-background-color=white] .nav.nav-secondary>.nav-item.active a i
+{
+    color: white !important;
+}
+
+.sidebar .nav>.nav-item.active>a p, .sidebar[data-background-color=white] .nav>.nav-item.active>a p {
+    color: #fff !important;
+    font-weight: 600;
+}
+
+.sidebar .nav.nav-secondary>.nav-item.active a:before, .sidebar[data-background-color=white] .nav.nav-secondary>.nav-item.active a:before
+{
+    background: transparent !important;
+}
+
+.sidebar .nav>.nav-item a, .sidebar[data-background-color=white] .nav>.nav-item a
+{
+    padding-left: 10px !important;
+}
+
+.sidebar .nav.nav-secondary>.nav-item a:focus i, .sidebar .nav.nav-secondary>.nav-item a:hover i
+{
+    color: var(--primary-color) !important;
+}
+
+.sidebar .nav.nav-secondary>.nav-item.active a:focus i, .sidebar .nav.nav-secondary>.nav-item.active a:hover i
+{
+    color: white !important;
+}
+
+.sidebar .nav .nav-section .text-section, .sidebar[data-background-color=white] .nav .nav-section .text-section {
+    padding: 14px 30px 0 15px;
+    font-size: 12px;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    margin-top: 20px;
+    font-weight: 900;
+    letter-spacing: 0 !important;
+}
+
+.btn-primary {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-color-hover) !important;
+    border-color: var(--primary-color-hover) !important;
+}
+
+.btn.w500 {
     width: 50px !important;
     height: 50px;
     padding: 0 10px !important;
@@ -9,3 +70,6 @@
    display: flex;
    column-gap: 5px;
 }
+
+
+
