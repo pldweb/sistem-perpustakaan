@@ -229,7 +229,6 @@ class BukuController extends Controller
 
     public function showTableLaporanBuku($id, Request $request)
     {
-//        $book = Book::findOrFail($id);
 
         $data = DB::table('peminjaman_buku')
             ->join('peminjaman', 'peminjaman_buku.peminjaman_id', '=', 'peminjaman.id')
@@ -240,7 +239,6 @@ class BukuController extends Controller
             ->get();
 
         $params = [
-//            'book' => $book,
             'data' => $data,
             'title' => 'List History Buku',
             'slug' => 'ini slug',

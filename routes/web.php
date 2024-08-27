@@ -77,10 +77,11 @@ Route::middleware([EnsureUserIsAuthenticated::class])->group(function () {
     Route::get('/search/result', [PinjamController::class, 'searchResult'])->name('searchPage');
     Route::get('/list-pinjam', [PinjamController::class, 'listPinjam'])->name('listPinjam');
     Route::get('/pinjam-buku', [PinjamController::class, 'pinjamBuku'])->name('pinjamBuku');
+    Route::post('/simpan-pinjam-buku', [PinjamController::class, 'store'])->name('simpanPinjamBuku');
     Route::get('/list-pinjam/{tanggal_pinjam}/{id}', [PinjamController::class, 'detailPinjam'])->name('detailPinjam');
+    Route::get('list-pinjam/{tanggal_pinjam}/{id}/edit', [PinjamController::class, 'editPinjam'])->name('editPinjam');
     Route::put('/list-pinjam/{tanggal_pinjam}/{id}', [PinjamController::class, 'updatePinjam'])->name('updatePinjam');
     Route::delete('/list-pinjam/{tanggal_pinjam}/{id}', [PinjamController::class, 'destroy'])->name('destroyPinjam');
-    Route::post('/simpan-pinjam-buku', [PinjamController::class, 'store'])->name('simpanPinjamBuku');
 
 
 
