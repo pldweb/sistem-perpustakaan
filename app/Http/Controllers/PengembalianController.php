@@ -131,6 +131,12 @@ class PengembalianController extends Controller
                         'denda' => $dendaPengembalian,
                     ]);
 
+//                    $peminjamanBukuAwal = PeminjamanBuku::where('peminjaman_id', $peminjaman->id)
+//                        ->where('buku_id', $bookData['book_id'])
+//                        ->first();
+//
+//                    $peminjamanBukuAwal->increment('jumlah_dikembalikan', $bookData['jumlah']);
+
                     // Kurangi jumlah buku yang dipinjam
                     $detailPeminjamanBuku->jumlah -= $bookData['jumlah'];
                     $detailPeminjamanBuku->save();

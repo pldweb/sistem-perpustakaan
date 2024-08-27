@@ -305,6 +305,7 @@ class PinjamController extends Controller
                 'tanggal_pinjam' => $tanggalPinjam,
                 'tanggal_pengembalian' => $tanggalPengembalian,
                 'catatan' => $catatan,
+                'jumlah_dikembalikan' => 0,
             ]);
 
             // Jika masih ada stock, kurangi stok buku dan simpan data peminjaman buku
@@ -358,8 +359,6 @@ class PinjamController extends Controller
             $pinjam->delete();
 
             DB::commit();
-
-//            Alert::success('Success', 'Pengembalian berhasil diproses');
 
             return redirect()->route('listPinjam');
 

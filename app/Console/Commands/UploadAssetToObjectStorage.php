@@ -35,7 +35,7 @@ class UploadAssetToObjectStorage extends Command
     public function handle()
     {
         // Mendapatkan path ke folder public dari root project
-        $localDirectory = public_path();
+        $localDirectory = public_path('css/');
 
         // Mendapatkan semua file dalam folder public dan subfoldernya
         $files = File::allFiles($localDirectory);
