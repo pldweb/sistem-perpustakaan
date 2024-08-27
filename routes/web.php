@@ -13,11 +13,30 @@ use App\Http\Controllers\Scrapping\ScrapeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\EnsureUserIsAuthenticated;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use Telegram\Bot\Laravel\Facades\Telegram;
+
 
 Route::get('/list-file', [StorageController::class, 'listFile'])->name('list-file');
 Route::post('/upload-file', [StorageController::class, 'uploadFile'])->name('uploadFile');
 Route::get('/download-file/{id}', [StorageController::class, 'downloadFile'])->name('downloadFile');
 Route::post('/delete-file', [StorageController::class, 'deleteFile'])->name('deleteFile');
+
+use Illuminate\Support\Facades\Log;
+use Telegram\Bot\Exceptions\TelegramSDKException;
+
+Route::get('/send-notification', function () {
+    try {
+        $response = Telegram::sendMessage([
+            'chat_id' => '851200267',
+            'text' => 'Hello, this is a test notification from Laravel!'
+        ]);
+
+        return $response;
+    } catch (TelegramSDKException $e) {
+        Log::error("Error sending Telegram message: " . $e->getMessage());
+        return response()->json(['error' => 'Failed to send message.'], 500);
+    }
+});
 
 
 Route::middleware([RedirectIfAuthenticated::class])->group(function () {
@@ -82,6 +101,7 @@ Route::middleware([EnsureUserIsAuthenticated::class])->group(function () {
     Route::get('list-pinjam/{tanggal_pinjam}/{id}/edit', [PinjamController::class, 'editPinjam'])->name('editPinjam');
     Route::put('/list-pinjam/{tanggal_pinjam}/{id}', [PinjamController::class, 'updatePinjam'])->name('updatePinjam');
     Route::delete('/list-pinjam/{tanggal_pinjam}/{id}', [PinjamController::class, 'destroy'])->name('destroyPinjam');
+
 
 
 
