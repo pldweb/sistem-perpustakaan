@@ -18,7 +18,8 @@ class PeminjamanBuku extends Model
 
         'peminjaman_id',
         'buku_id',
-        'jumlah'
+        'jumlah',
+        'jumlah_dikembalikan'
 
     ];
 

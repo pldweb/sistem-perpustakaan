@@ -184,7 +184,6 @@ class PengembalianController extends Controller
         return view('pages.pinjam.list-pengembalian', $dataPengembalian);
     }
 
-
     public function tableListPengembalian()
     {
         $pengembalianData = DB::table('pengembalian')
