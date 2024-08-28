@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Telegram\Bot\Laravel\Facades\Telegram;
+use App\Helpers\TelegramHelper;
 
 class BukuController extends Controller
 {
@@ -87,7 +90,7 @@ class BukuController extends Controller
 
         } else {
 
-            $data['photo'] = null;
+            $data['photo'] = 'A';
 
         }
 
@@ -106,6 +109,15 @@ class BukuController extends Controller
 
             Book::create($data);
 
+            $pesanTelegram = "📕📕 *Buku Baru Sudah Ditambahkan* 📕📕\n\n";
+            $pesanTelegram .= "Judul Buku: *{$judulBuku}*\n";
+            $pesanTelegram .= "Penulis: _{$penulisBuku}_\n";
+            $pesanTelegram .= "Stock: _{$stockBuku}_";
+
+            $msg = $pesanTelegram;
+
+            TelegramHelper::sendNotification($msg, 'Markdown');
+
             DB::commit();
 
             // Hanya mengambil data buku yang baru saja ditambahkan atau halaman terakhir
@@ -116,6 +128,7 @@ class BukuController extends Controller
             return response()->json([
                 'success' => true,
                 'newItem' => $newItem,
+                'text' => $msg
             ]);
 
         } catch (\Exception $exception) {
@@ -175,6 +188,15 @@ class BukuController extends Controller
             $book = Book::findOrFail($id);
             $book->update($data);
 
+            $pesanTelegram = "📕📕 *Buku Sudah Diupdate* 📕📕\n\n";
+            $pesanTelegram .= "Judul Buku: *{$judulBuku}*\n";
+            $pesanTelegram .= "Penulis: _{$penulisBuku}_\n";
+            $pesanTelegram .= "Stock: _{$stockBuku}_";
+
+            $msg = $pesanTelegram;
+
+            TelegramHelper::sendNotification($msg, 'Markdown');
+
             DB::commit();
 
             return redirect()->route('listBuku');
@@ -191,16 +213,64 @@ class BukuController extends Controller
 
         DB::beginTransaction();
         try {
-
             $book = Book::findOrFail($id);
+
+            $fullUrl = $book->photo;
+            $idBuku = $book->id;
+            $judulBuku = $book->judul_buku;
+
+            // Ekstrak path dari URL
+            $urlParts = parse_url($fullUrl);
+            $bucket = 'md37f25580cb73608'; // Sesuaikan dengan nama bucket Anda
+            $filePath = ltrim(str_replace("/{$bucket}", '', $urlParts['path']), '/');
+            $filePath = urldecode($filePath);
+
+            // Debug path file
+            Log::info('File Path: ' . $filePath);
+
+            // Cek dan hapus file dari Object Storage
+            if (Storage::disk('s3')->exists($filePath)) {
+                if (!Storage::disk('s3')->delete($filePath)) {
+                    Log::error('Failed to delete file: ' . $filePath);
+
+                    $pesanTelegram = "📕📕 *Buku Gagal Dihapus* 📕📕\n\n";
+                    $pesanTelegram .= "ID Buku: *{$idBuku}*\n";
+                    $pesanTelegram .= "Judul Buku: *{$judulBuku}*\n";
+
+                } else {
+                    Storage::disk('s3')->delete($filePath);
+                    // Kirim notifikasi Telegram
+                    $pesanTelegram = "📕📕 *Buku Berhasil Dihapus* 📕📕\n\n";
+                    $pesanTelegram .= "ID Buku: *{$idBuku}*\n";
+                    $pesanTelegram .= "Judul Buku: *{$judulBuku}*\n";
+
+                    Log::error('Berhasil hapus: ' . $filePath);
+
+                }
+            } else {
+                Log::error('File does not exist: ' . $filePath);
+                // Kirim notifikasi Telegram
+                $pesanTelegram = "📕📕 *Buku Gagal Dihapus* 📕📕\n\n";
+                $pesanTelegram .= "ID Buku: *{$idBuku}*\n";
+                $pesanTelegram .= "Judul Buku: *{$judulBuku}*\n";
+            }
+
+            $msg = $pesanTelegram;
+
+            TelegramHelper::sendNotification($msg, 'Markdown');
+
+            // Hapus entitas dari database
             $book->delete();
+
             DB::commit();
             return redirect()->route('listBuku');
 
         } catch (\Exception $exception) {
             DB::rollBack();
-            return 'buku gagal dihapus' . $exception->getMessage();
+            Log::error('Exception: ' . $exception->getMessage());
+            return 'Buku gagal dihapus: ' . $exception->getMessage();
         }
+
     }
 
     public function historyBuku()

@@ -7,12 +7,22 @@
 </head>
 <body>
 <h1>File List</h1>
-<ul>
-    @foreach($fileUrl as $file)
-        <li>
-            <a href="{{ $file }}" target="_blank">{{ $file }}</a>
-        </li>
+<table class="table align-items-center mb-0">
+    <thead class="thead-light">
+    <tr>
+        <th scope="col" class="text-start">No</th>
+        <th scope="col" class="text-start">Judul Buku</th>
+    </tr>
+    </thead>
+    <tbody id="tbody">
+    @foreach($fileUrl as $index => $file)
+        <tr>
+            <td class="text-start">{{ $index + 1}}</td>
+            <td class="text-start">
+                <a href="{{ $file }}" class="text-start" target="_blank">{{ $file }}</a>
+            </td>
     @endforeach
-</ul>
+    </tbody>
+</table>
 </body>
 </html>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\TelegramHelper;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
@@ -26,12 +27,17 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 
 Route::get('/send-notification', function () {
     try {
-        $response = Telegram::sendMessage([
-            'chat_id' => '851200267',
-            'text' => 'Hello, this is a test notification from Laravel!'
-        ]);
 
-        return $response;
+        $pesanTelegram = "📕📕 *Buku Baru Sudah Ditambahkan* 📕📕\n\n";
+        $pesanTelegram .= "Judul Buku: *{}*\n";
+        $pesanTelegram .= "Penulis: _{}_";
+
+        $msg = $pesanTelegram;
+
+        TelegramHelper::sendNotification($msg, 'Markdown');
+
+        return $msg;
+
     } catch (TelegramSDKException $e) {
         Log::error("Error sending Telegram message: " . $e->getMessage());
         return response()->json(['error' => 'Failed to send message.'], 500);
