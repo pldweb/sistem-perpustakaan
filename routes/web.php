@@ -10,6 +10,7 @@ use App\Http\Controllers\Mail\MailController;
 use App\Http\Controllers\PinjamController;
 use App\Http\Controllers\PengembalianController;
 use App\Http\Controllers\StorageController;
+use App\Http\Controllers\TelegramController;
 use App\Http\Controllers\Tools\PdfController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Scrapping\ScrapeController;
@@ -27,25 +28,7 @@ Route::post('/delete-file', [StorageController::class, 'deleteFile'])->name('del
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
-Route::get('/send-notification', function () {
-    try {
-
-        $pesanTelegram = "📕📕 *Buku Baru Sudah Ditambahkan* 📕📕\n\n";
-        $pesanTelegram .= "Judul Buku: *{}*\n";
-        $pesanTelegram .= "Penulis: _{}_";
-
-        $msg = $pesanTelegram;
-
-        TelegramHelper::sendNotification($msg, 'Markdown');
-
-        return $msg;
-
-    } catch (TelegramSDKException $e) {
-        Log::error("Error sending Telegram message: " . $e->getMessage());
-        return response()->json(['error' => 'Failed to send message.'], 500);
-    }
-});
-
+Route::get('/send-notification', [telegramController::class, 'sendNotification'])->name('sendTelegram');
 
 Route::middleware([RedirectIfAuthenticated::class])->group(function () {
 

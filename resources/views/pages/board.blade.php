@@ -17,7 +17,8 @@
                 <h6 class="op-7 mb-2">Sistem Perpustakaan Online</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="{{ route('sendMail')  }}" class="btn btn-info">Tes kirim email</a>
+                <a href="{{ route('sendMail')  }}" class="btn btn-danger">Tes kirim email</a>
+                <a href="{{ route('sendTelegram')  }}" class="btn btn-info">Tes kirim telegram</a>
             </div>
         </div>
         <div class="row">
