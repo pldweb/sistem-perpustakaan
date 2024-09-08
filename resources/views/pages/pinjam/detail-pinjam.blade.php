@@ -86,6 +86,10 @@
                                     Peminjaman</a>
                                 <a href="{{ route('showPengembalian', $dataPinjam->id) }}" class="btn btn-primary"
                                    style="margin-left: 5px;">Pengembalian Buku</a>
+                                <a href="{{ url('/peminjaman/' . $dataPinjam->id . '/preview')  }}" class="btn btn-primary"
+                                   style="margin-left: 5px;">
+                                    PDF
+                                </a>
                             </div>
                             <div class="mb-3 col-12 d-flex">
                                 <table

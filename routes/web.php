@@ -5,10 +5,12 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\JadwalSholatController;
 use App\Http\Controllers\Mail\MailController;
 use App\Http\Controllers\PinjamController;
 use App\Http\Controllers\PengembalianController;
 use App\Http\Controllers\StorageController;
+use App\Http\Controllers\Tools\PdfController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Scrapping\ScrapeController;
 use Illuminate\Support\Facades\Route;
@@ -71,6 +73,8 @@ Route::middleware([EnsureUserIsAuthenticated::class])->group(function () {
 
     // Data Master Buku
     Route::get('/list-data-buku', [BukuController::class, 'listBuku'])->name('listBuku');
+    Route::get('/list-data-buku/export', [BukuController::class, 'tableBookExport'])->name('tableBookExport');
+
     Route::get('/table-list-buku', [BukuController::class, 'tableListBuku']);
     Route::get('/input-buku', [BukuController::class, 'inputBuku'])->name('inputBuku');
     Route::post('/simpan-buku', [BukuController::class, 'simpanBuku'])->name('simpanBuku');
@@ -103,7 +107,14 @@ Route::middleware([EnsureUserIsAuthenticated::class])->group(function () {
     Route::get('/list-pinjam', [PinjamController::class, 'listPinjam'])->name('listPinjam');
     Route::get('/pinjam-buku', [PinjamController::class, 'pinjamBuku'])->name('pinjamBuku');
     Route::post('/simpan-pinjam-buku', [PinjamController::class, 'store'])->name('simpanPinjamBuku');
+
+    Route::get('/peminjaman/{id}/preview', [PdfController::class, 'showPreview']);
+    Route::get('peminjaman/{id}/generate-pdf', [PdfController::class, 'generatePdf']);
+
+
     Route::get('/list-pinjam/{tanggal_pinjam}/{id}', [PinjamController::class, 'detailPinjam'])->name('detailPinjam');
+
+
     Route::get('list-pinjam/{tanggal_pinjam}/{id}/edit', [PinjamController::class, 'editPinjam'])->name('editPinjam');
     Route::put('/list-pinjam/{tanggal_pinjam}/{id}', [PinjamController::class, 'updatePinjam'])->name('updatePinjam');
     Route::delete('/list-pinjam/{tanggal_pinjam}/{id}', [PinjamController::class, 'destroy'])->name('destroyPinjam');
@@ -119,6 +130,9 @@ Route::middleware([EnsureUserIsAuthenticated::class])->group(function () {
     Route::get('/table-list-pinjam', [PinjamController::class, 'tableListPinjam'])->name('tableListPinjam');
     Route::get('/table-list-pengembalian', [PengembalianController::class, 'tableListPengembalian'])->name('tableListPengembalian');
 
+    Route::get('jadwal-shalat', [JadwalSholatController::class, 'getJadwalShalat'])->name('jadwalShalat');
+    Route::get('lokasi-shalat', [JadwalSholatController::class, 'getLocation'])->name('location');
+    Route::get('jadwal-shalat-ajax', [JadwalSholatController::class, 'getJadwalShalatAjax'])->name('jadwalShalatAjax');
 
 
 

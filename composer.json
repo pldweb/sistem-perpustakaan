@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.2",
         "aws/aws-sdk-php": "^3.320",
+        "barryvdh/laravel-dompdf": "^3.0",
         "fakerphp/faker": "^1.23",
         "guzzlehttp/guzzle": "^7.9",
         "irazasyed/telegram-bot-sdk": "^3.14",
@@ -17,7 +18,8 @@
         "maatwebsite/excel": "^3.1",
         "realrashid/sweet-alert": "^7.2",
         "symfony/css-selector": "^7.1",
-        "symfony/dom-crawler": "^7.1"
+        "symfony/dom-crawler": "^7.1",
+        "tecnickcom/tcpdf": "^6.7"
     },
     "require-dev": {
         "laravel/pint": "^1.13",

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TableBookExport;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use App\Helpers\TelegramHelper;
 
@@ -22,6 +24,18 @@ class BukuController extends Controller
             'slug' => 'ini slug',
         ];
         return view('pages.buku.list-buku', $params);
+    }
+
+    public function tableBookExport()
+    {
+        $data = DB::table('books')
+            ->select('books.judul_buku', 'books.penulis', 'books.penerbit', 'books.tahun_terbit', 'books.tahun_terbit', 'books.stock')
+            ->get()
+            ->map(function ($item, $index) {
+                return (object) array_merge((array) $item, ['index' => $index]);
+            });
+
+        return Excel::download(new TableBookExport($data), 'Data-buku.xlsx');
     }
 
     public function tableListBuku()

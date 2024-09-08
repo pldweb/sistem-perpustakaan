@@ -29,8 +29,10 @@
                 <h6 class="op-7 mb-2">{{ $slug }}</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="#" data-url="{{ route('inputBuku') }}" data-target="#modalContent" id="tambahBuku"
+                <a href="#" data-url="{{ route('inputBuku') }}"  id="tambahBuku"
                    class="btn btn-primary btn-round">Tambah Data Buku</a>
+                <a href="{{ route('tableBookExport') }}"
+                   class="btn btn-success btn-round">Export to Excel</a>
             </div>
         </div>
 

@@ -86,6 +86,12 @@
                         <p class="sub-item">Laporan Pengembalian</p>
                     </a>
                 </li>
+                <li class="{{Route::currentRouteNamed('jadwalShalat') ? 'nav-item active' : "nav-item"}}">
+                    <a href="{{ route('jadwalShalat') }}">
+                        <i class="fas fa-book-reader"></i>
+                        <p class="sub-item">Jadwal Sholat</p>
+                    </a>
+                </li>
 
 
             </ul>
