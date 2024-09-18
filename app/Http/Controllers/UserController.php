@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -21,6 +22,18 @@ class UserController extends Controller
         ];
 
         return view('pages.user.list-user', $data);
+    }
+
+    public function tableListUser()
+    {
+        $data = [
+            'title' => 'List Data Master User',
+            'users' => User::paginate(10),
+            'subtitle' => 'Data Seluruh User',
+            'slug' => 'Ini untuk slug',
+        ];
+
+        return view('pages.user.table.table-list-user', $data);
     }
 
     public function inputUser()
@@ -55,19 +68,46 @@ class UserController extends Controller
             return 'Password harus minimal 5 karakter';
         }
 
+        if ($request->hasFile('photo')) {
+
+            $photoUser = $request->file('photo');
+
+            $originalNamePhoto = $photoUser->getClientOriginalName();
+
+            $hashNamePhoto = md5($originalNamePhoto . time());
+
+            $fileName = $hashNamePhoto . '.' . $originalNamePhoto;
+
+            $filePath = $photoUser->storeAs('uploads/user/images', $fileName, [
+                'disk' => 's3',
+                'visibility' => 'public'
+            ]);
+
+            Storage::disk('s3')->url($filePath);
+
+            $data['photo'] = $filePath;
+
+        } else {
+
+            $photoPath = null;
+        }
+
+
         DB::beginTransaction();
         try {
+
             $data = [
                 'nama' => $namaUser,
                 'email' => $emailUser,
                 'password' => Hash::make($passwordUser),
+                'photo' => $photoPath,
             ];
 
             User::create($data);
 
             DB::commit();
 
-            return redirect()->route('ListUser');
+            return redirect()->route('listUser');
 
         } catch (\Exception $exception) {
 
@@ -121,7 +161,7 @@ class UserController extends Controller
 
             DB::commit();
 
-            return redirect()->route('ListUser');
+            return redirect()->route('listUser');
 
         } catch (\Exception $exception) {
 
@@ -140,12 +180,50 @@ class UserController extends Controller
 
             DB::commit();
 
-            return redirect()->route('ListUser');
+            return redirect()->route('listUser');
 
         } catch (\Exception $exception) {
             DB::rollBack();
             return 'Error: ' . $exception->getMessage();
         }
+    }
+
+    public function historyUser()
+    {
+        $data = [
+            'title' => 'List Data Master User',
+            'users' => User::paginate(10),
+            'subtitle' => 'Data Seluruh User',
+            'slug' => 'Ini untuk slug',
+        ];
+
+        return view('pages.user.list-history-user', $data);
+    }
+
+    public function showTableLaporanUser($id, Request $request)
+    {
+
+        $data = DB::table('peminjaman_buku')
+            ->join('peminjaman', 'peminjaman_buku.peminjaman_id', '=', 'peminjaman.id')
+            ->join('books', 'peminjaman_buku.buku_id', '=', 'books.id')
+            ->join('users', 'peminjaman.user_id', '=', 'users.id')
+            ->where('peminjaman.user_id', '=', $id)
+            ->select('peminjaman_buku.jumlah', 'peminjaman.tanggal_pinjam', 'books.judul_buku')
+            ->orderBy('peminjaman.tanggal_pinjam', 'desc')
+            ->get();
+
+        $params = [
+            'data' => $data,
+            'title' => 'List History User',
+            'slug' => 'ini slug',
+            'subtitle' => 'Ini sub title'
+        ];
+
+        if ($request->ajax()) {
+            return view('pages.user.table.table-laporan', $params);
+        }
+
+        return 'error';
     }
 
 }

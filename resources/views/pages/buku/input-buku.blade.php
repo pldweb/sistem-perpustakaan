@@ -2,7 +2,7 @@
     <div>
         <h1>Input Buku Baru</h1>
     </div>
-    <form id="simpanBuku">
+    <form id="simpanBuku" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
             <label for="judul_buku" class="form-label">Judul Buku</label>
@@ -41,18 +41,22 @@
                 <label for="stock" class="form-label">Stock</label>
                 <input type="number" class="form-control" id="stock" name="stock" required value="{{ old('stock') }}">
                 @error('stock')
-                <span>{{ $message }}</span>
+                    <span>{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="mb-3 col-3">
+                <label for="foto">Foto Buku:</label>
+                <input type="file" name="photo" accept="image/*">
+                @error('photo')
+                    <span>{{ $message }}</span>
                 @enderror
             </div>
         </div>
         <button type="submit" class="btn btn-primary w-25%">Simpan Data Buku</button>
     </form>
 </div>
-<script>
-    $(document).ready(function() {
-        $('#simpanBuku').on('submit', function (e){
-            e.preventDefault();
 
+<<<<<<< HEAD
             var dataInput = $(this).serialize();
 
             $("#modalKonfirmasi").modal('show');
@@ -84,3 +88,6 @@
         });
     });
 </script>
+=======
+{!! App\Helpers\CreateModalHelper::createModalHelper('simpanBuku', 'modalKonfirmasi', 'detailModal', 'cancelSubmit', 'confirmSubmit', 'simpan-buku') !!}
+>>>>>>> 535710eb97a268fed07afe9f498f861ad67bb07f

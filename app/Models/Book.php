@@ -19,7 +19,8 @@ class Book extends Model
         'penerbit',
         'tahun_terbit',
         'stock',
-        'stock_tersedia'
+        'stock_tersedia',
+        'photo'
     ];
 
     public function PeminjamanBuku()
@@ -31,14 +32,5 @@ class Book extends Model
     {
         return $this->hasMany(DetailPengembalian::class, 'buku_id', 'id');
     }
-
-    public function listPeminjamanBuku()
-    {
-        return $this->PeminjamanBuku()
-            ->join('peminjaman', 'peminjaman.id', '=', 'peminjaman_id')
-            ->orderBy('tanggal_pinjam')
-            ->get();
-    }
-
 
 }

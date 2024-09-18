@@ -9,11 +9,7 @@
                 <h3 class="fw-bold mb-3">{{ $title }}</h3>
                 <h6 class="op-7 mb-2">{{ $slug }}</h6>
             </div>
-            <div class="ms-md-auto py-2 py-md-0">
-                <a href="{{ route('inputBuku') }}" class="btn btn-primary btn-round">Tambah Buku</a>
-            </div>
         </div>
-
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-round">
@@ -22,7 +18,6 @@
                             <h4 class="card-title">{{ $subtitle }}</h4>
                         </div>
                     </div>
-
                     @if (session('success'))
                         <script>
                             $(document).ready(function () {
@@ -34,7 +29,6 @@
                             });
                         </script>
                     @endif
-
                     <div class="col-md-12">
                         <div class="card-body">
                             <form action="{{ route('updateBuku', $book->id) }}" method="post">
@@ -75,18 +69,19 @@
                                         <span>{{ $message }}</span>
                                         @enderror
                                     </div>
-
                                     <div class="mb-3 col-3">
                                         <label for="stock" class="form-label">Stock</label>
                                         <input type="number" class="form-control" id="stock" name="stock" required
                                             value="{{ old('stock', $book->stock) }}">
+<<<<<<< HEAD
 
+=======
+>>>>>>> 535710eb97a268fed07afe9f498f861ad67bb07f
                                         @error('stock')
                                         <span>{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
-
                                 <button type="submit" class="btn btn-primary w-25%"
                                         onclick="return confirm('apakah data yang dimasukkan sudah sesuai?')">Update
                                     Data Buku

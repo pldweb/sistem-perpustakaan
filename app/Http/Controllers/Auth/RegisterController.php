@@ -12,9 +12,7 @@ class RegisterController extends Controller
 {
     public function formRegistrasi()
     {
-
         return view('pages.auth.daftar-user');
-
     }
 
     public function registrasi(Request $request)
@@ -26,7 +24,7 @@ class RegisterController extends Controller
         $user = $this->create($request->all());
         auth()->login($user);
 
-        return redirect()->route('Dashboard');
+        return redirect()->route('dashboard');
 
     }
 
@@ -50,6 +48,5 @@ class RegisterController extends Controller
             'role' => 'siswa',
         ]);
     }
-
 
 }

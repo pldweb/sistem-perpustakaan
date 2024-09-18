@@ -50,6 +50,7 @@ class User extends Authenticatable
         'nama',
         'email',
         'password',
+        'photo',
         'role'
 
     ];

@@ -29,8 +29,10 @@
                 <h6 class="op-7 mb-2">{{ $slug }}</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-                <a href="#" data-url="{{ route('inputBuku') }}" data-target="#modalContent" id="tambahBuku"
+                <a href="#" data-url="{{ route('inputBuku') }}"  id="tambahBuku"
                    class="btn btn-primary btn-round">Tambah Data Buku</a>
+                <a href="{{ route('tableBookExport') }}"
+                   class="btn btn-success btn-round">Export to Excel</a>
             </div>
         </div>
 
@@ -43,63 +45,9 @@
                         </div>
                     </div>
                     <div class="card-body p-0">
-                        <div class="table-responsive">
+                        <div class="table-responsive" id="table-responsive">
                             <!-- Projects table -->
-                            <table class="table align-items-center mb-0">
-                                <thead class="thead-light">
-                                <tr>
-                                    <th scope="col" class="text-start">No</th>
-                                    <th scope="col">Judul Buku</th>
-                                    <th scope="col" class="text-start">Penulis</th>
-                                    <th scope="col" class="text-start">Penerbit</th>
-                                    <th scope="col" class="text-start">Tahun Terbit</th>
-                                    <th scope="col" class="text-start">Stock Buku</th>
-                                    <th scope="col" class="text-start">Opsi</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach ($data as $index => $item)
-                                    <tr>
-                                        <td class="text-start">{{ $data->firstItem() + $index }}</td>
-                                        <th scope="row">
-                                            {{ $item->judul_buku}}
-                                        </th>
-                                        <td class="text-start">{{ $item->penulis }}</td>
-                                        <td class="text-start">{{ $item->penerbit }}</td>
-                                        <td class="text-start">{{ $item->tahun_terbit }}</td>
-                                        <td class="text-start">{{ $item->stock }}</td>
-                                        <td class="text-start d-flex column-gap-1">
-
-                                            <a href="{{ route('editBuku', $item->id) }}">
-                                                <button class="btn btn-warning w500">
-                                                      <span class="btn-label">
-                                                        <i class="fas fa-bars"></i>
-                                                      </span>
-                                                </button>
-                                            </a>
-                                            <form action="{{ route('destroyBuku', $item->id) }}" method="post"
-                                                  onsubmit="return confirm('yakin?')">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="submit" class="btn btn-danger w500">
-                                <span class="btn-label">
-                                  <i class="fas fa-times"></i>
-                                </span>
-                                                </button>
-                                            </form>
-
-                                        </td>
-
-                                @endforeach
-
-                                </tbody>
-
-                            </table>
-                            <div class="py-2 px-3">
-
-                                {{ $data->links() }}
-
-                            </div>
+                            @include('pages.buku.table.table-list-buku')
                         </div>
                     </div>
                 </div>
@@ -107,29 +55,9 @@
         </div>
     </div>
 
-{{-- Script Modal Tambah Buku --}}
-    <script>
-        $(document).ready(function () {
-            $('#tambahBuku').click(function (e) {
-                e.preventDefault();
+    {!! App\Helpers\ShowModalHelper::showModal('tambahBuku', 'modalContent', 'detailModal') !!}
 
-                var urlRoute = $(this).data('url');
-
-                $.ajax({
-                    url: urlRoute,
-                    method: 'GET',
-                    success: function (responses) {
-                        $('#modalContent').html(responses);
-                        $('#detailModal').modal('show');
-                    },
-                    error: function (response) {
-                        return "Error";
-                    }
-                })
-            })
-        })
-
-    </script>
+    {!! App\Helpers\AjaxPaginationHelper::script('table-responsive', '/table-list-buku?page=') !!}
 
 @endsection
 

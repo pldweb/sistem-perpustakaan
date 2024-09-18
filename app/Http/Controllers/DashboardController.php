@@ -24,8 +24,17 @@ class DashboardController extends Controller
         $bookPinjam = PeminjamanBuku::sum('jumlah');
         $totalStock = Book::sum('stock');
 
+        $dataPeminjamanTerbaru = DB::table('peminjaman')
+            ->join('users', 'peminjaman.user_id', '=', 'users.id')
+            ->join('peminjaman_buku', 'peminjaman.id', '=', 'peminjaman_buku.peminjaman_id')
+            ->orderBy('peminjaman.tanggal_pinjam', 'desc')
+            ->select('peminjaman.*', 'users.nama as nama', 'users.photo as photo', 'peminjaman_buku.jumlah as jumlah')
+            ->take(5)
+            ->get();
+
         $data = [
 
+            'peminjamanTerbaru' => $dataPeminjamanTerbaru,
             'title' => 'Dashboard',
             'subtitle' => 'Form Detail Peminjaman Buku',
             'slug' => 'Ini untuk slug',
@@ -75,10 +84,7 @@ class DashboardController extends Controller
             'total_dikembalikan' => $pengembalian ? $pengembalian->total_dikembalikan : '0',
         ];
     }
-
         return response()->json($dataFinal);
-
-//        dd($finalData);
     }
 
 

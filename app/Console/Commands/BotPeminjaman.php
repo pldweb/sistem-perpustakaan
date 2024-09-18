@@ -36,7 +36,7 @@ class BotPeminjaman extends Command
             shuffle($bukuIds);
         }
 
-        $tanggalAwal = 10;
+        $tanggalAwal = 12;
         $lamaPinjamPerBuku = 5;
         foreach (User::query()->get() as $user) {
             $jumlahPinjam = rand(1, 5);

@@ -4,6 +4,12 @@
 
 @section('content')
 
+    @if(session('pesan'))
+        <div class="alert alert-{{ session('pesanType') }}">
+            {{ session('pesan') }}
+        </div>
+    @endif
+
     <div class="page-inner">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
             <div>
@@ -11,7 +17,8 @@
                 <h6 class="op-7 mb-2">Sistem Perpustakaan Online</h6>
             </div>
             <div class="ms-md-auto py-2 py-md-0">
-
+                <a href="{{ route('sendMail')  }}" class="btn btn-danger">Tes kirim email</a>
+                <a href="{{ route('sendTelegram')  }}" class="btn btn-info">Tes kirim telegram</a>
             </div>
         </div>
         <div class="row">
@@ -20,9 +27,7 @@
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-icon">
-                                <div
-                                    class="icon-big text-center icon-primary bubble-shadow-small"
-                                >
+                                <div class="icon-big text-center icon-primary bubble-shadow-small">
                                     <i class="fas fa-users"></i>
                                 </div>
                             </div>
@@ -99,52 +104,28 @@
             <div class="card card-round">
               <div class="card-body">
                 <div class="card-head-row card-tools-still-right">
-                  <div class="card-title">New Customers</div>
-                  <div class="card-tools">
-                    <div class="dropdown">
-                      <button
-                        class="btn btn-icon btn-clean me-0"
-                        type="button"
-                        id="dropdownMenuButton"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        <i class="fas fa-ellipsis-h"></i>
-                      </button>
-                      <div
-                        class="dropdown-menu"
-                        aria-labelledby="dropdownMenuButton"
-                      >
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#"
-                          >Something else here</a
-                        >
-                      </div>
-                    </div>
-                  </div>
+                  <div class="card-title">Peminjam terbaru</div>
                 </div>
-                <div class="card-list py-4">
-                  <div class="item-list">
-                    <div class="avatar">
-                      <img
-                        src="./img/jm_denis.jpg"
-                        alt="..."
-                        class="avatar-img rounded-circle"
-                      />
-                    </div>
-                    <div class="info-user ms-3">
-                      <div class="username">Jimmy Denis</div>
-                      <div class="status">Graphic Designer</div>
-                    </div>
-                    <button class="btn btn-icon btn-link op-8 me-1">
-                      <i class="far fa-envelope"></i>
-                    </button>
-                    <button class="btn btn-icon btn-link btn-danger op-8">
-                      <i class="fas fa-ban"></i>
-                    </button>
-                  </div>
+                <div class="card-list" style="padding-bottom: 0;">
+                      @foreach($peminjamanTerbaru as $peminjaman)
+                        <div class="item-list">
+                            <div class="avatar">
+                                @if(!empty($peminjaman->photo))
+                                    <img src="{{ $peminjaman->photo }}" alt="..." class="avatar-img rounded-circle"/>
+                                @else
+                                    <img src="{{ Storage::disk('s3')->url('uploads/img/profile.jpg') }}" alt="..." class="avatar-img rounded-circle"/>
+                                @endif
+                            </div>
+                            <div class="info-user ms-3">
+                                <div class="username">{{ $peminjaman->nama}}</div>
+                                <div class="status">{{ $peminjaman->tanggal_pinjam }}</div>
+                                <div class="status">{{ $peminjaman->jumlah }}</div>
+                            </div>
+                            <a href="{{ route('detailPinjam', ['tanggal_pinjam' => $peminjaman->tanggal_pinjam, 'id' => $peminjaman->id]) }}" class="btn btn-icon btn-link op-8 me-1">
+                                <i class="fa fa-link"></i>
+                            </a>
+                        </div>
+                      @endforeach
                 </div>
               </div>
             </div>
@@ -154,32 +135,10 @@
               <div class="card-header">
                 <div class="card-head-row card-tools-still-right">
                   <div class="card-title">Data Buku Dipinjam</div>
-                  <div class="card-tools">
-                    <div class="dropdown">
-                      <button
-                        class="btn btn-icon btn-clean me-0"
-                        type="button"
-                        id="dropdownMenuButton"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false">
-                        <i class="fas fa-ellipsis-h"></i>
-                      </button>
-                      <div class="dropdown-menu"
-                        aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
-              <div class="card-body p-0">
-
-
+              <div class="card-body pb-2">
                   <div id="container" style="width:100%; height:400px;">
-
                   </div>
                   <script>
                       $(document).ready(function () {
@@ -239,7 +198,6 @@
                           })
                       })
                   </script>
-
               </div>
             </div>
           </div>
@@ -250,7 +208,6 @@
                     <div class="card-header">
                         <div class="card-head-row card-tools-still-right">
                             <h4 class="card-title">Users Geolocation</h4>
-
                         </div>
                         <p class="card-category">
                             Map of the distribution of users around the world

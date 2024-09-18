@@ -66,9 +66,7 @@
                                 </tbody>
                             </table>
                             <div class="py-2 px-3">
-
                                 {{--                      {{ $data->links() }}--}}
-
                             </div>
                         </div>
                     </div>

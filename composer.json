@@ -6,15 +6,20 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "aws/aws-sdk-php": "^3.320",
+        "barryvdh/laravel-dompdf": "^3.0",
         "fakerphp/faker": "^1.23",
         "guzzlehttp/guzzle": "^7.9",
+        "irazasyed/telegram-bot-sdk": "^3.14",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "maatwebsite/excel": "^3.1",
         "realrashid/sweet-alert": "^7.2",
         "symfony/css-selector": "^7.1",
-        "symfony/dom-crawler": "^7.1"
+        "symfony/dom-crawler": "^7.1",
+        "tecnickcom/tcpdf": "^6.7"
     },
     "require-dev": {
         "laravel/pint": "^1.13",
@@ -24,6 +29,12 @@
         "phpunit/phpunit": "^11.0.1"
     },
     "autoload": {
+        "files": [
+            "app/Helpers/AjaxPaginationHelper.php",
+            "app/Helpers/CreateModalHelper.php",
+            "app/Helpers/ShowModalHelper.php",
+            "app/Helpers/TelegramHelper.php"
+        ],
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",

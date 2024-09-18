@@ -1,5 +1,6 @@
 <?php
 
+
 return [
 
     /*
@@ -94,6 +95,8 @@ return [
     | are secure. You should do this prior to deploying the application.
     |
     */
+
+
 
     'cipher' => 'AES-256-CBC',
 

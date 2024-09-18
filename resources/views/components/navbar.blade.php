@@ -3,7 +3,7 @@
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
             <a href="{{ route('dashboard') }}" class="logo">
-                <img src="{{ asset("img/kaiadmin/logo_light.svg") }}"
+                <img src="{{ Storage::disk('s3')->url("uploads/img/kaiadmin/logo_light.svg") }}"
                     alt="navbar brand"
                     class="navbar-brand"
                     height="20"/>
@@ -55,9 +55,11 @@
                             href="#"
                             aria-expanded="false">
                             <div class="avatar-sm">
-                                <img src="{{ asset("img/profile.jpg")}}"
-                                    alt="..."
-                                    class="avatar-img rounded-circle"/>
+                                @if(!empty(Auth::user()->photo))
+                                    <img src="{{ Auth::User()->photo}}" alt="..." class="avatar-img rounded-circle"/>
+                                @else
+                                    <img src="{{ Storage::disk('s3')->url('uploads/img/profile.jpg') }}" alt="..." class="avatar-img rounded-circle"/>
+                                @endif
                             </div>
                             <span class="profile-username">
                                 <span class="op-7">Hi,</span>
@@ -69,9 +71,12 @@
                                 <li>
                                     <div class="user-box">
                                         <div class="avatar-lg">
-                                            <img src="{{ asset("img/profile.jpg")}}"
-                                                alt="image profile"
-                                                class="avatar-img rounded"/>
+                                            @if(!empty(Auth::User()->photo))
+                                                <img src="{{ Auth::User()->photo}}" alt="image profile" class="avatar-img rounded"/>
+                                            @else
+                                                <img src="{{ Storage::disk('s3')->url('uploads/img/profile.jpg') }}" alt="image profile" class="avatar-img rounded"/>
+                                            @endif
+
                                         </div>
                                         <div class="u-text">
                                             <h4>{{ Auth::User()->nama }}</h4>
