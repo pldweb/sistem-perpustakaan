@@ -61,9 +61,6 @@
                                                 {{ $item->jumlah_pengembalian }} buku
                                             @endif
                                         </td>
-                                        {{--                                  <td>{{ $item->catatan_peminjaman }}</td>--}}
-                                        {{--                                  <td>{{ $item->catatan_pengembalian }}</td>--}}
-                                        {{--                                  <td>{{ $item->denda }}</td>--}}
                                     </tr>
                                 @endforeach
                                 </tbody>

@@ -43,7 +43,7 @@
                                 <div class="mb-3">
                                     <label for="judul_buku" class="form-label">Judul Buku</label>
                                     <input type="text" class="form-control" id="judul_buku" name="judul_buku" required
-                                           value="{{ old('judul_buku', $book->judul_buku) }}">
+                                        value="{{ old('judul_buku', $book->judul_buku) }}">
                                     @error('judul_buku')
                                     <span>{{ $message }}</span>
                                     @enderror
@@ -51,7 +51,7 @@
                                 <div class="mb-3">
                                     <label for="penulis" class="form-label">Penulis</label>
                                     <input type="text" class="form-control" id="penulis" name="penulis" required
-                                           value="{{ old('penulis', $book->penulis) }}">
+                                        value="{{ old('penulis', $book->penulis) }}">
                                     @error('penulis')
                                     <span>{{ $message }}</span>
                                     @enderror
@@ -59,7 +59,7 @@
                                 <div class="mb-3">
                                     <label for="penerbit" class="form-label">Penerbit</label>
                                     <input type="text" class="form-control" id="penerbit" name="penerbit" required
-                                           value="{{ old('penerbit', $book->penerbit) }}">
+                                        value="{{ old('penerbit', $book->penerbit) }}">
                                     @error('penerbit')
                                     <span>{{ $message }}</span>
                                     @enderror
@@ -69,8 +69,8 @@
 
                                         <label for="tahun_terbit" class="form-label">Tahun Terbit</label>
                                         <input type="number" class="form-control" id="year" name="tahun_terbit"
-                                               min="1900" max="{{ date('Y') + 1 }}" required
-                                               value="{{ old('tahun_terbit', $book->tahun_terbit) }}">
+                                            min="1900" max="{{ date('Y') + 1 }}" required
+                                            value="{{ old('tahun_terbit', $book->tahun_terbit) }}">
                                         @error('tahun_terbit')
                                         <span>{{ $message }}</span>
                                         @enderror
@@ -79,7 +79,7 @@
                                     <div class="mb-3 col-3">
                                         <label for="stock" class="form-label">Stock</label>
                                         <input type="number" class="form-control" id="stock" name="stock" required
-                                               value="{{ old('stock', $book->stock) }}">
+                                            value="{{ old('stock', $book->stock) }}">
 
                                         @error('stock')
                                         <span>{{ $message }}</span>
