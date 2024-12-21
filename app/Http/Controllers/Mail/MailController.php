@@ -12,9 +12,9 @@ class MailController extends Controller
     {
         $data = [
             'subject' => '🚨🚨NINU NINU🚨🚨',
-            'title' => 'Judul',
-            'body' => 'Body',
-            'love' => 'love'
+            'title' => 'Halo ini tes kirim email',
+            'body' => 'Coba balas ya',
+            'love' => 'Cinta'
         ];
 
         $email = 'muhammadrivaldifnni01@gmail.com';

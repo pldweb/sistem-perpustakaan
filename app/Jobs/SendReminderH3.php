@@ -3,13 +3,9 @@
 namespace App\Jobs;
 
 use App\Mail\BookReminder;
-use App\Services\HunterService;
 use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -32,7 +28,6 @@ class SendReminderH3 implements ShouldQueue
      */
     public function handle(): void
     {
-//        $hunterService = app(HunterService::class);
 
         $targetHari = Carbon::now()->addDays(3)->toDateString();
 
@@ -44,12 +39,7 @@ class SendReminderH3 implements ShouldQueue
 
         foreach ($peminjaman as $peminjam) {
 
-//            $verificationResult = $hunterService->verifyEmail($peminjam->email);
-//            Log::info('Verification result: ' . print_r($verificationResult, true));
             try {
-
-
-
                 if (!empty($peminjam->email)) {
 
                     Log::info('Reminder email akan dikirim ke: ' . $peminjam->email);

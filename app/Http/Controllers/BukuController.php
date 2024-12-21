@@ -16,7 +16,6 @@ class BukuController extends Controller
 {
     public function listBuku()
     {
-        // Paginasi mencapai 10 data buku saja yang tampil
         $params = [
             'data' => Book::paginate(10),
             'title' => "List Data Master Buku",
@@ -273,7 +272,6 @@ class BukuController extends Controller
 
             TelegramHelper::sendNotification($msg, 'Markdown');
 
-            // Hapus entitas dari database
             $book->delete();
 
             DB::commit();

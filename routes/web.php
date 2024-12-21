@@ -28,6 +28,8 @@ Route::post('/delete-file', [StorageController::class, 'deleteFile'])->name('del
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 
+Route::get('/mail/send', [MailController::class, 'sendEmail'])->name('sendEmail');
+
 Route::get('/send-notification', [telegramController::class, 'sendNotification'])->name('sendTelegram');
 
 Route::middleware([RedirectIfAuthenticated::class])->group(function () {
