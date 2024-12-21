@@ -59,6 +59,7 @@ class BukuController extends Controller
 
     public function simpanBuku(Request $request)
     {
+
         $judulBuku = $request->input('judul_buku');
         if (strlen(strval($judulBuku)) == 0) {
             return response()->json(['success' => false, 'message' => 'Judul buku tidak valid']);

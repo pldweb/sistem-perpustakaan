@@ -23,7 +23,6 @@ class LoginController extends Controller
         $password = $request->input('password');
 
         if (Auth::attempt(['email' => $email, 'password' => $password])) {
-            // Autentikasi Berhasil
             $redirectURL = url('');
             return "<div class='alert alert-success'>Login berhasil</div>
                 <script>

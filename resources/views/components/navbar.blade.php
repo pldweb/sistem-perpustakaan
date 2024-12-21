@@ -3,7 +3,7 @@
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
             <a href="{{ route('dashboard') }}" class="logo">
-                <img src="{{ Storage::disk('s3')->url("uploads/img/kaiadmin/logo_light.svg") }}"
+                <img src=""
                     alt="navbar brand"
                     class="navbar-brand"
                     height="20"/>
@@ -58,7 +58,7 @@
                                 @if(!empty(Auth::user()->photo))
                                     <img src="{{ Auth::User()->photo}}" alt="..." class="avatar-img rounded-circle"/>
                                 @else
-                                    <img src="{{ Storage::disk('s3')->url('uploads/img/profile.jpg') }}" alt="..." class="avatar-img rounded-circle"/>
+                                    <img src="" alt="..." class="avatar-img rounded-circle"/>
                                 @endif
                             </div>
                             <span class="profile-username">
@@ -74,7 +74,7 @@
                                             @if(!empty(Auth::User()->photo))
                                                 <img src="{{ Auth::User()->photo}}" alt="image profile" class="avatar-img rounded"/>
                                             @else
-                                                <img src="{{ Storage::disk('s3')->url('uploads/img/profile.jpg') }}" alt="image profile" class="avatar-img rounded"/>
+                                                <img src="" alt="image profile" class="avatar-img rounded"/>
                                             @endif
 
                                         </div>

@@ -8,22 +8,23 @@
 
     <title>Sistem Perpustakaan - @yield('title')</title>
 
-    <link rel="icon" href={{ Storage::disk('s3')->url("uploads/img/Fav.png") }} type="image/x-icon"/>
+{{--    <link rel="icon" href={{ Storage::disk('s3')->url("uploads/img/Fav.png") }} type="image/x-icon"/>--}}
 
     <!-- Fonts and icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="{{ Storage::disk('s3')->url('uploads/css/bootstrap.min.css') }}"/>
-    <link rel="stylesheet" href="{{ Storage::disk('s3')->url('uploads/css/plugins.min.css') }} "/>
-    <link rel="stylesheet" href="{{ Storage::disk('s3')->url('uploads/css/kaiadmin.min.css') }} "/>
-    <link rel="stylesheet" href="{{ Storage::disk('s3')->url('uploads/css/style.css') }} "/>
+    <!-- Styling -->
+    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/plugins.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/kaiadmin.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/style.css')}}">
 
-    {{-- Jquery --}}
+    <!-- Jquery -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{asset('js/jquery-3.7.1.min.js')}}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
+
 
     @stack('styles')
 
@@ -42,52 +43,22 @@
         <div class="container">
             @yield('content')
 
-
         </div>
 
     </div>
 
 </div>
 
-<!--   Core JS Files   -->
-<script>
-    $("#closeModal").click(function () {
-        $('#detailModal').modal('hide');
-        $('#modalKonfirmasi').modal('hide');
-    })
-</script>
-
-<script src="{{ Storage::disk('s3')->url("uploads/js/core/jquery-3.7.1.min.js") }}"></script>
-<script src="{{ Storage::disk('s3')->url("uploads/js/core/popper.min.js") }}"></script>
-<script src="{{ Storage::disk('s3')->url("uploads/js/core/bootstrap.min.js") }}"></script>
-
-<!-- jQuery Scrollbar -->
-<script src="{{ Storage::disk('s3')->url("uploads/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js") }}"></script>
-
-<!-- Chart JS -->
-<script src="{{ Storage::disk('s3')->url("uploads/js/plugin/chart.js/chart.min.js") }}"></script>
-
-<!-- jQuery Sparkline -->
-<script src="{{ Storage::disk('s3')->url('uploads/js/plugin/jquery.sparkline/jquery.sparkline.min.js') }}"></script>
-
-<!-- Chart Circle -->
-<script src="{{ Storage::disk('s3')->url("uploads/js/plugin/chart-circle/circles.min.js") }}"></script>
-
-<!-- Datatables -->
-<script src="{{ Storage::disk('s3')->url("uploads/js/plugin/datatables/datatables.min.js") }}"></script>
-
-<!-- Bootstrap Notify -->
-<script src="{{ Storage::disk('s3')->url("uploads/js/plugin/bootstrap-notify/bootstrap-notify.min.js") }}"></script>
-
-<!-- jQuery Vector Maps -->
-<script src="{{ Storage::disk('s3')->url('uploads/js/plugin/jsvectormap/jsvectormap.min.js') }}"></script>
-<script src="{{ Storage::disk('s3')->url('uploads/js/plugin/jsvectormap/world.js') }}"></script>
-
-<!-- Sweet Alert -->
-<script src="{{ Storage::disk('s3')->url('uploads/js/plugin/sweetalert/sweetalert.min.js') }}"></script>
-
-<!-- Kaiadmin JS -->
-<script src="{{ Storage::disk('s3')->url('uploads/js/kaiadmin.min.js') }}"></script>
+<script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('js/jquery.scrollbar.min.js')}}"></script>
+<script src="{{asset('js/chart.min.js')}}"></script>
+<script src="{{asset('js/jquery.sparkline.min.js')}}"></script>
+<script src="{{asset('js/circles.min.js')}}"></script>
+<script src="{{asset('js/datatables.min.js')}}"></script>
+<script src="{{asset('js/bootstrap-notify.min.js')}}"></script>
+<script src="{{asset('js/jsvectormap.min.js')}}"></script>
+<script src="{{asset('js/world.min.js')}}"></script>
+<script src="{{asset('js/kaiadmin.min.js')}}"></script>
 
 <script>
     $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
@@ -118,6 +89,13 @@
     });
 </script>
 
+<!--   Core JS Files   -->
+<script>
+    $("#closeModal").click(function () {
+        $('#detailModal').modal('hide');
+        $('#modalKonfirmasi').modal('hide');
+    })
+</script>
 
 </body>
 </html>
