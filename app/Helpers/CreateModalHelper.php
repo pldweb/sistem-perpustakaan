@@ -33,8 +33,8 @@ class CreateModalHelper{
                                     url: '/{$routeUrl}',
                                     method: 'POST',
                                     data: dataInput,
-                                    contentType: false, // Jangan kirim contentType
-                                    processData: false, // Jangan proses data
+                                    contentType: false,
+                                    processData: false,
                                     success: function (response){
 
                                         // Menghitung jumlah .page-item kecuali yang disable

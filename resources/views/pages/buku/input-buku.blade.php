@@ -2,7 +2,7 @@
     <div>
         <h1>Input Buku Baru</h1>
     </div>
-    <form id="simpanBuku" enctype="multipart/form-data">
+    <form id="simpanBuku" enctype="multipart/form-data" action="{{route('simpanBuku')}}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="judul_buku" class="form-label">Judul Buku</label>
@@ -56,38 +56,5 @@
     </form>
 </div>
 
-<<<<<<< HEAD
-            var dataInput = $(this).serialize();
 
-            $("#modalKonfirmasi").modal('show');
-
-            $("#modalKonfirmasi").on('shown.bs.modal', function () {
-                $("#detailModal").css('z-index', 1049);
-            });
-
-            $("#cancelSubmit").click(function (){
-                $("#modalKonfirmasi").modal('hide');
-                $("#detailModal").css('z-index', 1055);
-            });
-
-            $("#confirmSubmit").click(function () {
-                $.ajax({
-                    url: '{{ route('simpanBuku') }}',
-                    method: 'POST',
-                    data: dataInput,
-                    success: function (response){
-                        $("#modalKonfirmasi").modal('hide');
-                        $("#detailModal").modal('hide');
-                        alert('Berhasil menambahkan buku baru');
-                    },
-                    error: function (response){
-                        alert('Terjadi kesalahan');
-                    }
-                });
-            });
-        });
-    });
-</script>
-=======
 {!! App\Helpers\CreateModalHelper::createModalHelper('simpanBuku', 'modalKonfirmasi', 'detailModal', 'cancelSubmit', 'confirmSubmit', 'simpan-buku') !!}
->>>>>>> 535710eb97a268fed07afe9f498f861ad67bb07f

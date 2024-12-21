@@ -4,7 +4,7 @@
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="light">
             <a href="{{ route('dashboard') }}" class="logo">
-                <img src="{{ Storage::disk('s3')->url('uploads/img/Logo_book.png') }}"
+                <img src=""
                     alt="navbar brand"
                     class="navbar-brand"
                     height="20"/>
