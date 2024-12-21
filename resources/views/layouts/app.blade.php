@@ -23,12 +23,7 @@
     <!-- Navigation links -->
 </nav>
 
-<div class="container" style="background-image : url({{ Storage::disk('s3')->url("uploads/img/bg-login.jpg")}});
-    max-width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center">
+<div class="container">
     @yield('content')
 </div>
 
